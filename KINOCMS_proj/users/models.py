@@ -1,8 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 from django.forms import BooleanField, CharField, EmailField, JSONField
+from django.contrib.auth.models import UserManager
 
 # from cinema.models import Show
+from users.managers import CustomUserManager
 
 
 class CustomUser(AbstractBaseUser):
@@ -14,24 +16,31 @@ class CustomUser(AbstractBaseUser):
         ('male', 'Мужской пол'),
         ('female', 'Женский пол'),
     )
-    name = CharField(max_length=50)
-    surname = CharField(max_length=50)
-    nickname = CharField(max_length=50)
-    email = EmailField(max_length=50)
-    address = CharField(max_length=50)
-    card_id = CharField(max_length=20)
+    username = None
+    name = models.CharField(max_length=50)
+    surname = models.CharField(max_length=50)
+    nickname = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50, unique=True)
+    address = models.CharField(max_length=50)
+    card_id = models.CharField(max_length=20)
     language = models.CharField(max_length=10, choices=LANGUAGES, default='ru')
     sex = models.CharField(max_length=15, choices=SEX)
     phone_number = models.CharField(max_length=20)
-    born = models.DateField()
+    born = models.DateField(null=True)
     letters = models.ManyToManyField('Mailing')
+
+    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
 
     def __str__(self):
         return f"{self.name} {self.surname}"
 
 
 class Mailing(models.Model):
-    letter_name = CharField(max_length=25)
+    letter_name = models.CharField(max_length=25)
     template = models.FileField()
 
     def __str__(self):
