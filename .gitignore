@@ -6,6 +6,9 @@ __pycache__
 db.sqlite3
 media
 
+# Ignore from django project
+static/
+
 # ignore from environments
 .env
 .venv

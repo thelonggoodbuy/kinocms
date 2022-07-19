@@ -1,0 +1,226 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=l, shrink-to-fit=no">
+        <title>{% block title %} главная {% endblock title %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'pages/css/style.css' %}">
+        {% bootstrap_css %}
+        {% bootstrap_javascript jquery='full' %}
+      </head>
+    <body class="py-4 container">
+        <main>
+        {% comment %} <div class="container"> {% endcomment %}
+                <header class="p-3 bg-transparent text-dark">
+                  {% comment %} <div class="container"> {% endcomment %}
+                      <div class="row">
+                        <div class="col-2"><img src="{% static 'pages/images/cinema_logo_2.png' %}" class="logo_responsive"></div>
+                        <div class="col-2 d-block">
+                            <div class="container d-flex h-100">
+                                <div class="row justify-content-center align-self-center">
+                                    <form class="row align-items-center me-5">
+                                        <input type="search" class="form-control form-control-dark " placeholder="Search..." aria-label="Search">
+                                      </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="container d-flex h-100">
+                                <div class="row justify-content-center align-self-center">
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                        <button type="button" class="btn btn-secondary">логин</button>
+                                        <button type="button" class="btn btn-secondary">регистрация</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="container d-flex h-100">
+                                <div class="row justify-content-center align-self-center">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="container d-flex h-100">
+                                <div class="row justify-content-center align-self-center">
+                                    <div class="container_with_sm">
+                                        <img src="{% static 'pages/images/fb.png'%}" class="nav_sm_logo">
+                                        <img src="{% static 'pages/images/twitter.png'%}" class="nav_sm_logo">
+                                        <img src="{% static 'pages/images/google.png'%}" class="nav_sm_logo">
+                                        <img src="{% static 'pages/images/instagram.png'%}" class="nav_sm_logo">
+                                        <img src="{% static 'pages/images/ok.png'%}" class="nav_sm_logo">
+                                        <img src="{% static 'pages/images/vk.png'%}" class="nav_sm_logo">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="container d-flex h-100">
+                                <div class="row justify-content-center align-self-center">
+                                    <ul class="text-end list-group-flush">
+                                        <li class="list-group-item bg-transparent text-dark">(048) 777-77-66</li>
+                                        <li class="list-group-item bg-transparent text-dark">(097) 777-77-66</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+
+                      <ul class="nav col-12  me-lg-auto mb-2 justify-content-center px-4 bg-muted text-dark rounded-pill border border-bottom py-2">
+                        <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">афиша</a></li>
+                        <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">рассписание</a></li>
+                        <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark text-dark">скоро</a></li>
+                        <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">кинотеатры</a></li>
+                        <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">акции</a></li>
+                        
+            
+                        <li class="nav-item dropdown justify-content-center align-self-center">
+                          <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            о кинотеатре
+                          </a>
+
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">детская комната</a>
+                            <a class="dropdown-item" href="#">о кинотеатре</a>
+                            <a class="dropdown-item" href="#">реклама</a>
+                            <a class="dropdown-item" href="#">кафе-бар</a>
+                            <a class="dropdown-item" href="#">новости</a>
+                            <a class="dropdown-item" href="#">контакты</a>
+                          </div>
+                          <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">админ панель</a></li>
+                        </li >
+                          <div class="col-2 form-group ms-5 mt-2">
+                            <select class="form-control">
+                              <option>русский язык</option>
+                              <option>українська мова</option>
+                            </select>
+                          </div>
+                        </li>
+                      </ul>
+
+                      </div>
+                  {% comment %} </div> {% endcomment %}
+                </header>
+            {% comment %} </div> {% endcomment %}
+                    </main>
+                {% block content %}
+                {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+    <footer class="container py-5">
+        <div class="row">
+            
+            <div class="col-6 col-md">
+                <ul class="list-unstyled">
+                    <li><h5><a class="text-dark" href="#">Мобильные приложения</a></h5></li>
+                    <li>
+                        <div class="row">
+                            {% comment %} <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg> {% endcomment %}
+                            <img src="{% static 'pages/images/google_play_store(1).png' %}" width=auto height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/>
+                            <img src="{% static 'pages/images/app_store.png' %}" width=auto height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/>
+                        </div>
+                    </li>
+                    <li class="text-small">Разработка сайтов</li>
+                    <li class="text-small">AVADA-MEDIA</li>
+                    <li><small class="d-block mb-3 text-muted">&copy; 2017-2020</small></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+            <h5>Афиша</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Рассписание</a></li>
+                <li><a class="text-muted" href="#">Скоров прокате</a></li>
+                <li><a class="text-muted" href="#">Кинотеатры</a></li>
+                <li><a class="text-muted" href="#">Акции</a></li>
+            </ul>
+            </div>
+            <div class="col-6 col-md">
+            <h5>О кинотеатре</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Новости</a></li>
+                <li><a class="text-muted" href="#">Реклама</a></li>
+                <li><a class="text-muted" href="#">Кафе-Бар</a></li>
+                <li><a class="text-muted" href="#">Контакты</a></li>
+            </ul>
+            </div>
+            <div class="col-4 col-md">
+                <div class="container d-flex h-100">
+                    <div class="row justify-content-center align-self-center">
+                        <div class="container_with_sm">
+                            <img src="{% static 'pages/images/fb.png'%}" class="nav_sm_logo">
+                            <img src="{% static 'pages/images/twitter.png'%}" class="nav_sm_logo">
+                            <img src="{% static 'pages/images/google.png'%}" class="nav_sm_logo">
+                            <img src="{% static 'pages/images/instagram.png'%}" class="nav_sm_logo">
+                            {% comment %} <img src="{% static 'pages/images/ok.png'%}" class="nav_sm_logo">
+                            <img src="{% static 'pages/images/vk.png'%}" class="nav_sm_logo"> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="#">Team</a></li>
+                <li><a class="text-muted" href="#">Locations</a></li>
+                <li><a class="text-muted" href="#">Privacy</a></li>
+                <li><a class="text-muted" href="#">Terms</a></li>
+            </ul>
+            </div> {% endcomment %}
+        </div>
+        </footer>
+        {% comment %} <div class="container">
+            <div class="">
+                <div class="row">
+                    <div class="col-4 bg-danger">
+                        <div class="row">Мобильные приложения</div>
+                        <div class="row">
+                            <div class="col-6"><img src="{% static 'pages/images/google_play_store.png' %}" class="mini_logo_responsive"></div>
+                            <div class="col-6"><img src="{% static 'pages/images/app_store.png' %}" class="mini_logo_responsive"></div>
+                        </div>
+                        <div class="row">row 3</div>
+                    </div>
+                    <div class="col-2 bg-danger">
+                        <div class="row">row 1</div>
+                        <div class="row">row 1</div>
+                        <div class="row">row 1</div>
+                        <div class="row">row 1</div>
+                        <div class="row">row 1</div>
+                    </div>
+                    <div class="col-2 bg-danger">
+                        <div class="col-2 bg-danger">
+                            <div class="row">row 1</div>
+                            <div class="row">row 1</div>
+                            <div class="row">row 1</div>
+                            <div class="row">row 1</div>
+                            <div class="row">row 1</div>
+                        </div>
+                    </div>
+
+                    <div class="col-4 bg-danger"><p>col-4</p></div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <span>©KinoCMS 2016, All rights reserved</span>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+        </div>
+    </main>
+    </body>
+</html>

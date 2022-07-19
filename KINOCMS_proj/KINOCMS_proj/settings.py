@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'bootstrap4',
+
     'pages.apps.PagesConfig',
     'users.apps.UsersConfig',
     'cinema.apps.CinemaConfig',    
