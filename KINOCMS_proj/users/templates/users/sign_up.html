@@ -1,0 +1,31 @@
+{% extends "layout/_base_pages.html" %}
+
+{% load bootstrap4 %}
+{% load static %}
+
+
+
+
+{% block title %}Регистрация{% endblock title%}
+
+{% block content %}
+    </head>
+        <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+    <head>
+
+    <div class="text-center log-in-bg rounded">
+        <img class="mb-4" src="{% static "users/images/logo_sign_in.png" %}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal text-dark">РЕГИСТРАЦИЯ</h1>
+        <form method="post" class="form-signin">
+            {% csrf_token %}
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.password }}
+            {{ form.confirm_password }}
+            {{ form.errors }}
+
+            <button class="btn btn-lg btn-sign-in btn-block">Зарегистрироваться</button>
+        </form>
+    </div>
+
+{% endblock content %}

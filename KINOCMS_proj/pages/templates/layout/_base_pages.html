@@ -29,9 +29,13 @@
                         <div class="col-1">
                             <div class="container d-flex h-100">
                                 <div class="row justify-content-center align-self-center">
-                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                        <button type="button" class="btn btn-secondary">логин</button>
-                                        <button type="button" class="btn btn-secondary">регистрация</button>
+                                    <div>
+                                        {% comment %} <button type="button" class="btn btn-secondary">логин</button> {% endcomment %}
+                                        
+                                            <a class="btn btn-secondary" href="#" class="nav-link">логин</a>
+                                            <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" class="nav-link">регистрация</a>
+                                        
+                                        {% comment %} <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" role="button">регистрация</button> {% endcomment %}
                                     </div>
                                 </div>
                             </div>
