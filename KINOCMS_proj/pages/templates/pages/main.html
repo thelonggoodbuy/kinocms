@@ -1,6 +1,13 @@
 {% extends "layout/_base_pages.html" %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+    <h1>Hi, {{ user.email }}!</h1>
+{% endif %}
+{% if user.is_authenticated %}
+    <p>Добро пожаловать!</p>
+{% endif %}
 <h2>Тестовая проверка расположения хидеров и полей страницы</h2>
 <h2>Тестовая проверка расположения хидеров и полей страницы</h2>
 <h2>Тестовая проверка расположения хидеров и полей страницы</h2>

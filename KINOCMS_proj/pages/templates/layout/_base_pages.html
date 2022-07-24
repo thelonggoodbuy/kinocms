@@ -30,13 +30,14 @@
                             <div class="container d-flex h-100">
                                 <div class="row justify-content-center align-self-center">
                                     <div>
-                                        {% comment %} <button type="button" class="btn btn-secondary">логин</button> {% endcomment %}
-                                        
-                                            <a class="btn btn-secondary" href="#" class="nav-link">логин</a>
+
+                                        {% if user.is_authenticated %}
+                                            <a class="btn btn-secondary" href="{% url 'users:log_out' %}" class="nav-link">выход</a>
+                                        {% else %}    
+                                            <a class="btn btn-secondary" href="{% url 'users:sign_in' %}" class="nav-link">логин</a>
+                                        {% endif %}
                                             <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" class="nav-link">регистрация</a>
                                         
-                                        {% comment %} <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" role="button">регистрация</button> {% endcomment %}
-                                    </div>
                                 </div>
                             </div>
                         </div>

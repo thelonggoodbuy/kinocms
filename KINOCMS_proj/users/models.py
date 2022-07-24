@@ -1,13 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin
 from django.forms import BooleanField, CharField, EmailField, JSONField
 from django.contrib.auth.models import UserManager
+
 
 # from cinema.models import Show
 from users.managers import CustomUserManager
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     LANGUAGES = (
         ('ua', 'Українська мова'),
         ('ru', 'Русский язык'),
@@ -17,6 +18,9 @@ class CustomUser(AbstractBaseUser):
         ('female', 'Женский пол'),
     )
     username = None
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
     nickname = models.CharField(max_length=50)
