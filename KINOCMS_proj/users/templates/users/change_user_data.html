@@ -1,0 +1,34 @@
+{% extends "layout/_base_pages.html" %}
+
+{% load bootstrap4 %}
+{% load static %}
+
+
+
+
+{% block title %}Мой кабинет{% endblock title%}
+
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {% comment %} {{ form.as_p }} {% endcomment %}
+    <p>{{ form.name.label_tag }}</p>
+    <p>{{ form.name }}</p>
+    <p>{{ form.surname.label_tag }}</p>
+    <p>{{ form.surname }}</p>
+    <p>{{ form.nickname.label_tag }}</p>
+    <p>{{ form.nickname }}</p>
+    <p>{{ form.email.label_tag }}</p>
+    <p>{{ form.email }}</p>
+    <p>{{ form.email.errors }}</p>
+    <p>{{ form.address.label_tag }}</p>
+    <p>{{ form.address }}</p>
+    <p>{{ form.card_id.label_tag }}</p>
+    <p>{{ form.card_id }}</p>
+
+    <button type="submit">Submit</button>
+    {% comment %} {{ form.email }} {% endcomment %}
+</form>
+
+{% endblock content %}

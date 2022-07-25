@@ -7,7 +7,7 @@ from django.forms.utils import ErrorList
 from django.http import HttpResponse
 
 
-from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList
+from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm
 
 
 
@@ -54,3 +54,15 @@ def log_out(request):
     return redirect('pages:index')
 
 
+
+def change_user_data(request):
+
+    if request.method == "POST":       
+        form = ChangeUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+        
+    else:
+        form = ChangeUserForm(instance=request.user)
+
+    return render(request, 'users/change_user_data.html', context={'form': form})
