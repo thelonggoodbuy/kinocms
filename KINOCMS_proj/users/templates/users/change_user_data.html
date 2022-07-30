@@ -12,7 +12,12 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
+
+    {{ message }}
+
     {% comment %} {{ form.as_p }} {% endcomment %}
+
+
     <p>{{ form.name.label_tag }}</p>
     <p>{{ form.name }}</p>
     <p>{{ form.surname.label_tag }}</p>
@@ -26,9 +31,31 @@
     <p>{{ form.address }}</p>
     <p>{{ form.card_id.label_tag }}</p>
     <p>{{ form.card_id }}</p>
+    <p>{{ form.language.label_tag }}</p>
+    <p>{{ form.language }}</p>
+    <p>{{ form.sex.label_tag }}</p>
+    <p>{{ form.sex }}</p>
+    <p>{{ form.phone_number.label_tag }}</p>
+    <p>{{ form.phone_number }}</p>
+    <p>{{ form.phone_number.errors }}</p>
+    <p>{{ form.town.label_tag }}</p>
+    <p>{{ form.town }}</p>
 
-    <button type="submit">Submit</button>
-    {% comment %} {{ form.email }} {% endcomment %}
+    <p>{{ form.born.label_tag }}</p>
+    <p>{{ form.born }}</p>
+    <p>{{ form.born.errors }}</p>
+
+    {% comment %} <p>{{ form.password.label_tag }}</p>
+    <p>{{ form.password }}</p>
+    <p>{{ form.password.errors }}</p>
+
+
+    <p>{{ form.confirm_password.label_tag }}</p>
+    <p>{{ form.confirm_password }}</p> {% endcomment %}
+
+
+    <button type="submit" class="btn btn-secondary">Submit</button>
+
 </form>
 
 {% endblock content %}

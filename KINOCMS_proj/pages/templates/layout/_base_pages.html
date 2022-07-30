@@ -16,11 +16,11 @@
                 <header class="p-3 bg-transparent text-dark">
                   {% comment %} <div class="container"> {% endcomment %}
                       <div class="row">
-                        <div class="col-2"><img src="{% static 'pages/images/cinema_logo_2.png' %}" class="logo_responsive"></div>
+                        <div class="col-2"><a href="{% url 'pages:index' %}"><img src="{% static 'pages/images/cinema_logo_2.png' %}" class="logo_responsive"></a></div>
                         <div class="col-2 d-block">
                             <div class="container d-flex h-100">
                                 <div class="row justify-content-center align-self-center">
-                                    <form class="row align-items-center me-5">
+                                    <form class="row">
                                         <input type="search" class="form-control form-control-dark " placeholder="Search..." aria-label="Search">
                                       </form>
                                 </div>
@@ -36,7 +36,9 @@
                                         {% else %}    
                                             <a class="btn btn-secondary" href="{% url 'users:sign_in' %}" class="nav-link">логин</a>
                                         {% endif %}
+                                        {% if user.is_anonymous %}
                                             <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" class="nav-link">регистрация</a>
+                                        {% endif %}
                                         
                                 </div>
                             </div>

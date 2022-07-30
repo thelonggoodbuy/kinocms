@@ -18,19 +18,21 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ('female', 'Женский пол'),
     )
     username = None
+    password = models.CharField(max_length=128, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
-    nickname = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    surname = models.CharField(max_length=50, null=True, blank=True)
+    nickname = models.CharField(max_length=50, null=True, blank=True)
     email = models.EmailField(max_length=50, unique=True)
-    address = models.CharField(max_length=50)
-    card_id = models.CharField(max_length=20)
+    address = models.CharField(max_length=50, null=True, blank=True)
+    town = models.CharField(max_length=50, null=True, blank=True)
+    card_id = models.CharField(max_length=20, null=True, blank=True)
     language = models.CharField(max_length=10, choices=LANGUAGES, default='ru')
     sex = models.CharField(max_length=15, choices=SEX)
-    phone_number = models.CharField(max_length=20)
-    born = models.DateField(null=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    born = models.DateField(null=True, blank=True)
     letters = models.ManyToManyField('Mailing')
 
     USERNAME_FIELD = 'email'

@@ -2,9 +2,8 @@ from email import message
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.forms.utils import ErrorList
 from django.http import HttpResponse
+from django.contrib.auth import update_session_auth_hash
 
 
 from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm
@@ -21,6 +20,7 @@ def sign_up(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user.set_password(password)
+            update_session_auth_hash(request, user)
             user.save()
 
             return redirect('pages:index')
@@ -56,13 +56,21 @@ def log_out(request):
 
 
 def change_user_data(request):
-
+    message = ''
     if request.method == "POST":       
         form = ChangeUserForm(request.POST, instance=request.user)
         if form.is_valid():
+            # user = form.save(commit=False)
+            # password = form.cleaned_data['password']
+            # user.set_password(password)
+            # user.save()
+            # update_session_auth_hash(request, user)
+            
             form.save()
-        
+
+
+            message = 'Изменения успешно применены!'
     else:
         form = ChangeUserForm(instance=request.user)
 
-    return render(request, 'users/change_user_data.html', context={'form': form})
+    return render(request, 'users/change_user_data.html', context={'form': form, 'message': message})
