@@ -64,19 +64,7 @@
                                 </div>
                             </div>
                         </div>
-                        {% comment %} <div class="col-3">
-                            <div class="container d-flex h-100">
-                                <div class="row justify-content-center align-self-center">
-                                    <ul class="text-end list-group-flush">
-                                        <li class="list-group-item bg-transparent text-dark">(048) 777-77-66</li>
-                                        <li class="list-group-item bg-transparent text-dark">(097) 777-77-66</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> {% endcomment %}
                       </div>
-
-
                       <ul class="nav col-12  me-lg-auto mb-2 justify-content-center px-4 bg-muted text-dark rounded-pill border border-bottom py-2">
                         <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">афиша</a></li>
                         <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">рассписание</a></li>
@@ -99,7 +87,7 @@
                             <a class="dropdown-item" href="#">контакты</a>
                           </div>
                           {% if user.is_authenticated and user.is_superuser %}
-                            <li class="row align-items-center me-2 mx-2"><a href="#" class="nav-link text-dark">админ панель</a></li>
+                            <li class="row align-items-center me-2 mx-2"><a href="{% url 'cinema:all_users' %}" class="nav-link text-dark">админ панель</a></li>
                           {% elif user.is_authenticated %}
                             <li class="row align-items-center me-2 mx-2"><a href="{% url 'users:change_user_data' %}" class="nav-link text-dark">мой кабинет</a></li>
                           {% endif %}

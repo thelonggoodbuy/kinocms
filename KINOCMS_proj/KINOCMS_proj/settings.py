@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import environ
 import os
+# from . import password_validators
 
 
 
@@ -118,20 +119,34 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'password_validators.NumberValidator', 
+    },
 ]
 
 # Authentication and authorization settings
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# LOGIN_URL = '/users/login/'
-# LOGIN_REDIRECT_URLD = '/pages/'
+LOGIN_URL = '/users/sign_in/'
+LOGOUT_REDIRECT_URL = '/users/sign_in/'
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 7, }
+    },
+    { 'NAME': 'users.validators.NumberValidator', },
+    { 'NAME': 'users.validators.UpercaseValidator', },
+    { 'NAME': 'users.validators.LowercaseValidator', },
+    { 'NAME': 'users.validators.SymbolValidator', },
+]
 
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 

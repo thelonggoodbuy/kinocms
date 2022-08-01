@@ -8,6 +8,9 @@ from django.forms.utils import ErrorList
 from django.core.validators import RegexValidator
 import re
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.password_validation import validate_password
+
 
 
 from .models import CustomUser
@@ -28,8 +31,9 @@ class SimpleTextErrorList(ErrorList):
 
 
 class RegisterUserForm(forms.ModelForm):
+
     email = forms.EmailField(required=True,
-                            label="Адрес электронной почты",
+                            label="email",
                             widget=forms.EmailInput(attrs={'class': 'form-control',
                                                         'placeholder':'email'}))
     password = forms.CharField(label='Пароль',
@@ -40,6 +44,7 @@ class RegisterUserForm(forms.ModelForm):
                                                             'placeholder':'confirm password'}))
 
 
+
     def clean_email(self):
         new_email = self.cleaned_data['email']
         taken_email = CustomUser.objects.filter(email=new_email)
@@ -47,14 +52,22 @@ class RegisterUserForm(forms.ModelForm):
             self.add_error('email', 'email занят')
         return new_email
 
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        print(password)
+        validate_password(password)
+        return password
 
-    def clean_confirm_password(self):
-            password = self.cleaned_data['password']
-            confirm_password = self.cleaned_data['confirm_password']
-            if password != confirm_password:
-                self.add_error('confirm_password', 'пароли не совпадают')
-
-
+    def clean(self):
+        cleaned_data = super(RegisterUserForm, self).clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        print(password)
+        print(confirm_password)
+        if password != confirm_password:
+            raise forms.ValidationError({
+                "password":["Password and confirm_password does not match"]
+                })
 
     class Meta:
         model = CustomUser
@@ -70,6 +83,14 @@ class LoginForm(forms.Form):
     password = forms.CharField(label='Пароль',
                             widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                             'placeholder':'password'}))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        taken_email = CustomUser.objects.filter(email=email)
+        if taken_email.exists() is False:
+            self.add_error('email', 'пользователь с таким email не зарегистрирован')
+        return email
+
 
     class Meta:
         model = CustomUser
@@ -90,7 +111,7 @@ class ChangeUserForm(forms.ModelForm):
                             widget=forms.TextInput(attrs={'class': 'form-control',
                                                             'placeholder': 'nickname'}))
 
-    email = forms.EmailField(required=False, label="Адрес электронной почты",
+    email = forms.EmailField(required=False, label="email",
                             widget=forms.EmailInput(attrs={'class': 'form-control',
                                                         'placeholder':'email'}))
 
@@ -120,47 +141,15 @@ class ChangeUserForm(forms.ModelForm):
                         widget=forms.TextInput(attrs={'class': 'form-control',
                                                     'placeholder':'town'}))
 
-    password = forms.CharField(required=False, label='Пароль',
-                        widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                        'placeholder':'password'}))
-                                            
-    confirm_password = forms.CharField(required=False, label='Повторите пароль',
-                        widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                        'placeholder':'password'}))
+
 
 
     def clean_email(self):
-        email = self.cleaned_data['email']
-        compare_obj = CustomUser.objects.get(email=email)
-        if self.instance.pk != compare_obj.pk:
-            self.data = self.data.copy()
-            self.data['email'] = self.instance.email
-            self.add_error('email', f'email {compare_obj.email} занят')
-        return email
-
-
- 
-
-    def clean_confirm_password(self):
-        password = self.cleaned_data['password']
-        confirm_password = self.cleaned_data['confirm_password']
-        if password != confirm_password:
-            self.add_error('confirm_password', 'пароли не совпадают')
-
-# !
-
-    # def clean_password(self, commifrom django.contrib.auth import update_session_auth_hasht=True):
-    #     password = self.cleaned_data['password']
-    #     if password == '':
-    #         print('Password is empty!')
-            
-    #         self.data = self.data.copy()
-    #         del self.data['password']
-    #         del self.data['confirm_password']
-    #         print(self.data)
-    #         return self.data
-
-    #     return password
+        new_email = self.cleaned_data['email']
+        taken_email = CustomUser.objects.filter(email=new_email)
+        if taken_email.exists():
+            self.add_error('email', 'email занят')
+        return new_email
 
 
 
@@ -186,25 +175,6 @@ class ChangeUserForm(forms.ModelForm):
 
         return phone
 
-
-    # def save(self, commit=True):
-    #     user = super(ChangeUserForm, self).save(commit=False)
-    #     password = self.cleaned_data["password"]
-        # print(len(password))
-        # if len(password) == 0:
-        #     del self.cleaned_data['password']
-        #     del self.cleaned_data['confirm_password']
-        #     print(self.cleaned_data)
-        #     user.save()
-        # else:
-        # if len(password) > 0:
-        # if commit:
-        #     user.set_password(self.cleaned_data["password"])
-        # user.save()
-        # return user
-  
-
-
     class Meta:
         model = CustomUser
         fields = ("name", "surname", "nickname", "email", "address",
@@ -213,3 +183,28 @@ class ChangeUserForm(forms.ModelForm):
 
         widgets = {
             'born': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Select a date','type': 'date'})}
+
+
+class ChangeUserPassword(forms.ModelForm):
+
+    password = forms.CharField(required=False, label='Пароль',
+                    widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                    'placeholder':'password'}))
+                                            
+    confirm_password = forms.CharField(required=False, label='Повторите пароль',
+                        widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                        'placeholder':'password'}))
+
+
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data['password']
+        confirm_password = self.cleaned_data['confirm_password']
+        if password != confirm_password:
+            self.add_error('confirm_password', 'пароли не совпадают')
+
+
+
+    class Meta:
+        model = CustomUser
+        fields = ("password", "confirm_password")

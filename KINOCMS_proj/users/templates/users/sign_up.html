@@ -24,9 +24,14 @@
             {{ form.password }}
             {{ form.confirm_password }}
 
-            <p class="text-danger">{{ form.email.errors }}</p>
-            <p class="text-danger">{{ form.confirm_password.errors }}</p>
-
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %} 
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            
             <button class="btn btn-lg btn-sign-in btn-block">Зарегистрироваться</button>
         </form>
     </div>

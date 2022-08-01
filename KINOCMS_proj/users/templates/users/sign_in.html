@@ -1,9 +1,33 @@
 {% extends "layout/_base_pages.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+
+{% block title %}вход{% endblock title%}
+
+
 {% block content %}
-    <p>{{ message }}</p>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button type="submit" class="btn btn-secondary">Submit</button>
-    </form>
+
+    </head>
+        <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+    <head>
+
+    <div class="text-center log-in-bg rounded">
+        <img class="mb-4" src="{% static "users/images/logo_log_in.png" %}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal text-dark">ВХОД</h1>
+        <form method="post" class="form-signin">
+            {{ form.email }}
+            {{ form.password }}
+            <p class="text-danger">{{ message }}</p>
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %} 
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-lg btn-sign-in btn-block">войти</button>
+        </form>
+    </div>
 {% endblock content %}

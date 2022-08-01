@@ -41,6 +41,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    # @property
+    # def is_anonymous(self):
+    #     return False
+
     def __str__(self):
         return f"{self.name} {self.surname}"
 

@@ -5,57 +5,176 @@
 
 
 
-
 {% block title %}Мой кабинет{% endblock title%}
 
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
 
-    {{ message }}
+</head>
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+<head>
 
-    {% comment %} {{ form.as_p }} {% endcomment %}
+<div class="log-in-bg rounded">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <img class="mb-4 d-none d-md-inline" src="{% static "users/images/logo_chang_user_data.png" %}" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal text-dark">СТРАНИЦА ПОЛЬЗОВАТЕЛЯ</h1>
+        </div>
+    </div>
+    <form method="post" class="mx-5">
+        {% csrf_token %}
+        {{ message }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block ">
+                        <p class="inline align-middle">{{ form_user_data.name.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.name }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.name.errors }}</p>
+
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.surname.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.surname }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.surname.errors }}</p>
+
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.nickname.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.nickname }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.nickname.errors }}</p>
+                
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.email.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.email }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.email.errors }}</p>
 
 
-    <p>{{ form.name.label_tag }}</p>
-    <p>{{ form.name }}</p>
-    <p>{{ form.surname.label_tag }}</p>
-    <p>{{ form.surname }}</p>
-    <p>{{ form.nickname.label_tag }}</p>
-    <p>{{ form.nickname }}</p>
-    <p>{{ form.email.label_tag }}</p>
-    <p>{{ form.email }}</p>
-    <p>{{ form.email.errors }}</p>
-    <p>{{ form.address.label_tag }}</p>
-    <p>{{ form.address }}</p>
-    <p>{{ form.card_id.label_tag }}</p>
-    <p>{{ form.card_id }}</p>
-    <p>{{ form.language.label_tag }}</p>
-    <p>{{ form.language }}</p>
-    <p>{{ form.sex.label_tag }}</p>
-    <p>{{ form.sex }}</p>
-    <p>{{ form.phone_number.label_tag }}</p>
-    <p>{{ form.phone_number }}</p>
-    <p>{{ form.phone_number.errors }}</p>
-    <p>{{ form.town.label_tag }}</p>
-    <p>{{ form.town }}</p>
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.address.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.address }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.address.errors }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-12 container_user_data">
+                        <div class="radio_point_user_data"> {{ form_user_data.language.label_tag }}</div>
 
-    <p>{{ form.born.label_tag }}</p>
-    <p>{{ form.born }}</p>
-    <p>{{ form.born.errors }}</p>
+                        <div class="w-100 d-block d-md-none"></div>
+                        
+                        {% for language in form_user_data.language %}
+                            <div class="radio_point_user_data">{{ language }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 container_user_data">
+                        <div class="radio_point_user_data"> {{ form_user_data.sex.label_tag }}</div>
 
-    {% comment %} <p>{{ form.password.label_tag }}</p>
-    <p>{{ form.password }}</p>
-    <p>{{ form.password.errors }}</p>
+                        <div class="w-100 d-block d-md-none"></div>
 
+                        {% for sex in form_user_data.sex %}
+                            <div class="radio_point_user_data">{{ sex }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_data.phone_number.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.phone_number }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.phone_number.errors }}</p>
 
-    <p>{{ form.confirm_password.label_tag }}</p>
-    <p>{{ form.confirm_password }}</p> {% endcomment %}
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_data.town.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.town }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.errors }}</p>
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_data.born.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.born }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.born.errors }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_access.password.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_access.password }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_access.password.errors }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block ">
+                        <p class="inline align-middle">{{ form_user_access.confirm_password.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_access.confirm_password }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_access.confirm_password.errors }}</p>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block ">
+                            <p class="inline align-middle">{{ form_user_data.card_id.label_tag }}</p>
+                        </div>
+                        <div class="col-md-8 col-12 text-md-left">
+                            <p>{{ form_user_data.card_id }}</p>
+                        </div>
+                    </div>
+                    <p>{{ form_user_data.card_id.errors }}</p>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-lg btn-sign-in">сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>        
+        {% endblock content %}
+        {% comment %} <button type="submit" class="btn btn-secondary">Submit</button> {% endcomment %}
+    
 
-
-    <button type="submit" class="btn btn-secondary">Submit</button>
-
-</form>
-
-{% endblock content %}

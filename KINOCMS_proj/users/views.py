@@ -4,9 +4,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required   
 
 
-from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm
+
+from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, ChangeUserPassword
 
 
 
@@ -20,8 +22,8 @@ def sign_up(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user.set_password(password)
-            update_session_auth_hash(request, user)
             user.save()
+            login(request, user)
 
             return redirect('pages:index')
     else:        
@@ -31,6 +33,7 @@ def sign_up(request):
 
 
 def sign_in(request):
+    message = ""
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -41,12 +44,13 @@ def sign_in(request):
                     login(request, user)
                     return redirect('pages:index')
                 else:
-                    return HttpResponse('Disable account')
+                    message = 'Пользователь не активен'
             else:
-                return HttpResponse('Invalid login')
+                message = 'Не правильный пароль'
     else:
         form = LoginForm()
-    return render(request, 'users/sign_in.html', context={'form': form})
+
+    return render(request, 'users/sign_in.html', context={'form': form, 'message': message})
 
 
 def log_out(request):
@@ -54,23 +58,31 @@ def log_out(request):
     return redirect('pages:index')
 
 
-
+@login_required
 def change_user_data(request):
     message = ''
-    if request.method == "POST":       
-        form = ChangeUserForm(request.POST, instance=request.user)
-        if form.is_valid():
-            # user = form.save(commit=False)
-            # password = form.cleaned_data['password']
-            # user.set_password(password)
-            # user.save()
-            # update_session_auth_hash(request, user)
-            
-            form.save()
+    form_user_data = ChangeUserForm(request.POST, instance=request.user)
+    form_user_access = ChangeUserPassword(request.POST)
+    if request.method == "POST":
+        print(request.POST)       
+        if 'email' in request.POST:
+            form_user_data = ChangeUserForm(request.POST, instance=request.user)
+            if form_user_data.is_valid():
+                form_user_data.save()
+                message = 'Данные пользователя изменены'
+        if request.POST['password'] != '':
+            form_user_access = ChangeUserPassword(request.POST, instance=request.user)
+            if form_user_access.is_valid():
+                user = form_user_access.save(commit=False)
+                password = form_user_access.cleaned_data['password']
+                user.set_password(password)
+                update_session_auth_hash(request, user)
+                user.save()
 
-
-            message = 'Изменения успешно применены!'
     else:
-        form = ChangeUserForm(instance=request.user)
+        form_user_data = ChangeUserForm(instance=request.user)
+        form_user_access = ChangeUserPassword()
 
-    return render(request, 'users/change_user_data.html', context={'form': form, 'message': message})
+    return render(request, 'users/change_user_data.html', context={'form_user_data': form_user_data,
+                                                                    'form_user_access': form_user_access,
+                                                                     'message': message})
