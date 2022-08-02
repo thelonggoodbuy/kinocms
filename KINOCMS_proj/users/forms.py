@@ -147,7 +147,7 @@ class ChangeUserForm(forms.ModelForm):
     def clean_email(self):
         new_email = self.cleaned_data['email']
         taken_email = CustomUser.objects.filter(email=new_email)
-        if taken_email.exists():
+        if taken_email.exists() and new_email == taken_email:
             self.add_error('email', 'email занят')
         return new_email
 

@@ -2,13 +2,101 @@
 {% load bootstrap4 %}
 {% load static %}
 
-
 {% block title %}список пользователей{% endblock title%}
 
-
-
 {% block content %}
-    <h3>Cinema app</h3>
-    <h3>All users template!</h3>
-    <h3>Thera will be table about all users</h3>
+<div class="row">
+    <div class="col-12">
+    <div class="row mb-3">
+        <div class="col-2 offset-md-5">
+            <h3 class="h3">пользователи<h3>
+        </div>
+        <div class="col-3 offset-md-2">
+            <div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                  <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                  <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                      <i class="fas fa-search fa-fw"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+        <div class="card text-center">
+            <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>дата регистрации</th>
+                    <th>день рождения</th>
+                    <th>email</th>
+                    <th>телефон</th>
+                    <th>ФИО</th>
+                    <th>псевдоним</th>
+                    <th>город</th>
+                    <th> </th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for user in users_list %}
+                        <tr>
+                            <td class="align-middle">{{ user.id|default_if_none:"-----" }}</td>
+                            <td class="align-middle">11-7-2014</td>
+                            <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
+                            <td class="align-middle">{{ user.email|default_if_none:"-----" }}</td>
+                            <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
+                            <td class="align-middle">{{ user.surname|default_if_none:"-----" }} {{ user.name|default_if_none:"" }}</td>
+                            <td class="align-middle">{{ user.nickname|default_if_none:"-----" }}</td>
+                            <td class="align-middle">{{ user.town|default_if_none:"-----" }}</td>
+                            <td><a href="#"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                            <td><a href="#"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer clearfix d-flex justify-content-center">
+                <ul class="pagination pagination-sm m-0 float-right">
+                    {% if page.has_previous %}
+                        {% if page.number > 8 %}
+                            <li class="page-item" ><a class="page-link" href="?page=1">1</a></li>
+                            {% if page.number > 9 %}
+                                <span class="mx-3">...</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+
+                    {% for single_page in page.paginator.page_range %}
+                        {% if single_page == page.number %}
+                            <li class="page-item"><strong><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></strong></li>
+                        {% elif single_page > page.number|add:'-8' and single_page < page.number|add:'8' %}
+                            <li class="page-item"><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page.has_next %}
+                        {% if page.number < page.paginator.num_pages|add:'-8' %}
+                            <span class="mx-3">...</span>
+                            <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{page.paginator.num_pages}}</a></li>
+                        {% elif page.number < page.paginator.num_pages|add:'-7' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{page.paginator.num_pages}}</a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+        <!-- /.card -->
+        </div>
+    </div>
+    <!-- /.row -->
 {% endblock content %}
