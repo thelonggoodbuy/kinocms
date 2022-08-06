@@ -14,26 +14,31 @@ from users.forms import ChangeUserForm, ChangeUserPassword
 @user_passes_test(lambda admin: admin.is_superuser)
 def all_users(request):
     users_list = CustomUser.objects.filter(is_active=True, is_superuser=False)
-    if 'keyword' in request.GET:
-        keyword = request.GET['keyword']
-        q = (Q(name__icontains=keyword) | 
-        Q(nickname__icontains=keyword) |
-        Q(surname__icontains=keyword) |
-        Q(email__icontains=keyword))
-        users_list = users_list.filter(q)
-    else:
-        keyword = ''
-    search_form = SearchUserForm(initial={'keyword':keyword})
-    paginator = Paginator(users_list, 5)
-    if 'page' in request.GET:
-        page_num = request.GET['page']    
-    else:
-        page_num = 1
-    page = paginator.get_page(page_num)
-    context = {'page': page, 'users_list': page.object_list, 'form': search_form}
+    context = {'users_list': users_list}
     return render(request, 'cinema/all_users.html', context)
 
-
+# @login_required
+# @user_passes_test(lambda admin: admin.is_superuser)
+# def all_users(request):
+#     users_list = CustomUser.objects.filter(is_active=True, is_superuser=False)
+#     if 'keyword' in request.GET:
+#         keyword = request.GET['keyword']
+#         q = (Q(name__icontains=keyword) | 
+#         Q(nickname__icontains=keyword) |
+#         Q(surname__icontains=keyword) |
+#         Q(email__icontains=keyword))
+#         users_list = users_list.filter(q)
+#     else:
+#         keyword = ''
+#     search_form = SearchUserForm(initial={'keyword':keyword})
+#     paginator = Paginator(users_list, 5)
+#     if 'page' in request.GET:
+#         page_num = request.GET['page']    
+#     else:
+#         page_num = 1
+#     page = paginator.get_page(page_num)
+#     context = {'page': page, 'users_list': page.object_list, 'form': search_form}
+#     return render(request, 'cinema/all_users.html', context)
 
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)

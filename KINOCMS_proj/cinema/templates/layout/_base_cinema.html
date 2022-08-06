@@ -15,7 +15,7 @@
         <!-- Theme style -->
         <link rel="stylesheet" href="{% static 'cinema/css/adminlte.min.css' %}">
         {% bootstrap_css %}
-        {% bootstrap_javascript jquery='full' %}
+        {% comment %} {% bootstrap_javascript jquery='full' %} {% endcomment %}
     </head>
 
     <body class="hold-transition sidebar-mini">
@@ -159,14 +159,14 @@
           <!-- /.control-sidebar -->
 
         
-        <!-- jQuery -->
-        <script src="{% static 'cinema/js/jquery.min.js' %}"></script>
-        <!-- Bootstrap 4 -->
-        <script src="{% static 'cinema/js/bootstrap.bundle.min.js' %}"></script>
-        <!-- overlayScrollbars -->
-        <script src="{% static 'cinema/js/jquery.overlayScrollbars.min.js' %}"></script>
-        <!-- AdminLTE App -->
-        <script src="{% static 'cinema/js/adminlte.min.js'%}"></script>
+
+        {% comment %} <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script> {% endcomment %}
+
+        <script type="text/javascript" src="{% static 'cinema/js/bootstrap.bundle.min.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'cinema/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'cinema/js/adminlte.min.js'%}"></script>
         
     </body>
 

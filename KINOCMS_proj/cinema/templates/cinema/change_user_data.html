@@ -11,6 +11,7 @@
 {% block content %}
 
 </head>
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
 <head>
 
@@ -20,7 +21,7 @@
             <h1 class="h3 mb-3 font-weight-normal text-dark">данные пользователя {{about_user.email}}</h1>
         </div>
     </div>
-    <form method="post" class="mx-5">
+    <form method="post" class="mx-5 cell-border">
         {% csrf_token %}
         
         <div class="row">

@@ -5,101 +5,114 @@
 {% block title %}список пользователей{% endblock title%}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-    <div class="row mb-3">
-        <div class="col-2 offset-md-5">
-            <h3 class="h3">пользователи<h3>
-        </div>
-        <div>
+<head>
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
 
+    <link rel="stylesheet" type="text/css" href="{% static 'cinema/js/DataTables/datatables.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+    
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/DataTables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/table_scripts.js' %}"></script>
+    
+</head>
+<body>
 
-        </div>
-
-        <div class="col-3 offset-md-2">
-            <div class="form-inline">
-                <div>
-                    <form>
-                        {{ form.keyword }}
-                        <button type="submit"> поиск </button>
-                    </form>
-                </div>
-              </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-12">
-        <div class="card text-center">
-            <div class="card-body table-responsive p-0">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>дата регистрации</th>
-                    <th>день рождения</th>
-                    <th>email</th>
-                    <th>телефон</th>
-                    <th>ФИО</th>
-                    <th>псевдоним</th>
-                    <th>город</th>
-                    <th> </th>
-                    <th> </th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for user in users_list %}
-                        <tr>
-                            <td class="align-middle">{{ user.id|default_if_none:"-----" }}</td>
-                            <td class="align-middle">11-7-2014</td>
-                            <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
-                            <td class="align-middle">{{ user.email|default_if_none:"-----" }}</td>
-                            <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
-                            <td class="align-middle">{{ user.surname|default_if_none:"-----" }} {{ user.name|default_if_none:"" }}</td>
-                            <td class="align-middle">{{ user.nickname|default_if_none:"-----" }}</td>
-                            <td class="align-middle">{{ user.town|default_if_none:"-----" }}</td>
-                            <td><a href="{% url 'cinema:change_user_data_by_admin' pk=user.id %}"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                            <td><a href="{% url 'users:del_user' pk=user.id %}"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                
-            </table>
+        <div class="row mb-3">
+            <div class="col-2 offset-md-5 mb-3">
+                <h3 class="h3">пользователи<h3>
             </div>
-            <!-- /.card-body -->
+            <div>
+            </div>
+{% comment %} 
+            <div class="col-3 offset-md-2">
+                <div class="form-inline">
+                    <div>
+                        <form>
+                            {{ form.keyword }}
+                            <button type="submit"> поиск </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
 
-            <div class="card-footer clearfix d-flex justify-content-center">
-                <ul class="pagination pagination-sm m-0 float-right">
-                    {% if page.has_previous %}
-                        {% if page.number > 8 %}
-                            <li class="page-item" ><a class="page-link" href="?page=1">1</a></li>
-                            {% if page.number > 9 %}
-                                <span class="mx-3">...</span>
+        <div class="row" >
+            <div class="col-12">
+            <div class="card text-center py-3 px-4">
+                <div class="card-body table-responsive p-0 ">
+                <table id="table_id" class="row-border" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>дата регистрации</th>
+                        <th>день рождения</th>
+                        <th>email</th>
+                        <th>телефон</th>
+                        <th>ФИО</th>
+                        <th>псевдоним</th>
+                        <th>город</th>
+                        <th> </th>
+                        <th> </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users_list %}
+                            <tr>
+                                <td class="align-middle">{{ user.id|default_if_none:"-----" }}</td>
+                                <td class="align-middle">11-7-2014</td>
+                                <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
+                                <td class="align-middle">{{ user.email|default_if_none:"-----" }}</td>
+                                <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
+                                <td class="align-middle">{{ user.surname|default_if_none:"-----" }} {{ user.name|default_if_none:"" }}</td>
+                                <td class="align-middle">{{ user.nickname|default_if_none:"-----" }}</td>
+                                <td class="align-middle">{{ user.town|default_if_none:"-----" }}</td>
+                                <td><a href="{% url 'cinema:change_user_data_by_admin' pk=user.id %}"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                <td><a href="{% url 'users:del_user' pk=user.id %}"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+                </div>
+                <!-- /.card-body -->
+{% comment %} 
+                <div class="card-footer clearfix d-flex justify-content-center">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                        {% if page.has_previous %}
+                            {% if page.number > 8 %}
+                                <li class="page-item" ><a class="page-link" href="?page=1">1</a></li>
+                                {% if page.number > 9 %}
+                                    <span class="mx-3">...</span>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
-                    {% endif %}
 
-                    {% for single_page in page.paginator.page_range %}
-                        {% if single_page == page.number %}
-                            <li class="page-item"><strong><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></strong></li>
-                        {% elif single_page > page.number|add:'-8' and single_page < page.number|add:'8' %}
-                            <li class="page-item"><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></li>
-                        {% endif %}
-                    {% endfor %}
+                        {% for single_page in page.paginator.page_range %}
+                            {% if single_page == page.number %}
+                                <li class="page-item"><strong><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></strong></li>
+                            {% elif single_page > page.number|add:'-8' and single_page < page.number|add:'8' %}
+                                <li class="page-item"><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
 
-                    {% if page.has_next %}
-                        {% if page.number < page.paginator.num_pages|add:'-8' %}
-                            <span class="mx-3">...</span>
+                        {% if page.has_next %}
+                            {% if page.number < page.paginator.num_pages|add:'-8' %}
+                                <span class="mx-3">...</span>
+                                <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{page.paginator.num_pages}}</a></li>
+                            {% elif page.number < page.paginator.num_pages|add:'-7' %}
                             <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{page.paginator.num_pages}}</a></li>
-                        {% elif page.number < page.paginator.num_pages|add:'-7' %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{page.paginator.num_pages}}</a></li>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                </ul>
-            </div>
+                    </ul>
+                </div> {% endcomment %}
 
+            </div>
+            <!-- /.card -->
+            </div>
         </div>
-        <!-- /.card -->
-        </div>
-    </div>
-    <!-- /.row -->
+        <!-- /.row -->
+</body>
 {% endblock content %}
