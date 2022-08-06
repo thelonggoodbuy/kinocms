@@ -41,7 +41,7 @@
                 <p class="h4"> мой кабинет <p>
               </li>
               <li class="nav-item">
-                <img src="{% static 'cinema/images/on_off.png' %}" class="logo_navbar brand-image img-circle elevation-3" style="opacity: .8">
+                <a href="{% url 'pages:index'%}"><img src="{% static 'cinema/images/on_off.png' %}" class="logo_navbar brand-image img-circle elevation-3" style="opacity: .8"></a>
               </li>
             </ul>
           </nav>
@@ -104,7 +104,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'cinema:all_users'%}" class="nav-link">
                             <img src="{% static 'cinema/images/aperture-outline.svg'%}" class="far fa-circle nav-icon">
                             <p>пользователи</p>
                         </a>
@@ -139,13 +139,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            {% comment %} <div class="card">
-                                <div class="card-body"> {% endcomment %}
-                                    {% block content %}
-                                    {% endblock content %} 
-                                {% comment %} </div>
-                            </div>
-     {% endcomment %}
+                          {% block content %}
+                          {% endblock content %} 
                         </div>
                     </div>
                 </div>

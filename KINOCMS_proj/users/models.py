@@ -46,7 +46,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     #     return False
 
     def __str__(self):
-        return f"{self.name} {self.surname}"
+        return f"{self.id}"
 
 
 class Mailing(models.Model):

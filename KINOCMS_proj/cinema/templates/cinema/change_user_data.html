@@ -1,0 +1,190 @@
+{% extends "layout/_base_cinema.html" %}
+
+{% load bootstrap4 %}
+{% load static %}
+
+
+
+{% block title %}изменения данных о пользователе{% endblock title%}
+
+
+{% block content %}
+
+</head>
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+<head>
+
+<div class="log-in-bg rounded">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="h3 mb-3 font-weight-normal text-dark">данные пользователя {{about_user.email}}</h1>
+        </div>
+    </div>
+    <form method="post" class="mx-5">
+        {% csrf_token %}
+        
+        <div class="row">
+            <div class="col-12">
+                <h6 class="h6 mb-5 text-success">{{ message }}</h6>
+                {% for field in form_user_data %}
+                    {% for error in field.errors %} 
+                        <h6 class="h6 mb-5 text-danger">{{ error }}</h6>
+                    {% endfor %}
+                {% endfor %}
+                {% for field in form_user_access %}
+                    {% for error in field.errors %} 
+                        <h6 class="h6 mb-5 text-danger">{{ error }}</h6>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block ">
+                        <p class="inline align-middle">{{ form_user_data.name.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.name }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.name.errors }}</p>
+
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.surname.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.surname }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.surname.errors }}</p>
+
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.nickname.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.nickname }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.nickname.errors }}</p>
+                
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.email.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.email }}</p>
+                    </div>
+                </div>
+                {% comment %} <p>{{ form_user_data.email.errors }}</p> {% endcomment %}
+
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p>{{ form_user_data.address.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.address }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.address.errors }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-12 container_user_data">
+                        <div class="radio_point_user_data"> {{ form_user_data.language.label_tag }}</div>
+
+                        <div class="w-100 d-block d-md-none"></div>
+                        
+                        {% for language in form_user_data.language %}
+                            <div class="radio_point_user_data">{{ language }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 container_user_data">
+                        <div class="radio_point_user_data"> {{ form_user_data.sex.label_tag }}</div>
+
+                        <div class="w-100 d-block d-md-none"></div>
+
+                        {% for sex in form_user_data.sex %}
+                            <div class="radio_point_user_data">{{ sex }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_data.phone_number.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.phone_number }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.phone_number.errors }}</p>
+
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_data.town.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.town }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_data.born.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_data.born }}</p>
+                    </div>
+                </div>
+                <p>{{ form_user_data.born.errors }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block">
+                        <p class="inline align-middle">{{ form_user_access.password.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_access.password }}</p>
+                    </div>
+                </div>
+                {% comment %} <p>{{ form_user_access.password.errors }}</p> {% endcomment %}
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block ">
+                        <p class="inline align-middle">{{ form_user_access.confirm_password.label_tag }}</p>
+                    </div>
+                    <div class="col-md-8 col-12 text-md-left">
+                        <p>{{ form_user_access.confirm_password }}</p>
+                    </div>
+                </div>
+                {% comment %} <p>{{ form_user_access.confirm_password.errors }}</p> {% endcomment %}
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4 col-12 text-md-left text-center d-none d-md-block ">
+                            <p class="inline align-middle">{{ form_user_data.card_id.label_tag }}</p>
+                        </div>
+                        <div class="col-md-8 col-12 text-md-left">
+                            <p>{{ form_user_data.card_id }}</p>
+                        </div>
+                    </div>
+                    <p>{{ form_user_data.card_id.errors }}</p>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-lg btn-sign-in">сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>        
+        {% endblock content %}
+        {% comment %} <button type="submit" class="btn btn-secondary">Submit</button> {% endcomment %}
+    
+

@@ -54,7 +54,6 @@ class RegisterUserForm(forms.ModelForm):
 
     def clean_password(self):
         password = self.cleaned_data['password']
-        print(password)
         validate_password(password)
         return password
 
@@ -62,8 +61,6 @@ class RegisterUserForm(forms.ModelForm):
         cleaned_data = super(RegisterUserForm, self).clean()
         password = cleaned_data.get('password')
         confirm_password = cleaned_data.get('confirm_password')
-        print(password)
-        print(confirm_password)
         if password != confirm_password:
             raise forms.ValidationError({
                 "password":["Password and confirm_password does not match"]
@@ -145,11 +142,13 @@ class ChangeUserForm(forms.ModelForm):
 
 
     def clean_email(self):
-        new_email = self.cleaned_data['email']
-        taken_email = CustomUser.objects.filter(email=new_email)
-        if taken_email.exists() and new_email == taken_email:
-            self.add_error('email', 'email занят')
-        return new_email
+        email = self.cleaned_data['email']
+        other_user = CustomUser.objects.get(email=email)
+        if other_user and other_user.id != self.instance.id:
+            self.data = self.data.copy()
+            self.data['email'] = self.instance.email
+            raise forms.ValidationError("Один из пользователей системы уже использует такой email")
+        return email
 
 
 
@@ -172,8 +171,10 @@ class ChangeUserForm(forms.ModelForm):
                 phone = f"+38{phone}"
             elif bool(re.search(r"^\d{9}$", phone)) is True: 
                 phone = f"+380{phone}"
-
         return phone
+
+    
+    
 
     class Meta:
         model = CustomUser
@@ -197,13 +198,19 @@ class ChangeUserPassword(forms.ModelForm):
 
 
 
-    def clean_confirm_password(self):
+    def clean_password(self):
         password = self.cleaned_data['password']
-        confirm_password = self.cleaned_data['confirm_password']
+        validate_password(password)
+        return password
+
+    def clean(self):
+        cleaned_data = super(ChangeUserPassword, self).clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
         if password != confirm_password:
-            self.add_error('confirm_password', 'пароли не совпадают')
-
-
+            raise forms.ValidationError({
+                "password":["Пароли не совпадают"]
+                })
 
     class Meta:
         model = CustomUser

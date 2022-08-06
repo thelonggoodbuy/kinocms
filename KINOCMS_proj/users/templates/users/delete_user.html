@@ -1,0 +1,38 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+
+
+{% block content %}
+
+    </head>
+        <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+    <head>
+
+
+    <div class="row">
+        <div class="col-2 offset-md-4">
+            <div class="text-center">
+                <div class="login-box">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="social-auth-links text-center mb-3">
+                                <p>Вы действительно хотите удалить пользователя <strong>{{ user.email }}</strong> ?</p>
+                                <input type="submit" class="btn btn-block btn-danger" value="Удалить пользователя">
+                                <a href="{% url 'cinema:all_users' %}" class="btn btn-block btn-primary">
+                                Вернуться к списку пользователей
+                                </a>
+                            </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}

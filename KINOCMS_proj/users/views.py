@@ -1,14 +1,17 @@
 from email import message
 from pyexpat.errors import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required   
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.urls import reverse
+
 
 
 
 from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, ChangeUserPassword
+from .models import CustomUser
 
 
 
@@ -86,3 +89,17 @@ def change_user_data(request):
     return render(request, 'users/change_user_data.html', context={'form_user_data': form_user_data,
                                                                     'form_user_access': form_user_access,
                                                                      'message': message})
+
+
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def del_user(request, pk):
+
+    user = get_object_or_404(CustomUser, id=pk)
+    context = {"user": user}
+    if request.method == "POST":
+        user.delete()
+        return HttpResponseRedirect(reverse('cinema:all_users'))
+    return render(request, "users/delete_user.html", context)
+
+

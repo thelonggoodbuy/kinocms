@@ -11,15 +11,18 @@
         <div class="col-2 offset-md-5">
             <h3 class="h3">пользователи<h3>
         </div>
+        <div>
+
+
+        </div>
+
         <div class="col-3 offset-md-2">
             <div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                  <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                  <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                      <i class="fas fa-search fa-fw"></i>
-                    </button>
-                  </div>
+                <div>
+                    <form>
+                        {{ form.keyword }}
+                        <button type="submit"> поиск </button>
+                    </form>
                 </div>
               </div>
         </div>
@@ -54,8 +57,8 @@
                             <td class="align-middle">{{ user.surname|default_if_none:"-----" }} {{ user.name|default_if_none:"" }}</td>
                             <td class="align-middle">{{ user.nickname|default_if_none:"-----" }}</td>
                             <td class="align-middle">{{ user.town|default_if_none:"-----" }}</td>
-                            <td><a href="#"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                            <td><a href="#"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                            <td><a href="{% url 'cinema:change_user_data_by_admin' pk=user.id %}"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                            <td><a href="{% url 'users:del_user' pk=user.id %}"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
