@@ -1,8 +1,7 @@
-from email import message
-from pyexpat.errors import messages
+
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
@@ -10,7 +9,7 @@ from django.urls import reverse
 
 
 
-from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, ChangeUserPassword
+from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm
 from .models import CustomUser
 
 
@@ -20,12 +19,12 @@ def sign_up(request):
         form = RegisterUserForm(request.POST, error_class=SimpleTextErrorList)
 
         if form.is_valid():
-
             user = form.save(commit=False)
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user.set_password(password)
-            user.save()
+            if password != '':
+                user.set_password(password)
+                user.save()
             login(request, user)
 
             return redirect('pages:index')
@@ -64,30 +63,28 @@ def log_out(request):
 @login_required
 def change_user_data(request):
     message = ''
-    form_user_data = ChangeUserForm(request.POST, instance=request.user)
-    form_user_access = ChangeUserPassword(request.POST)
-    if request.method == "POST":
-        print(request.POST)       
-        if 'email' in request.POST:
-            form_user_data = ChangeUserForm(request.POST, instance=request.user)
-            if form_user_data.is_valid():
-                form_user_data.save()
-                message = 'Данные пользователя изменены'
-        if request.POST['password'] != '':
-            form_user_access = ChangeUserPassword(request.POST, instance=request.user)
-            if form_user_access.is_valid():
-                user = form_user_access.save(commit=False)
-                password = form_user_access.cleaned_data['password']
+    form_user_data = ChangeUserForm(request.POST, instance=request.user, error_class=SimpleTextErrorList)
+    if request.method == "POST":   
+        form_user_data = ChangeUserForm(request.POST, instance=request.user, error_class=SimpleTextErrorList)
+
+        if form_user_data.is_valid():
+            
+            if form_user_data.cleaned_data['password'] == '':
+                request.user.save(update_fields=['name', "surname", "nickname", 
+                                                "email", "address", "card_id", 
+                                                "language", "sex", "town", 
+                                                "phone_number", "born"])
+            else:
+                user = form_user_data.save(commit=False)
+                password = form_user_data.cleaned_data['password']
                 user.set_password(password)
                 update_session_auth_hash(request, user)
                 user.save()
 
     else:
-        form_user_data = ChangeUserForm(instance=request.user)
-        form_user_access = ChangeUserPassword()
+        form_user_data = ChangeUserForm(instance=request.user, error_class=SimpleTextErrorList)
 
     return render(request, 'users/change_user_data.html', context={'form_user_data': form_user_data,
-                                                                    'form_user_access': form_user_access,
                                                                      'message': message})
 
 

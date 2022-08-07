@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 from users.models import CustomUser
 from .forms import SearchUserForm
-from users.forms import ChangeUserForm, ChangeUserPassword
+from users.forms import ChangeUserForm, SimpleTextErrorList
 
 
 
@@ -45,37 +45,30 @@ def all_users(request):
 def change_user_data_by_admin(request, pk):
     message = ''
     user = get_object_or_404(CustomUser, id=pk)
-    form_user_data = ChangeUserForm(request.POST, instance=user)
-    form_user_access = ChangeUserPassword(request.POST)
-    if request.method == "POST":
-        if 'email' in request.POST:
-            form_user_data = ChangeUserForm(request.POST, instance=user)
-            if form_user_data.is_valid():
-                form_user_data.save()
+    print(user.name)
+    form_user_data = ChangeUserForm(request.POST, instance=user, error_class=SimpleTextErrorList)
+    if request.method == "POST":   
+        form_user_data = ChangeUserForm(request.POST, instance=user, error_class=SimpleTextErrorList)
+        if form_user_data.is_valid():
+            
+            if form_user_data.cleaned_data['password'] == '':
+                user.save(update_fields=['name', "surname", "nickname", 
+                                                "email", "address", "card_id", 
+                                                "language", "sex", "town", 
+                                                "phone_number", "born"])
                 if form_user_data.has_changed():
                     message = 'данные пользователя изменены'
-
-        else:
-            form_user_data = ChangeUserForm(instance=user)
-
-        if request.POST['password'] != '':
-            form_user_access = ChangeUserPassword(request.POST, instance=user)
-            if form_user_access.is_valid():
-                user = form_user_access.save(commit=False)
-                password = form_user_access.cleaned_data['password']
-                user.set_password(password)
-                user.save()
-        else:
-            form_user_access = ChangeUserPassword()
-
+            
+            else:
+                user_with_password = form_user_data.save(commit=False)
+                password = form_user_data.cleaned_data['password']
+                user_with_password.set_password(password)
+                user_with_password.save()
+                if form_user_data.has_changed():
+                    message = 'данные пользователя и пароль изменены'
     else:
-        form_user_data = ChangeUserForm(instance=user)
-        form_user_access = ChangeUserPassword()
-
-
-    if form_user_access.has_changed():
-        message = 'пароль изменен'
+        print("post NOBOBOBOBOBO!!!")
+        form_user_data = ChangeUserForm(instance=user, error_class=SimpleTextErrorList)
 
     return render(request, 'cinema/change_user_data.html', context={'form_user_data': form_user_data,
-                                                                    'form_user_access': form_user_access,
                                                                      'message': message})

@@ -138,7 +138,13 @@ class ChangeUserForm(forms.ModelForm):
                         widget=forms.TextInput(attrs={'class': 'form-control',
                                                     'placeholder':'town'}))
 
-
+    password = forms.CharField(required=False, label='Пароль',
+                    widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                    'placeholder':'password'}))
+                                            
+    confirm_password = forms.CharField(required=False, label='Повторите пароль',
+                        widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                        'placeholder':'password'}))
 
 
     def clean_email(self):
@@ -149,7 +155,6 @@ class ChangeUserForm(forms.ModelForm):
             self.data['email'] = self.instance.email
             raise forms.ValidationError("Один из пользователей системы уже использует такой email")
         return email
-
 
 
     def clean_phone_number(self):
@@ -173,45 +178,58 @@ class ChangeUserForm(forms.ModelForm):
                 phone = f"+380{phone}"
         return phone
 
-    
-    
 
+
+    def clean(self):
+        cleaned_data = super(ChangeUserForm, self).clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if self.cleaned_data['password'] != '':
+            password = self.cleaned_data['password']
+            validate_password(password)
+
+        if password != confirm_password:
+            raise forms.ValidationError({
+                "password":["Пароли не совпадают"]
+                })
+    
     class Meta:
         model = CustomUser
         fields = ("name", "surname", "nickname", "email", "address",
                  "card_id", "language",
-                 "sex", "town", "phone_number", "born")
+                 "sex", "town", "phone_number", "born", "password", "confirm_password")
 
         widgets = {
             'born': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Select a date','type': 'date'})}
 
 
-class ChangeUserPassword(forms.ModelForm):
+# class ChangeUserPassword(forms.ModelForm):
 
-    password = forms.CharField(required=False, label='Пароль',
-                    widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                    'placeholder':'password'}))
+#     password = forms.CharField(required=False, label='Пароль',
+#                     widget=forms.PasswordInput(attrs={'class': 'form-control',
+#                                                     'placeholder':'password'}))
                                             
-    confirm_password = forms.CharField(required=False, label='Повторите пароль',
-                        widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                        'placeholder':'password'}))
+#     confirm_password = forms.CharField(required=False, label='Повторите пароль',
+#                         widget=forms.PasswordInput(attrs={'class': 'form-control',
+#                                                         'placeholder':'password'}))
 
 
 
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        validate_password(password)
-        return password
+#     def clean_password(self):
+#         password = self.cleaned_data['password']
+#         validate_password(password)
+#         return password
 
-    def clean(self):
-        cleaned_data = super(ChangeUserPassword, self).clean()
-        password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
-        if password != confirm_password:
-            raise forms.ValidationError({
-                "password":["Пароли не совпадают"]
-                })
+#     def clean(self):
+#         cleaned_data = super(ChangeUserPassword, self).clean()
+#         password = cleaned_data.get('password')
+#         confirm_password = cleaned_data.get('confirm_password')
+#         if password != confirm_password:
+#             raise forms.ValidationError({
+#                 "password":["Пароли не совпадают"]
+#                 })
 
-    class Meta:
-        model = CustomUser
-        fields = ("password", "confirm_password")
+#     class Meta:
+#         model = CustomUser
+#         fields = ("password", "confirm_password")
