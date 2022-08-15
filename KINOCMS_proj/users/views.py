@@ -63,12 +63,11 @@ def log_out(request):
 @login_required
 def change_user_data(request):
     message = ''
-    form_user_data = ChangeUserForm(request.POST, instance=request.user, error_class=SimpleTextErrorList)
+    # form_user_data = ChangeUserForm(request.POST, instance=request.user, error_class=SimpleTextErrorList)
     if request.method == "POST":   
         form_user_data = ChangeUserForm(request.POST, instance=request.user, error_class=SimpleTextErrorList)
 
         if form_user_data.is_valid():
-            
             if form_user_data.cleaned_data['password'] == '':
                 request.user.save(update_fields=['name', "surname", "nickname", 
                                                 "email", "address", "card_id", 
@@ -77,6 +76,7 @@ def change_user_data(request):
             else:
                 user = form_user_data.save(commit=False)
                 password = form_user_data.cleaned_data['password']
+                
                 user.set_password(password)
                 update_session_auth_hash(request, user)
                 user.save()

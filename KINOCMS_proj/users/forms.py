@@ -11,7 +11,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.password_validation import validate_password
 
-
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget, PhoneNumberInternationalFallbackWidget
 
 from .models import CustomUser
 
@@ -130,9 +131,8 @@ class ChangeUserForm(forms.ModelForm):
                             choices=(('male', 'Мужской пол'), ('female', 'Женский пол')),
                             widget=forms.RadioSelect())
 
-    phone_number = forms.CharField(required=False, label='Номер телефона',
-                            widget=forms.TextInput(attrs={'class': 'form-control',
-                                                        'placeholder': 'phone_number'}))
+    phone_number = PhoneNumberField(required=False, label='Номер телефона',
+                            widget=PhoneNumberInternationalFallbackWidget(attrs={'class': 'form-control'}))
 
     town = forms.CharField(required=False, label="Город",
                         widget=forms.TextInput(attrs={'class': 'form-control',
@@ -155,29 +155,6 @@ class ChangeUserForm(forms.ModelForm):
             self.data['email'] = self.instance.email
             raise forms.ValidationError("Один из пользователей системы уже использует такой email")
         return email
-
-
-    def clean_phone_number(self):
-        phone = self.cleaned_data['phone_number']
-        if phone == "":
-            self.data = self.data.copy()
-            self.data['phone_number'] = ""
-        elif bool(re.search(r"^((\+38\d{10}$)|(38\d{10})|(\d{10})|(\d{9}))$", phone)) is False:
-            self.data = self.data.copy()
-            self.data['phone_number'] = self.instance.phone_number
-            self.add_error('phone_number', 'Введите номер телефона одного из телефонных операторов Украины ') 
-        else:
-            if bool(re.search(r"^\+38\d{10}$", phone)) is True:
-                phone=phone
-            elif bool(re.search(r"^38\d{10}$", phone)) is True: 
-                phone = f"+{phone}"
-                print(phone)
-            elif bool(re.search(r"^\d{10}$", phone)) is True: 
-                phone = f"+38{phone}"
-            elif bool(re.search(r"^\d{9}$", phone)) is True: 
-                phone = f"+380{phone}"
-        return phone
-
 
 
     def clean(self):

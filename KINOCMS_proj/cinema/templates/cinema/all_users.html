@@ -65,7 +65,9 @@
                                 <td class="align-middle">11-7-2014</td>
                                 <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
                                 <td class="align-middle">{{ user.email|default_if_none:"-----" }}</td>
-                                <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
+
+                                <td class="align-middle">{{ user.phone_number|default_if_none:"-----" }}</td>
+
                                 <td class="align-middle">{{ user.surname|default_if_none:"-----" }} {{ user.name|default_if_none:"" }}</td>
                                 <td class="align-middle">{{ user.nickname|default_if_none:"-----" }}</td>
                                 <td class="align-middle">{{ user.town|default_if_none:"-----" }}</td>

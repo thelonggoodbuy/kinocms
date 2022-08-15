@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin
 from django.forms import BooleanField, CharField, EmailField, JSONField
 from django.contrib.auth.models import UserManager
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 # from cinema.models import Show
@@ -31,7 +32,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     card_id = models.CharField(max_length=20, null=True, blank=True)
     language = models.CharField(max_length=10, choices=LANGUAGES, default='ru')
     sex = models.CharField(max_length=15, choices=SEX)
-    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    phone_number = PhoneNumberField(null=True, blank=True)
     born = models.DateField(null=True, blank=True)
     letters = models.ManyToManyField('Mailing')
 

@@ -73,13 +73,14 @@ class Movie(models.Model):
 
 
 class Galery(models.Model):
-    image = ImageField
+    image = models.ImageField(verbose_name='Изображения',
+                        upload_to='galery/')
 
 
 class BannerWithTimeScrolling(models.Model):
-    image = models.ManyToManyField(Galery)
-    url = models.URLField()
-    timescrolling = models.SmallIntegerField()
+    galery = models.ManyToManyField(Galery, default='EMPTY_BANNER')
+    url = models.URLField(null=True)
+    timescrolling = models.SmallIntegerField(null=True)
     text = models.TextField(null=True)
 
 
