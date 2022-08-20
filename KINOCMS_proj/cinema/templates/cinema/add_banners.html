@@ -8,7 +8,7 @@
 
 <head>
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
-    <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script> {% endcomment %}
 
     <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
@@ -20,61 +20,28 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ image_form_set.management_form }}  
-        <div class="row">
+        <div class="row" id="form_set">
             {% for form in image_form_set %}
                 <div class="col-2">
-                        {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-                    {% if form.non_field_errors %}
-                        <ul> 
-                            {% for error in form.non_field_errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                        {% comment %} {% for field in form.visible_fields %}
-                                
-                                {% if field.errors %}
-                                    <ul>
-                                        {% for error in field.errors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                                    <p>{{ field.label_tag }}<br>{{ field }}<br>{{ field.help_text }}</p>                                       
-                        {% endfor %} {% endcomment %}
-                        <div id="single_form_container">
-                            <a id="del_image" href="#">
-                                <img src="{% static 'cinema/images/del_image.png'%}" class="del_icon">
-                            </a>
-                            {{ form.image }}
-                            {% comment %} <div class="btn-group image_control_button_group" role="group" aria-label="Basic example">
-                                <button >удалить</button>
-                                <button >добавить</button>
-                            </div> {% endcomment %}
-                            <div class="btn-group btn-group-toggle image_control_button_group" data-toggle="buttons">
-                                <label class="btn btn-secondary bg-navy">
-                                <input type="radio" name="options" id="option_a2" autocomplete="off"> удалить
-                                </label>
-                                <label class="btn btn-secondary bg-navy">
-                                <input type="radio" name="options" id="option_a3" autocomplete="off"> добавить
-                                </label>
-                            </div>
-
-                            {{ form.DELETE }}
-                        </div>
-
-
-
+                    <div class="single_form_container">
+                        {{ form.image }}
+                    </div>
                 </div>
             {% endfor %}
-    {% comment %} {{ image_form_set.empty_form.as_p }} {% endcomment %}
-
-
+            {% comment %} {% for empty_form in image_form_set.empty_form %}
+            <div class="col-2">
+                <div class="single_form_container" id="empty_form">
+                    {{ empty_form }}
+                </div>
+            </div>
+            {% endfor %} {% endcomment %}
         </div>
         <input type="submit" value="сохранить">
+        <input type="button" value="Add More" id="add_more">
+        </table>
+    </div>
 </form>
+
         
 
 
@@ -90,9 +57,32 @@
 
 
 
+{% comment %} 
+<div id="single_form_container">
+    <a id="del_image" href="#">
+        <img src="{% static 'cinema/images/del_image.png'%}" class="del_icon">
+    </a>
+    {{ form.image }}
 
+    <div class="btn-group btn-group-toggle image_control_button_group" data-toggle="buttons">
+        <label class="btn btn-secondary bg-navy">
+        <input type="radio" name="options" id="option_a2" autocomplete="off"> удалить
+        </label>
+        <label class="btn btn-secondary bg-navy">
+        <input type="radio" name="options" id="option_a3" autocomplete="off"> добавить
+        </label>
+    </div>
 
-
+    {{ form.DELETE }}
+</div>
+<input type="button" value="Add More" id="add_more">
+    <div id="empty_form" style="display:none">
+        <table class='no_error'>
+            {{ serviceFormset.empty_form.as_table }}
+        </table>
+    </div>
+</div>
+ {% endcomment %}
 
 
 

@@ -88,13 +88,16 @@ def add_banners(request):
                                              max_num=5)
     if request.method == 'POST':
         image_form_set = ImageFormSet(request.POST, request.FILES)
+        print(image_form_set.is_valid())
         if image_form_set.is_valid():
             image_form_set.save()
             for form in image_form_set:
                 if form.instance.id != None:
                     my_banner.galery.add(form.instance.id)
             my_banner.save()
+            
             return redirect(request.path)
+            
     else:
         image_form_set = ImageFormSet(queryset=my_banner.galery.all())
 
