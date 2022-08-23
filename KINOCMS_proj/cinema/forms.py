@@ -16,11 +16,11 @@ class SearchUserForm(forms.Form):
 class AddImageToGalery(forms.ModelForm):
     image = forms.ImageField(label='Изображение', required=False, 
                             validators=[validators.FileExtensionValidator(
-                            allowed_extensions=('gif', 'jpg', 'png'))],
+                            allowed_extensions=('gif', 'jpg', 'png', 'jpeg'))],
                             error_messages={
                                 'invalid_extension': 'Этот формат не поддерживается'},
                             # widget=forms.ClearableFileInput())
-                            widget=CustomClearableFileInput(attrs={'class': 'color: red'}))
+                            widget=CustomClearableFileInput())
 
 
     # delete_image = forms.BooleanField(label='удалить', default='False')

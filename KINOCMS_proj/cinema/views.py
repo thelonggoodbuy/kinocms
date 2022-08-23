@@ -84,11 +84,10 @@ def add_banners(request):
         my_banner = BannerWithTimeScrolling(pk=1)
 
     ImageFormSet = forms.modelformset_factory(Galery, form = AddImageToGalery, 
-                                            can_delete=True, extra=1,
-                                             max_num=5)
+                                            can_delete=True, extra=0,
+                                             max_num=25)
     if request.method == 'POST':
         image_form_set = ImageFormSet(request.POST, request.FILES)
-        print(image_form_set.is_valid())
         if image_form_set.is_valid():
             image_form_set.save()
             for form in image_form_set:
@@ -105,46 +104,6 @@ def add_banners(request):
                 'my_banner': my_banner}
 
     return render(request, 'cinema/add_banners.html', context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
