@@ -77,11 +77,17 @@ class Galery(models.Model):
                         upload_to='galery/')
 
 
-class BannerWithTimeScrolling(models.Model):
-    galery = models.ManyToManyField(Galery, default='EMPTY_BANNER')
+class HighestBannerWithTimeScrolling(models.Model):
+    on_of_status = models.BooleanField(default=True, null=True, blank=True)
+    timescrolling = models.SmallIntegerField(null=True, blank=True)
+    banner_cell = models.ManyToManyField("BannerCell", null=True, blank=True)
+    
+
+class BannerCell(models.Model):
+    # galery = models.OneToOneField(Galery, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(verbose_name='Изображения', upload_to='galery/')
     url = models.URLField(null=True)
-    timescrolling = models.SmallIntegerField(null=True)
-    text = models.TextField(null=True)
+    text = models.CharField(null=True, max_length=350)
 
 
 class SeoBlock(models.Model):

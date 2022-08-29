@@ -4,9 +4,10 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 
-from .models import Galery, BannerWithTimeScrolling
+# from .models import Galery, BannerWithTimeScrolling
+from .models import Galery, HighestBannerWithTimeScrolling, BannerCell
 from users.models import CustomUser
-from .forms import SearchUserForm, AddImageToGalery
+from .forms import SearchUserForm, AddBannerCellForm, HighestBannerForm
 from users.forms import ChangeUserForm, SimpleTextErrorList
 from django import forms
 
@@ -19,28 +20,6 @@ def all_users(request):
     context = {'users_list': users_list}
     return render(request, 'cinema/all_users.html', context)
 
-# @login_required
-# @user_passes_test(lambda admin: admin.is_superuser)
-# def all_users(request):
-#     users_list = CustomUser.objects.filter(is_active=True, is_superuser=False)
-#     if 'keyword' in request.GET:
-#         keyword = request.GET['keyword']
-#         q = (Q(name__icontains=keyword) | 
-#         Q(nickname__icontains=keyword) |
-#         Q(surname__icontains=keyword) |
-#         Q(email__icontains=keyword))
-#         users_list = users_list.filter(q)
-#     else:
-#         keyword = ''
-#     search_form = SearchUserForm(initial={'keyword':keyword})
-#     paginator = Paginator(users_list, 5)
-#     if 'page' in request.GET:
-#         page_num = request.GET['page']    
-#     else:
-#         page_num = 1
-#     page = paginator.get_page(page_num)
-#     context = {'page': page, 'users_list': page.object_list, 'form': search_form}
-#     return render(request, 'cinema/all_users.html', context)
 
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
@@ -75,33 +54,110 @@ def change_user_data_by_admin(request, pk):
                                                                      'message': message})
 
 
+
+
+
+# @login_required
+# @user_passes_test(lambda admin: admin.is_superuser)
+# def add_banners(request):
+#     try:
+#         my_banner = HighestBannerWithTimeScrolling.objects.get(pk=1)
+        
+#     except:
+#         my_banner = HighestBannerWithTimeScrolling(pk=1, on_of_status=True, timescrolling=5)
+
+#     AddBannerCellFormSet = forms.inlineformset_factory(Galery, BannerCell, #form = AddBannerCellForm, 
+#                                             # fk_name='galery',
+
+#                                             fields = ('url', 'text', 'galery'),
+#                                             can_delete=True, extra=3, min_num=1,
+#                                              max_num=25)
+
+            
+#     highest_banner_form = HighestBannerForm(request.POST, instance = my_banner)
+#     # print(my_banner.banner_cell.all())
+
+#     # попробовать напрямую обратиться к формам в инстанс
+#     add_banner_cell_formset = AddBannerCellFormSet(request.POST)
+
+
+
+#     if request.method == 'POST':
+#         print('обекты созданы')
+#         if highest_banner_form.is_valid() and add_banner_cell_formset.is_valid():
+#             print('обьекты валидированы на первом этапе')
+#             current_banner = highest_banner_form.save(commit=False)
+#             add_banner_cell = add_banner_cell_formset.save(commit=False)
+#             for form in add_banner_cell_formset:
+#                 if form.instance.id != None:
+#                     current_banner.banner_cell.add(form.instance.id)
+#                     add_banner_cell.save(commit=False)
+#             current_banner.save()
+
+#             return redirect(request.path)
+
+#         else:
+#             print(highest_banner_form.is_valid())
+#             print(add_banner_cell_formset.is_valid())
+#             print('на первом этапе валидация не прошла')
+#     else:
+#         print('Это начало.')
+#         highest_banner_form = HighestBannerForm(instance = my_banner)
+#         add_banner_cell_formset = AddBannerCellFormSet(queryset=my_banner.banner_cell.all())        
+
+
+#     context = {'highest_banner_form': highest_banner_form,
+#                 'add_banner_cell_formset': add_banner_cell_formset,
+#                 }
+
+#     return render(request, 'cinema/add_banners.html', context)
+
+
+
+
+
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
 def add_banners(request):
     try:
-        my_banner = BannerWithTimeScrolling.objects.get(pk=1)
+        my_banner = HighestBannerWithTimeScrolling.objects.get(pk=1)
+        
     except:
-        my_banner = BannerWithTimeScrolling(pk=1)
+        my_banner = HighestBannerWithTimeScrolling(pk=1, on_of_status=True, timescrolling=5)
 
-    ImageFormSet = forms.modelformset_factory(Galery, form = AddImageToGalery, 
-                                            can_delete=True, extra=0,
+    AddBannerCellFormSet = forms.modelformset_factory(BannerCell, form = AddBannerCellForm, 
+                                            can_delete=True, extra=3, min_num=1,
                                              max_num=25)
-    if request.method == 'POST':
-        image_form_set = ImageFormSet(request.POST, request.FILES)
-        if image_form_set.is_valid():
-            image_form_set.save()
-            for form in image_form_set:
-                if form.instance.id != None:
-                    my_banner.galery.add(form.instance.id)
-            my_banner.save()
-            
-            return redirect(request.path)
-            
-    else:
-        image_form_set = ImageFormSet(queryset=my_banner.galery.all())
 
-    context = { 'image_form_set': image_form_set,
-                'my_banner': my_banner}
+            
+    highest_banner_form = HighestBannerForm(request.POST, instance = my_banner)
+    add_banner_cell_formset = AddBannerCellFormSet(request.POST, request.FILES)
+
+    if request.method == 'POST':
+        print('обекты созданы')
+        if highest_banner_form.is_valid() and add_banner_cell_formset.is_valid():
+            print('обьекты валидированы на первом этапе')
+            current_banner = highest_banner_form.save(commit=False)
+            add_banner_cell_formset.save()
+            for form in add_banner_cell_formset:
+                if form.instance.id != None:
+                    current_banner.banner_cell.add(form.instance.id)
+            current_banner.save()
+
+            return redirect(request.path)
+
+        else:
+            print(highest_banner_form.is_valid())
+            print(add_banner_cell_formset.is_valid())
+            print('на первом этапе валидация не прошла')
+    else:
+        print('Это начало.')
+        highest_banner_form = HighestBannerForm(instance = my_banner)
+        add_banner_cell_formset = AddBannerCellFormSet(queryset=my_banner.banner_cell.all())        
+
+
+    context = {'highest_banner_form': highest_banner_form,
+                'add_banner_cell_formset': add_banner_cell_formset,
+                }
 
     return render(request, 'cinema/add_banners.html', context)
-

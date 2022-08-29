@@ -8,7 +8,7 @@
 
 <head>
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
-    <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script> {% endcomment %}
 
     <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
@@ -16,48 +16,41 @@
 
 </head>
 
+
+
 <h2 class="text-center">На главной верх</h2>
 <div id="main_top_banner">
     <form method="post" enctype="multipart/form-data" action="." id="banner_form">
         {% csrf_token %}
-        {{ image_form_set.management_form }}
+        <p>{{ highest_banner_form.errors }}</p>
+        <p>{{ highest_banner_form.non_field_errors }}</p>
+        <p>{{ highest_banner_form.on_of_status }}</p>
+        <p>{{ highest_banner_form.timescrolling }}</p>
 
-            <div class="row" id="form_set">
-                {% for form in image_form_set %}
-                    <div class="col-2 mt-5">
-                        {% for hidden in form.hidden_fields %}
-                            {{ hidden }}
-                        {% endfor %}
-                        <div class="single_form_container">
-                            {{ form.image }}
-                            {{ form.DELETE }}
-                            <img src={% static "cinema/images/del_image.png" %} id="delete_button" class="del_icon">
-                            {% comment %} <input type="button" value="delete" id="delete_button"> {% endcomment %}
-                            <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                            {% comment %} <button class="button-40" role="button">Button 40</button> {% endcomment %}
-                        </div>
-                    </div>
+                {% comment %}  i`m here!!!!  {% endcomment %}
+
+        
+        {{ add_banner_cell_formset.management_form }}
+        {% if add_banner_cell_formset.non_form_errors %}
+            <ul>
+                {% for error in add_banner_cell_formset.non_form_errors %}
+                    <li>{{ error }}</li>
                 {% endfor %}
-                    <div class="col-2">
-                        <input type="button" value="Добавить фото" id="add_more">
-                    </div>
-            </div>
-            <div id="empty_form_container" style="display:none">
-                <div class="col-2 single_form_container mt-5" id="empty_form">
-                    <div>
-                        {{ image_form_set.empty_form.image }}
-                        {{ image_form_set.empty_form.DELETE }}
-                        <img src={% static "cinema/images/del_image.png" %} id="delete_button" class="del_icon">
-                        <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                        {% comment %} <input type="button" value="delete" id="delete_button"> {% endcomment %}
-                    </div>
-                </div>
-            </div>
-        </div>
+            </ul>
+        {% endif %}
+
+        {% for form in add_banner_cell_formset %}
+            {% for hidden in form.hidden_fields %}            
+                {{ hidden }}
+            {% endfor %}
+            {{ form.image }}
+            {{ form.url }}
+            {{ form.text }}
+        {% endfor %}
+        
         <div class="row">
             <div class="col text-center">
                 <input type="submit" value="сохранить" id="save_button" class="mt-5">
-                {% comment %} <input type="button" value="Add More" id="add_more"> {% endcomment %}
             </div>
         </div>
     </form>
@@ -133,7 +126,7 @@
         <input type="submit" value="сохранить">
     </form> {% endcomment %}
 
-
+    
 
     </body>
 
