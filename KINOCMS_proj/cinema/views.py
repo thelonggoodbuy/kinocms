@@ -126,7 +126,7 @@ def add_banners(request):
         my_banner = HighestBannerWithTimeScrolling(pk=1, on_of_status=True, timescrolling=5)
 
     AddBannerCellFormSet = forms.modelformset_factory(BannerCell, form = AddBannerCellForm, 
-                                            can_delete=True, extra=3, min_num=1,
+                                            can_delete=True, extra=0, min_num=1,
                                              max_num=25)
 
             
@@ -143,9 +143,7 @@ def add_banners(request):
                 if form.instance.id != None:
                     current_banner.banner_cell.add(form.instance.id)
             current_banner.save()
-
             return redirect(request.path)
-
         else:
             print(highest_banner_form.is_valid())
             print(add_banner_cell_formset.is_valid())

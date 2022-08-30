@@ -78,7 +78,7 @@ class Galery(models.Model):
 
 
 class HighestBannerWithTimeScrolling(models.Model):
-    on_of_status = models.BooleanField(default=True, null=True, blank=True)
+    on_of_status = models.BooleanField(default=True)
     timescrolling = models.SmallIntegerField(null=True, blank=True)
     banner_cell = models.ManyToManyField("BannerCell", null=True, blank=True)
     
