@@ -75,12 +75,22 @@ class Movie(models.Model):
 class Galery(models.Model):
     image = models.ImageField(verbose_name='Изображения',
                         upload_to='galery/')
+    special_goal = models.CharField(max_length=50, blank=True, null=True)
 
-
+# !!!!!!!!!!!!!!
 class HighestBannerWithTimeScrolling(models.Model):
     on_of_status = models.BooleanField(default=True)
     timescrolling = models.SmallIntegerField(null=True, blank=True)
-    banner_cell = models.ManyToManyField("BannerCell", null=True, blank=True)
+    # banner_cell = models.ManyToManyField("BannerCell", null=True, blank=True)
+
+
+class ThroughBackroundBanner(models.Model):
+    BACKGROUND = (
+        ('background_photo', 'фото на фоне'),
+        ('simple_photo', 'просто фото'),
+    )
+    background_type = models.CharField(max_length=30, choices=BACKGROUND, default='simple_photo')
+    background = models.OneToOneField('Galery', on_delete=models.CASCADE, null=True, blank=True)
     
 
 class BannerCell(models.Model):

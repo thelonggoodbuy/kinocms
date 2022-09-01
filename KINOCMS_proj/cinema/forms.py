@@ -4,7 +4,7 @@ from django.core import validators
 
 from .widgets import CustomClearableFileInput
 # from .models import Galery, BannerWithTimeScrolling
-from .models import Galery, BannerCell, HighestBannerWithTimeScrolling
+from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner
 
 
 class SearchUserForm(forms.Form):
@@ -40,7 +40,7 @@ class AddBannerCellForm(forms.ModelForm):
                             error_messages={
                                 'invalid_extension': 'Этот формат не поддерживается'},
                             widget=CustomClearableFileInput())
-                            # widget=forms.ClearableFileInput())
+
 
     url = forms.URLField(required=False, 
                         label='URL', 
@@ -51,3 +51,39 @@ class AddBannerCellForm(forms.ModelForm):
     class Meta:
         model = BannerCell
         fields = ('url', 'text', 'image')
+
+
+class ThroughBackroundBannerForm(forms.ModelForm):
+    background_type = forms.ChoiceField(required=False,
+                                        choices=(('background_photo', 'фото на фоне'), ('simple_photo', 'просто фото')),
+                                        initial='simple_photo',
+                                        widget=forms.RadioSelect())
+    
+
+    class Meta:
+        model = ThroughBackroundBanner()
+        fields = ('background_type',)
+
+
+class AddPhotoToGalleryForm(forms.ModelForm):
+    image = forms.ImageField(label='Изображение', required=False, 
+                        validators=[validators.FileExtensionValidator(
+                        allowed_extensions=('gif', 'jpg', 'png', 'jpeg'))],
+                        error_messages={
+                            'invalid_extension': 'Этот формат не поддерживается'},
+                        widget=CustomClearableFileInput())
+
+    def clean(self):
+        image = self.data['image']
+        print(f'this is self data: {image}')
+        if self.data['image'] == '':
+            print('this object must be empty!')
+            # delete_image = Galery.objects.get(id=self.instance.pk)
+            # self.instance.delete()
+            print(self.instance)
+
+
+
+    class Meta:
+        model = Galery
+        fields = ('image',)

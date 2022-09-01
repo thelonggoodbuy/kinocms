@@ -39,7 +39,7 @@
     </div>
 
         {{ add_banner_cell_formset.management_form }}
-        <div class="row" id="form_set">
+        <div class="row" id="top_banner_cell_form_set">
             {% for form in add_banner_cell_formset %}
 
             <div class="col-2 mt-3 mx-4">
@@ -87,4 +87,50 @@
     </form>
 </div>
 
+
+<h2 class="text-center mt-5">Сквозной баннер на заднем фоне</h2>
+<div id="through_banner">
+    <div class="row">
+        <div class="col-10">
+            <form method="post" enctype="multipart/form-data" action="." class="pb-5">
+                <p>{{ through_background_banner_form.errors }}</p>
+                <p>{{ highest_bathrough_background_banner_formnner_form.non_field_errors }}</p>
+                
+                <p>{{ add_photo_to_galery_form.errors }}</p>
+                <p>{{ add_photo_to_galery_form.non_field_errors }}</p>
+
+
+                <div class="row">
+                    {% csrf_token %}
+                    <div class="col-3 border border-danger mx-4 mt-5">
+                        {% for background_type in through_background_banner_form.background_type %}
+                            <div>
+                                {{ background_type }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-3 border border-danger mx-4 mt-3">
+                        {% if through_background_banner_form.instance.background_type == 'background_photo' %}
+                            <div id="background_container">{{ add_photo_to_galery_form.image }}</div>
+                            <img id="default_image" src={% static "cinema/images/cinema_background.jpg" %} class="image_test_card" style="display: none">
+                        {% else %}
+                            <div id="background_container" style="display: none">{{ add_photo_to_galery_form.image }}</div>
+                            <img id="default_image" src={% static "cinema/images/cinema_background.jpg" %} class="image_test_card">
+                        {% endif %}
+                    </div>
+                    <div class="col-1 border border-danger mx-4 mt-4">
+                        <input type="button" value="добавить" id="add_button" class="mt-5 mb-5">
+                    </div>
+                    <div class="col-1 border border-danger mx-4 mt-4">
+                        <input type="button" value="удалить" id="del_button" class="mt-5 mb-5">
+                    </div>
+                    <div class="col-1 border border-danger mt-4">
+                        <button class="mt-5 mb-5" id="submit_button">внести изменения</button> 
+                    </div>
+                </div>    
+            </form>   
+            </div>
+        </div>
+    </div>
+<div>
 {% endblock content %}
