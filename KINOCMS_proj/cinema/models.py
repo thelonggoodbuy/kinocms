@@ -1,5 +1,7 @@
 from django.db import models
 from django.forms import ImageField, URLField
+import os
+from django.urls import reverse
 
 
 
@@ -46,14 +48,14 @@ class ShowCost(models.Model):
 class Movie(models.Model):
     title_movie = models.CharField(max_length=150)
     description_movie = models.TextField()
-    main_image = models.OneToOneField('Galery', on_delete=models.PROTECT)
+    main_image = models.OneToOneField('Galery', on_delete=models.SET_NULL, null=True, blank=True)
     image_galery = models.ManyToManyField('Galery', related_name='movie_image_galery')
     url_to_trailer = models.URLField()
     cinema = models.ManyToManyField(Cinema)
     type_2d = models.BooleanField(default=True)
     type_3d = models.BooleanField(default=False)
     type_IMAX = models.BooleanField(default=False)
-    seo_block = models.OneToOneField('SeoBlock', on_delete=models.CASCADE)
+    seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT)
     movie_distribution_start = models.DateField(null=True, blank=True)
     movie_distribution_finish = models.DateField(null=True, blank=True)
     release_year = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -68,20 +70,23 @@ class Movie(models.Model):
     age_rating = models.CharField(max_length=20, null=True, blank=True)
     runing_time = models.CharField(max_length=50, null=True, blank=True)
 
+    # def get_absolute_url(self):
+    #     return reverse("movie", kwargs={"pk": self.pk})
+
     def __str__(self):
         return self.title_movie
 
 
 class Galery(models.Model):
-    image = models.ImageField(verbose_name='Изображения',
+    image = models.ImageField(blank=True, verbose_name='Изображения',
                         upload_to='galery/')
     special_goal = models.CharField(max_length=50, blank=True, null=True)
 
-# !!!!!!!!!!!!!!
+
+
 class HighestBannerWithTimeScrolling(models.Model):
     on_of_status = models.BooleanField(default=True)
     timescrolling = models.SmallIntegerField(null=True, blank=True)
-    # banner_cell = models.ManyToManyField("BannerCell", null=True, blank=True)
 
 
 class ThroughBackroundBanner(models.Model):
@@ -91,13 +96,23 @@ class ThroughBackroundBanner(models.Model):
     )
     background_type = models.CharField(max_length=30, choices=BACKGROUND, default='simple_photo')
     background = models.OneToOneField('Galery', on_delete=models.CASCADE, null=True, blank=True)
+
+
+class BannerPromotionsAndNews(models.Model):
+    on_of_status = models.BooleanField(default=True)
+    timescrolling = models.SmallIntegerField(null=True, blank=True)
     
 
 class BannerCell(models.Model):
-    # galery = models.OneToOneField(Galery, on_delete=models.CASCADE, null=True)
+
+    PURPOSE = (
+        ('highest_banner', 'баннер на верхней части страницы'),
+        ('banner_news_and_promotions', 'баннер про новости и акции'),
+    )
     image = models.ImageField(verbose_name='Изображения', upload_to='galery/')
     url = models.URLField(null=True)
     text = models.CharField(null=True, max_length=350)
+    purpose = models.CharField(max_length=50, choices=PURPOSE)
 
 
 class SeoBlock(models.Model):

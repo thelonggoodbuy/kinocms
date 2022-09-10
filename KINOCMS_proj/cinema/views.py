@@ -5,14 +5,14 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 
 # from .models import Galery, BannerWithTimeScrolling
-from .models import Galery, HighestBannerWithTimeScrolling, BannerCell, ThroughBackroundBanner
+from .models import Galery, HighestBannerWithTimeScrolling, BannerCell, ThroughBackroundBanner, BannerPromotionsAndNews, Movie
 from users.models import CustomUser
-from .forms import AddBannerCellForm, HighestBannerForm, ThroughBackroundBannerForm, AddPhotoToGalleryForm
+from .forms import AddBannerCellForm, HighestBannerForm, ThroughBackroundBannerForm, AddPhotoToGalleryForm, BannerPromotionsAndNewsForm, AddBannerPromotionAndNewsCellForm, MovieForm, MovieMainImage, MovieGaleryImageForm, SeoBlockForm, SimpleTextErrorList
 from users.forms import ChangeUserForm, SimpleTextErrorList
 from django import forms
 
 
-
+# Users logic***********************************************************************************************************
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
 def all_users(request):
@@ -56,13 +56,12 @@ def change_user_data_by_admin(request, pk):
 
 
 
-
+# Banner logic***********************************************************************************************************
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
 def add_banners(request):
     try:
         my_banner = HighestBannerWithTimeScrolling.objects.get(pk=1)
-        
     except:
         my_banner = HighestBannerWithTimeScrolling(pk=1, on_of_status=True, timescrolling=5)
 
@@ -71,55 +70,173 @@ def add_banners(request):
     except:
         through_background_banner = ThroughBackroundBanner(pk=1, background_type='simple_photo', background=None)
 
+    try:
+        banner_promotion_and_news = BannerPromotionsAndNews.objects.get(pk=1)
+    except:
+        banner_promotion_and_news = BannerPromotionsAndNews(pk=1, on_of_status=True, timescrolling=10)
+    
 
+    # highest banner forms
     AddBannerCellFormSet = forms.modelformset_factory(BannerCell, form = AddBannerCellForm, 
                                             can_delete=True, extra=0, min_num=1,
                                              max_num=25)
-
-    # highest banner forms    
-    highest_banner_form = HighestBannerForm(request.POST, instance = my_banner)
+    highest_banner_form = HighestBannerForm(request.POST, instance = my_banner, prefix='highest_banner')
     add_banner_cell_formset = AddBannerCellFormSet(request.POST, request.FILES)
 
     # through background banner forms 
     through_background_banner_form = ThroughBackroundBannerForm(request.POST, instance = through_background_banner)
-    add_photo_to_galery_form = AddPhotoToGalleryForm(request.POST, request.FILES, instance = through_background_banner.background )
+    add_photo_to_galery_form = AddPhotoToGalleryForm(request.POST, request.FILES, instance = through_background_banner.background)
 
-
+    # banner from promotions and news
+    AddBannerPromoFormset = forms.modelformset_factory(BannerCell, form = AddBannerPromotionAndNewsCellForm,
+                                                        can_delete=True, extra=0, min_num=1,
+                                                        max_num=25)
+    banner_promotions_and_news_form = BannerPromotionsAndNewsForm(request.POST, instance = banner_promotion_and_news, prefix='banner_promotion_and_news')
+    add_bannee_promo_cell_formset = AddBannerPromoFormset(request.POST, request.FILES)
+    
 
     if request.method == 'POST':
+        print(request.POST)
+
         # highest banner logic
-        if highest_banner_form.is_valid() and add_banner_cell_formset.is_valid():
-            current_banner = highest_banner_form.save(commit=False)
-            add_banner_cell_formset.save()
-            for form in add_banner_cell_formset:
-                if form.instance.id != None:
-                    current_banner.banner_cell.add(form.instance.id)
-            current_banner.save()
-            return redirect(request.path)
+        if "btnform1" in request.POST:
+            print(print('валидация первого баннера'))
+            if highest_banner_form.is_valid() and add_banner_cell_formset.is_valid():
+                # print('первый')
+                highest_banner_form.save()
+                add_banner_cell_formset.save()
+                return redirect(request.path)
+        else:
+            highest_banner_form = HighestBannerForm(instance = my_banner, prefix='highest_banner')      
+            add_banner_cell_formset = AddBannerCellFormSet(queryset=BannerCell.objects.filter(purpose='highest_banner').all()) 
+            
 
          # through background banner logic
-        if through_background_banner_form.is_valid() and add_photo_to_galery_form.is_valid():
-            current_though_banner = through_background_banner_form.save(commit = False)
-            photo =  add_photo_to_galery_form.save()
-            current_though_banner.background = photo
-            current_though_banner.save()
-            return redirect(request.path)
+        if "btnform2" in request.POST:
+            print('валидация второго баннера')
+            if through_background_banner_form.is_valid() and add_photo_to_galery_form.is_valid():
+                current_though_banner = through_background_banner_form.save(commit = False)
+                photo =  add_photo_to_galery_form.save()
+                try:
+                    current_though_banner.background = photo
+                    current_though_banner.save()
+                except:
+                    current_though_banner.background = None
+                    current_though_banner.background_type = 'simple_photo'
+                return redirect(request.path)
+
+        else:
+            through_background_banner_form = ThroughBackroundBannerForm(instance = through_background_banner, prefix='through_banner')
+            add_photo_to_galery_form = AddPhotoToGalleryForm(instance = through_background_banner.background, prefix='photo_through_banner')
+        # promo and news banner logic
+
+        if "btnform3" in request.POST:
+            print('валидация третьего баннера')
+            if banner_promotions_and_news_form.is_valid() and add_bannee_promo_cell_formset.is_valid():
+                
+                banner_promotions_and_news_form.save()
+                add_bannee_promo_cell_formset.save()
+                return redirect(request.path)
+        else:
+            banner_promotions_and_news_form = BannerPromotionsAndNewsForm(instance = banner_promotion_and_news, prefix='banner_promotion_and_news')
+            add_bannee_promo_cell_formset = AddBannerPromoFormset(queryset=BannerCell.objects.filter(purpose='banner_news_and_promotions').all())
 
         
     else:
-        # highest banner forms
-        highest_banner_form = HighestBannerForm(instance = my_banner)
-        add_banner_cell_formset = AddBannerCellFormSet(queryset=my_banner.banner_cell.all())        
+        # highest banner form
+        highest_banner_form = HighestBannerForm(instance = my_banner, prefix='highest_banner')      
+        add_banner_cell_formset = AddBannerCellFormSet(queryset=BannerCell.objects.filter(purpose='highest_banner').all())
 
-        # through background banner forms 
+        # through background banner form 
         through_background_banner_form = ThroughBackroundBannerForm(instance = through_background_banner)
         add_photo_to_galery_form = AddPhotoToGalleryForm(instance = through_background_banner.background)
+
+        # banner with promotions and news
+        banner_promotions_and_news_form = BannerPromotionsAndNewsForm(instance = banner_promotion_and_news, prefix='banner_promotion_and_news')
+        add_bannee_promo_cell_formset = AddBannerPromoFormset(queryset=BannerCell.objects.filter(purpose='banner_news_and_promotions').all())
 
 
     context = {'highest_banner_form': highest_banner_form,
                 'add_banner_cell_formset': add_banner_cell_formset,
+
                 'through_background_banner_form': through_background_banner_form,
                 'add_photo_to_galery_form': add_photo_to_galery_form,
+
+                'banner_promotions_and_news_form': banner_promotions_and_news_form,
+                'add_bannee_promo_cell_formset': add_bannee_promo_cell_formset,
                 }
 
     return render(request, 'cinema/add_banners.html', context)
+
+
+# Movie logic***********************************************************************************************************
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def all_movies(request):
+    all_films = Movie.objects.all()
+    context = {'all_films': all_films}
+    return render(request, 'cinema/all_movies.html', context)
+
+
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def movie_detail(request, pk=None):
+  
+    movie_instance = get_object_or_404(Movie, pk=pk)
+    MovieImageFormset = forms.modelformset_factory(Galery, form = MovieGaleryImageForm,
+                                                        can_delete=True, extra=0, min_num=1,
+                                                        max_num=5)
+
+
+    
+    if request.method == 'POST':
+        movie_main_form = MovieForm(request.POST, instance = movie_instance, error_class=SimpleTextErrorList)
+        movie_main_image_form = MovieMainImage(request.POST, request.FILES, instance = movie_instance.main_image)
+        movie_image_formset = MovieImageFormset(request.POST, request.FILES, queryset = movie_instance.image_galery.all())
+        movie_seo_block = SeoBlockForm(request.POST, instance=movie_instance.seo_block)
+
+
+        if movie_main_form.is_valid() and movie_main_image_form.is_valid() and movie_image_formset.is_valid() and movie_seo_block.is_valid():
+            movie = movie_main_form.save(commit=False)
+         
+            try:
+                main_image = movie_main_image_form.save() 
+                movie.main_image = main_image
+            except:
+                movie.main_image = None
+
+
+            movie_image_formset.save()
+            for movie_image_form in movie_image_formset:
+                if movie_image_form.instance.id != None:
+                    movie.image_galery.add(movie_image_form.instance.id)
+
+            seo = movie_seo_block.save()
+            movie.seo_block = seo
+            movie.save()
+            return redirect(request.path)
+
+    else:
+        movie_main_form = MovieForm(instance = movie_instance, error_class=SimpleTextErrorList)
+        movie_main_image_form = MovieMainImage(instance = movie_instance.main_image)
+        movie_image_formset = MovieImageFormset(queryset = movie_instance.image_galery.all())
+        movie_seo_block = SeoBlockForm(instance=movie_instance.seo_block)
+
+    context = {'movie_main_form': movie_main_form, 
+                'movie_image_formset': movie_image_formset,
+                'movie_main_image_form': movie_main_image_form,
+                'movie_seo_block': movie_seo_block}
+
+    return render(request, 'cinema/movie_detail.html', context)
+
+
+
+# @login_required
+# @user_passes_test(lambda admin: admin.is_superuser)
+def new_movie(request, pk=None):
+    new_movie = Movie()
+    pk = new_movie.pk
+    return movie_detail(pk)
+
+# Cinema logic***********************************************************************************************************
+

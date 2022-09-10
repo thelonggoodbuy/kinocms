@@ -1,0 +1,46 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} все фильмы {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/style.css'%}">
+
+</head>
+
+<div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>список фильмов текущий</h3>
+        </div>
+    </div>
+    <div class="cinema_preview_container row mt-4">
+    {% for movie in all_films %}
+        <div class="col-2 mx-3 text-center">
+                <a href="{% url 'cinema:movie_detail' pk=movie.id %}">
+                    <img src="{{ movie.main_image.image.url }}" class="cinema_preview"/>
+                    {% comment %} {% url 'cinema:change_user_data_by_admin' pk=user.id %} {% endcomment %}
+                </a>
+            <p>{{ movie.title_movie }}</p>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            {% comment %} <a href="#">
+                <input type="button" value="добавить фильм" class="mt-5 mb-5">
+            </a> {% endcomment %}
+        </div>
+    <div>
+</div>
+
+{% endblock content %}
