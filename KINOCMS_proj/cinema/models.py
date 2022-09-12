@@ -8,27 +8,28 @@ from django.urls import reverse
 class Cinema(models.Model):
     title_cinema = models.CharField(max_length=30)
     description_cinema = models.TextField()
-    conditions_cinema = models.TextField()
-    logo = models.OneToOneField('Galery', on_delete=models.PROTECT)
-    image_top_banner = models.OneToOneField('Galery',related_name='cinema_image_top_banner', on_delete=models.PROTECT)
+    conditions_cinema = models.TextField(null=True)
+    logo = models.OneToOneField('Galery', on_delete=models.PROTECT, null=True)
+    image_top_banner = models.OneToOneField('Galery',related_name='cinema_image_top_banner', on_delete=models.PROTECT, null=True)
     image_galery = models.ManyToManyField('Galery', related_name='cinema_image_galery')
-    seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT)
+    seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.title_cinema
 
 
 class CinemaHall(models.Model):
-    number_cinema_hall = models.SmallIntegerField()
+    cinema_hall_name = models.CharField(max_length=30)
+    created_data = models.DateField(auto_now_add=True)
     description_cinema_hall = models.TextField()
-    schema_hall = models.ImageField()
+    schema_hall = models.JSONField(null=True, blank=True)
     cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
     image_top_banner = models.OneToOneField('Galery', on_delete=models.PROTECT)
     image_galery = models.ManyToManyField('Galery', related_name='cinemahall_image_galery')
     seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT)
 
     def __str__(self):
-        return f"{self.cinema}. Зал №{self.number_cinema_hall}"
+        return f"{self.cinema}. Зал {self.cinema_hall_name}"
 
 
 class Show(models.Model):

@@ -79,38 +79,6 @@
                     
                 </table>
                 </div>
-                <!-- /.card-body -->
-{% comment %} 
-                <div class="card-footer clearfix d-flex justify-content-center">
-                    <ul class="pagination pagination-sm m-0 float-right">
-                        {% if page.has_previous %}
-                            {% if page.number > 8 %}
-                                <li class="page-item" ><a class="page-link" href="?page=1">1</a></li>
-                                {% if page.number > 9 %}
-                                    <span class="mx-3">...</span>
-                                {% endif %}
-                            {% endif %}
-                        {% endif %}
-
-                        {% for single_page in page.paginator.page_range %}
-                            {% if single_page == page.number %}
-                                <li class="page-item"><strong><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></strong></li>
-                            {% elif single_page > page.number|add:'-8' and single_page < page.number|add:'8' %}
-                                <li class="page-item"><a class="page-link" href="?page={{ single_page }}">{{ single_page }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if page.has_next %}
-                            {% if page.number < page.paginator.num_pages|add:'-8' %}
-                                <span class="mx-3">...</span>
-                                <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{page.paginator.num_pages}}</a></li>
-                            {% elif page.number < page.paginator.num_pages|add:'-7' %}
-                            <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">{{page.paginator.num_pages}}</a></li>
-                            {% endif %}
-                        {% endif %}
-                    </ul>
-                </div> {% endcomment %}
-
             </div>
             <!-- /.card -->
             </div>

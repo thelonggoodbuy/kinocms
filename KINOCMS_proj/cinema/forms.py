@@ -5,9 +5,9 @@ from django.core.files.images import get_image_dimensions
 # from django.utils import image
 
 
-from .widgets import CustomClearableFileInput, CustomClearableFileInputBanner
+from .widgets import CustomClearableFileInput, CustomClearableFileInputBanner, CustomTextAreaWithEditor
 # from .models import Galery, BannerWithTimeScrolling
-from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, SeoBlock
+from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, SeoBlock, Cinema
 
 
 
@@ -281,3 +281,26 @@ class SeoBlockForm(forms.ModelForm):
     class Meta:
         model = SeoBlock
         fields = ('url_seo', 'title_seo', 'keyword_seo', 'description_seo')
+
+
+
+# cinema forms
+class CinemaForm(forms.ModelForm):
+    title_cinema = forms.CharField(label = "Назва кінотеатру",
+                                    error_messages={'required': 'кінотеатр має містити назву'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description_cinema = forms.CharField(label = "Опис кінотеатру", 
+                                    error_messages={'required': 'Кінотеатр має містити опис'},
+                                    widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+
+    conditions_cinema = forms.CharField(label = "Умови кінотеатру", 
+                                    error_messages={'required': 'Кінотеатр має містити опис умов'},
+                                    widget=CustomTextAreaWithEditor(attrs={'rows': "20"}))
+
+
+
+    class Meta:
+        model = Cinema
+        fields = ('title_cinema', 'description_cinema', 'conditions_cinema')
+
+

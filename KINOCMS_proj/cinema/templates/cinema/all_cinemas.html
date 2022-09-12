@@ -20,18 +20,24 @@
 <div>
     <div class="row">
         <div class="col-12 text-center">
-            <h3>список фильмов текущий</h3>
+            <h3>список кинотеатров</h3>
         </div>
     </div>
     <div class="cinema_preview_container row mt-4">
-    {% for movie in all_films %}
+    {% for cinema in all_cinemas %}
         <div class="col-2 mx-3 text-center">
-                <a href="{% url 'cinema:movie_detail' pk=movie.id %}">
-                    <img src="{{ movie.main_image.image.url }}" class="cinema_preview"/>
+                <a href="{% url 'cinema:cinema_detail' pk=cinema.id %}">
+                    <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>
                 </a>
-            <p>{{ movie.title_movie }}</p>
+            <p>{{ cinema.title_cinema }}</p>
         </div>
     {% endfor %}
+    <div class="col-2 mx-3 text-center">
+        <a href="#">
+            <img src="{% static 'cinema/images/green_plus.png' %}" class="cinema_preview"/>
+        </a>
+        <p>додати</p>
+    </div>
     </div>
     <div class="row">
         <div class="col-12 text-center">

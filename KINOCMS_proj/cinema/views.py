@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 
 # from .models import Galery, BannerWithTimeScrolling
-from .models import Galery, HighestBannerWithTimeScrolling, BannerCell, ThroughBackroundBanner, BannerPromotionsAndNews, Movie
+from .models import Galery, HighestBannerWithTimeScrolling, BannerCell, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, Cinema, CinemaHall
 from users.models import CustomUser
-from .forms import AddBannerCellForm, HighestBannerForm, ThroughBackroundBannerForm, AddPhotoToGalleryForm, BannerPromotionsAndNewsForm, AddBannerPromotionAndNewsCellForm, MovieForm, MovieMainImage, MovieGaleryImageForm, SeoBlockForm, SimpleTextErrorList
+from .forms import AddBannerCellForm, HighestBannerForm, ThroughBackroundBannerForm, AddPhotoToGalleryForm, BannerPromotionsAndNewsForm, AddBannerPromotionAndNewsCellForm, MovieForm, MovieMainImage, MovieGaleryImageForm, SeoBlockForm, SimpleTextErrorList, CinemaForm
 from users.forms import ChangeUserForm, SimpleTextErrorList
 from django import forms
 
@@ -238,5 +238,78 @@ def new_movie(request, pk=None):
     pk = new_movie.pk
     return movie_detail(pk)
 
+
 # Cinema logic***********************************************************************************************************
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def all_cinemas(request):
+    cinemas = Cinema.objects.all()
+    context = {'all_cinemas': cinemas}
+    return render(request, 'cinema/all_cinemas.html', context)
+
+
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def cinema_detail(request, pk=None):
+    cinema_instance = get_object_or_404(Cinema, pk=pk)
+    MovieImageFormset = forms.modelformset_factory(Galery, form = MovieGaleryImageForm,
+                                                    can_delete=True, extra=0, min_num=1,
+                                                    max_num=5)
+    cinema_hall = CinemaHall.objects.filter(cinema = cinema_instance.id)
+
+    if request.method == 'POST':
+        cinema_form = CinemaForm(request.POST, instance=cinema_instance, prefix="cinema_base_form")
+        cinema_logo_form = MovieMainImage(request.POST, request.FILES, instance = cinema_instance.logo, prefix="cinema_logo_form")
+        cinema_highest_banner_form = MovieMainImage(request.POST, request.FILES, instance = cinema_instance.image_top_banner, prefix="cinema_highest_banner")
+        cinema_image_formset = MovieImageFormset(request.POST, request.FILES, queryset = cinema_instance.image_galery.all())
+        cinema_seo_block = SeoBlockForm(request.POST, instance=cinema_instance.seo_block, prefix="cinema_seo_form")
+
+        if cinema_form.is_valid() and cinema_logo_form.is_valid() and cinema_highest_banner_form.is_valid() and cinema_seo_block.is_valid():
+            # main form
+            cinema = cinema_form.save(commit=False)
+            # logo form
+            try:
+                logo = cinema_logo_form.save() 
+                cinema.logo = logo
+            except:
+                cinema.logo = None
+
+            # highest banner form
+            try:
+                highest_banner = cinema_highest_banner_form.save() 
+                cinema.image_top_banner = highest_banner
+            except:
+                cinema.image_top_banner = None
+
+            # galery formset
+            cinema_image_formset.save()
+            for movie_image_form in cinema_image_formset:
+                if movie_image_form.instance.id != None:
+                    cinema.image_galery.add(movie_image_form.instance.id)
+
+            # seo form
+            seo = cinema_seo_block.save()
+            cinema.seo_block = seo
+
+            # final save
+            cinema.save()
+            return redirect(request.path)
+
+
+    else:
+        cinema_form = CinemaForm(instance=cinema_instance, prefix="cinema_base_form")
+        cinema_logo_form = MovieMainImage(instance = cinema_instance.logo, prefix="cinema_logo_form")
+        cinema_highest_banner_form = MovieMainImage(instance = cinema_instance.image_top_banner, prefix="cinema_highest_banner")
+        cinema_image_formset = MovieImageFormset(queryset = cinema_instance.image_galery.all())
+        cinema_seo_block = SeoBlockForm(instance=cinema_instance.seo_block, prefix="cinema_seo_form")
+
+    context = {'cinema_form': cinema_form,
+                'cinema_logo_form': cinema_logo_form,
+                'cinema_highest_banner_form': cinema_highest_banner_form,
+                'cinema_image_formset': cinema_image_formset,
+                'cinema_hall': cinema_hall,
+                'cinema_seo_block': cinema_seo_block}
+
+    return render(request, 'cinema/cinema_detail.html', context)
+
 
