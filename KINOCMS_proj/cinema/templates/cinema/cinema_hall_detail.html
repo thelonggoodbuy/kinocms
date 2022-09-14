@@ -30,10 +30,10 @@
 <div id="cinema_container">
     <form method="post" novalidate enctype="multipart/form-data" action=".">
         {% csrf_token %}
-        {% if cinema_form.errors %}
+        {% if cinema_hall_form.errors %}
             <div class="row" id="test-row!">
                 <div class="col-10 mt-3 mb-3">
-                    {% for field in cinema_form %}
+                    {% for field in cinema_hall_form %}
                         {% for error in field.errors %} 
                             <p class="my-1 text-danger">{{ error }}</p>
                         {% endfor %}
@@ -41,42 +41,11 @@
                 </div>
             </div>
         {% endif %}
-        {% if cinema_form.title_cinema.errors %}
+       
+        {% if cinema_hall_banner_form.errors %}
             <div class="row">
                 <div class="col-10 mt-3 mb-3">
-                    {% for error in cinema_form.title_cinema.errors %} 
-                        <p class="my-1 text-danger">{{ error }}</p>
-                    {% endfor %}
-                    {% for error in cinema_form.non_field_errors %}
-                        <p class="my-1 text-danger">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-        {% if cinema_logo_form.errors %}
-        <div class="row">
-            <div class="col-10 mt-3 mb-3">
-                {% for field in cinema_logo_form %}
-                    {% for error in field.errors %} 
-                        <p class="my-1 text-danger">{{ error }}</p>
-                    {% endfor %}
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-        {% if cinema_logo_form.non_field_errors %}
-            <div class="row">
-                <div class="col-10 mt-3 mb-3">
-                    {% for error in cinema_logo_form.non_field_errors %}
-                        <p class="my-1 text-danger">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-        {% if cinema_highest_banner_form.errors %}
-            <div class="row">
-                <div class="col-10 mt-3 mb-3">
-                    {% for field in cinema_highest_banner_form %}
+                    {% for field in cinema_hall_banner_form %}
                         {% for error in field.errors %} 
                             <p class="my-1 text-danger">{{ error }}</p>
                         {% endfor %}
@@ -84,10 +53,10 @@
                 </div>
             </div>
         {% endif %}
-        {% if cinema_highest_banner_form.non_field_errors %}
+        {% if cinema_hall_banner_form.non_field_errors %}
             <div class="row">
                 <div class="col-10 mt-3 mb-3">
-                    {% for error in cinema_highest_banner_form.non_field_errors %}
+                    {% for error in cinema_hall_banner_form.non_field_errors %}
                         <p class="my-1 text-danger">{{ error }}</p>
                     {% endfor %}
                 </div>
@@ -98,76 +67,54 @@
 
         <div class="row mt-3 mb-3">
             <div class="col-2">
-                {{ cinema_form.title_cinema.label_tag }}
+                {{ cinema_hall_form.cinema_hall_name.label_tag }}
             </div>
             <div class="col-3">
-                {{ cinema_form.title_cinema }}
-            </div>
-        </div>
-        {% comment %} <div class="row">
-            <div class="col-10 mt-3 mb-3">
-                {% for error in cinema_form.description_cinema.errors %} 
-                    <p class="my-1 text-danger">{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div> {% endcomment %}
-        <div class="row mt-3 mb-3">
-            <div class="col-2">
-                {{ cinema_form.description_cinema.label_tag }}
-            </div>
-            <div class="col-5">
-                {{ cinema_form.description_cinema }}
+                {{ cinema_hall_form.cinema_hall_name }}
             </div>
         </div>
         <div class="row mt-3 mb-3">
             <div class="col-2">
-                {{ cinema_form.conditions_cinema.label_tag }}
+                {{ cinema_hall_form.description_cinema_hall.label_tag }}
             </div>
             <div class="col-5">
-                {{ cinema_form.conditions_cinema }}
+                {{ cinema_hall_form.description_cinema_hall }}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ cinema_hall_form.schema_hall.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ cinema_hall_form.schema_hall.conditions_cinema }}
             </div>
         </div>
 
         <div class="row" id="main_image_container">
             <div class="col-2 justify-content-center align-self-center">
-                {{ cinema_logo_form.image.label_tag }}
+                {{ cinema_hall_banner_form.image.label_tag }}
             </div>
             <div class="col-3 justify-content-center align-self-center">
-                {{ cinema_logo_form.image }}
+                {{ cinema_hall_banner_form.image }}
             </div>
             <div class="col-1 justify-content-center align-self-center text-center">
                 <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
             </div>
             <div class="col-1 justify-content-center align-self-center text-center">
                 <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
-                {{ cinema_logo_form.DELETE_IMAGE }}
+                {{ cinema_hall_banner_form.DELETE_IMAGE }}
             </div>
         </div>
-
-        <div class="row" id="main_image_container">
-            <div class="col-2 justify-content-center align-self-center">
-                {{ cinema_highest_banner_form.image.label_tag }}
-            </div>
-            <div class="col-3 justify-content-center align-self-center">
-                {{ cinema_highest_banner_form.image }}
-            </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
-            </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
-                {{ cinema_highest_banner_form.DELETE_IMAGE }}
-            </div>
-        </div>
+        {% comment %} ************************************************** {% endcomment %}
         <div class="row mb-4">
             <div class="col-2 justify-content-center align-self-center">
                 <p><strong>Галерея картинок:</strong></p>
             </div>
             <div class="col-10">
                 <div id="galery_container">
-                    {{ cinema_image_formset.management_form }}
+                    {{ cinema_hall_image_formset.management_form }}
                     <div class="row">
-                        {% for cinema_photo_form in cinema_image_formset %}
+                        {% for cinema_photo_form in cinema_hall_image_formset %}
                             <div class="col-2">
                                 {% for hidden in cinema_photo_form.hidden_fields %}
                                     {{ hidden }}
@@ -186,8 +133,8 @@
                             </div>
                             <div id="empty_form_container" style="display:none">
                                 <div class="col-2">
-                                    {{ cinema_image_formset.empty_form.image }}
-                                    {{ cinema_image_formset.empty_form.DELETE }}
+                                    {{ cinema_hall_image_formset.empty_form.image }}
+                                    {{ cinema_hall_image_formset.empty_form.DELETE }}
                                     <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
                                     <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
                                 </div>
@@ -199,79 +146,43 @@
             </div>
         </div>
 
-        <div class="row" >
-            <div class="col-8">
-                <div class="card py-3 px-4">
-                    <div class="card-body table-responsive p-0 ">
-                        <table id="table_cinema_hall_id" class="row-border" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>назва</th>
-                                <th>дата створення</th>
-                                <th class="align-middle"> </th>
-                                <th class="align-middle"> </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                {% for hall in cinema_hall %}
-                                    <tr>
-                                        <td>{{ hall.cinema_hall_name|default_if_none:"-----" }}</td>
-                                        <td>{{ hall.created_data|default_if_none:"-----" }}</td>
-                                        <td><a href="{% url 'cinema:cinema_hall_detail' pk=hall.id %}"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        <td><a href="{% url 'cinema:del_cinema_hall' pk=hall.id cinema_id=cinema_form.instance.id %}"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                    </tr>
-                                {% endfor %}                                
-                            </tbody>    
-                        </table>
-                        
-                    </div>
-                    
-                </div>
-                
-                
-            </div>
-        </div>
-        <div class="row" >
-            <div class="col-8 text-center">
-                <a class="btn btn-secondary" href="{% url 'cinema:new_cinema_hall' cinema_id=cinema_form.instance.id%}"> <img src="{% static 'cinema/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити зал </a>
-            </div>
-        </div>
+
         <div class="row mt-3 mb-3">
             <div class="col-2 justify-content-center align-self-center">
-                {{ cinema_seo_block.url_seo.label_tag }}
+                {{ cinema_hall_seo_block.url_seo.label_tag }}
             </div>
             <div class="col-3">
-                {{ cinema_seo_block.url_seo }}
-                {% for error in cinema_seo_block.url_seo.errors %} 
+                {{ cinema_hall_seo_block.url_seo }}
+                {% for error in cinema_hall_seo_block.url_seo.errors %} 
                     <p class="my-1 text-danger">{{ error }}</p>
                 {% endfor %}
             </div>
         </div>
         <div class="row mt-3 mb-3">
             <div class="col-2 justify-content-center align-self-center">
-                {{ cinema_seo_block.title_seo.label_tag }}
+                {{ cinema_hall_seo_block.title_seo.label_tag }}
             </div>
             <div class="col-3">
-                {{ cinema_seo_block.title_seo }}
-                {% for error in cinema_seo_block.title_seo.errors %} 
+                {{ cinema_hall_seo_block.title_seo }}
+                {% for error in cinema_hall_seo_block.title_seo.errors %} 
                     <p class="my-1 text-danger">{{ error }}</p>
                 {% endfor %}
             </div>
         </div>
         <div class="row mt-3 mb-3">
             <div class="col-2">
-                {{ cinema_seo_block.keyword_seo.label_tag }}
+                {{ cinema_hall_seo_block.keyword_seo.label_tag }}
             </div>
             <div class="col-5">
-                {{ cinema_seo_block.keyword_seo }}
+                {{ cinema_hall_seo_block.keyword_seo }}
             </div>
         </div>
         <div class="row mt-3 mb-3">
             <div class="col-2">
-                {{ cinema_seo_block.description_seo.label_tag }}
+                {{ cinema_hall_seo_block.description_seo.label_tag }}
             </div>
             <div class="col-5">
-                {{ cinema_seo_block.description_seo }}
+                {{ cinema_hall_seo_block.description_seo }}
             </div>
         </div>
         <div class="row">

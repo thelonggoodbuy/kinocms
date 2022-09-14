@@ -32,16 +32,23 @@ class Phones(models.Model):
 
 
 class NewsAndPromotions(models.Model):
-    type = (
+    type_variable = (
         ('news', 'Новость'),
         ('promotion', 'Акция')
+    )
+    status = (
+        ('on', 'ВКЛ' ),
+        ('off', 'ВЫКЛ')
     )
     title_news_or_promo = models.CharField(max_length=30)
     description_news_or_promo = models.TextField()
     date_news_or_promoptions = models.DateField()
-    is_active = models.BooleanField(default=True)
+    is_active = models.CharField(max_length=30 ,choices=status)
     main_image = models.OneToOneField('cinema.Galery', on_delete=models.PROTECT)
     image_galery = models.ManyToManyField('cinema.Galery', related_name='news_and_promotions_galery')
-    type = models.CharField(max_length=30 ,choices=type)
-    url_to_video = URLField()
-    seo_clock = models.OneToOneField('cinema.SeoBlock', on_delete=models.PROTECT)
+    publ_type = models.CharField(max_length=30, choices=type_variable, blank=True)
+    url_to_video = models.URLField(null=True, blank=True)
+    seo_block = models.OneToOneField('cinema.SeoBlock', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.title_news_or_promo

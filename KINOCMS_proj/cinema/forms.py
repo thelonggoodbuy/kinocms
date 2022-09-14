@@ -2,12 +2,10 @@ from django import forms
 from django.core import validators
 from django.forms.utils import ErrorList
 from django.core.files.images import get_image_dimensions
-# from django.utils import image
 
 
 from .widgets import CustomClearableFileInput, CustomClearableFileInputBanner, CustomTextAreaWithEditor
-# from .models import Galery, BannerWithTimeScrolling
-from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, SeoBlock, Cinema
+from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, SeoBlock, Cinema, CinemaHall
 
 
 
@@ -70,11 +68,13 @@ class AddBannerCellForm(forms.ModelForm):
 
     def clean_image(self):
         image = self.cleaned_data.get("image")
-        width, height = get_image_dimensions(image)
-        if width != 1090:
-            raise forms.ValidationError("Ширина має складати 1090 пікселів.")
-        if height != 150:
-            raise forms.ValidationError("Висота має складати 150 пікселів.")
+        if image != None:
+            image = self.cleaned_data.get("image")
+            width, height = get_image_dimensions(image)
+            if width != 1000:
+                raise forms.ValidationError("Ширина має складати 1000 пікселів.")
+            if height != 190:
+                raise forms.ValidationError("Висота має складати 1090 пікселів.")
         return image
 
 
@@ -91,6 +91,17 @@ class ThroughBackroundBannerForm(forms.ModelForm):
                                         initial='simple_photo',
                                         widget=forms.RadioSelect())
     
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+        if image != None:
+            image = self.cleaned_data.get("image")
+            width, height = get_image_dimensions(image)
+            if width != 2000:
+                raise forms.ValidationError("Ширина має складати 2000 пікселів.")
+            if height != 3000:
+                raise forms.ValidationError("Висота має складати 3000 пікселів.")
+        return image
+
 
     class Meta:
         model = ThroughBackroundBanner()
@@ -112,11 +123,13 @@ class AddPhotoToGalleryForm(forms.ModelForm):
 
     def clean_image(self):
         image = self.cleaned_data.get("image")
-        width, height = get_image_dimensions(image)
-        if width != 2000:
-            raise forms.ValidationError("Ширина має складати 2000 пікселів.")
-        if height != 3000:
-            raise forms.ValidationError("Висота має складати 3000 пікселів.")
+        if image != None:
+            image = self.cleaned_data.get("image")
+            width, height = get_image_dimensions(image)
+            if width != 2000:
+                raise forms.ValidationError("Ширина має складати 2000 пікселів.")
+            if height != 3000:
+                raise forms.ValidationError("Висота має складати 3000 пікселів.")
         return image
 
 
@@ -166,11 +179,12 @@ class AddBannerPromotionAndNewsCellForm(forms.ModelForm):
 
     def clean_image(self):
         image = self.cleaned_data.get("image")
-        width, height = get_image_dimensions(image)
-        if width != 1000 or height != 190:
-            raise forms.ValidationError("Зображення має мати розмір 1000 на 190 пікселів.")
-        # if height != 150:
-        #     raise forms.ValidationError("Висота має складати 150 пікселів.")
+        if image != None:
+            image = self.cleaned_data.get("image")
+            width, height = get_image_dimensions(image)
+            if width != 1000 or height != 190:
+                raise forms.ValidationError("Зображення має мати розмір 1000 на 190 пікселів.")
+
         return image
 
 
@@ -255,11 +269,12 @@ class MovieGaleryImageForm(forms.ModelForm):
 
     def clean_image(self):
         image = self.cleaned_data.get("image")
-        width, height = get_image_dimensions(image)
-        if width != 1000:
-            raise forms.ValidationError("Ширина маэ складати 1000 пікселів.")
-        if height != 190:
-            raise forms.ValidationError("Висота маэ складати 150 пікселів.")
+        if image != None:
+            width, height = get_image_dimensions(image)
+            if width != 1000:
+                raise forms.ValidationError("Ширина маэ складати 1000 пікселів.")
+            if height != 190:
+                raise forms.ValidationError("Висота маэ складати 190 пікселів.")
         return image
 
 
@@ -297,10 +312,30 @@ class CinemaForm(forms.ModelForm):
                                     error_messages={'required': 'Кінотеатр має містити опис умов'},
                                     widget=CustomTextAreaWithEditor(attrs={'rows': "20"}))
 
-
+    def save(self, commit=True):
+        self.instance.on_of_status = True
+        return super(CinemaForm, self).save()
 
     class Meta:
         model = Cinema
-        fields = ('title_cinema', 'description_cinema', 'conditions_cinema')
+        fields = ('title_cinema', 'description_cinema', 'conditions_cinema', 'on_of_status')
 
 
+
+# cinema hall forms
+
+class CinemaHallForm(forms.ModelForm):
+    cinema_hall_name = forms.CharField(label = "Назва кінозалу",
+                                    error_messages={'required': 'кінозал має містити назву'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description_cinema_hall = forms.CharField(label = "Опис кінозалу", 
+                                    error_messages={'required': 'кінозал має містити опис'},
+                                    widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+
+    
+
+
+
+    class Meta:
+        model = CinemaHall
+        fields = ('cinema_hall_name', 'description_cinema_hall', 'schema_hall')

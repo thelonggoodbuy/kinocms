@@ -30,10 +30,12 @@
                     <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>
                 </a>
             <p>{{ cinema.title_cinema }}</p>
+
+            <a href="{% url 'cinema:del_cinema' pk=cinema.id %}"><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}" </a>
         </div>
     {% endfor %}
     <div class="col-2 mx-3 text-center">
-        <a href="#">
+        <a href="{% url 'cinema:new_cinema' %}">
             <img src="{% static 'cinema/images/green_plus.png' %}" class="cinema_preview"/>
         </a>
         <p>додати</p>
@@ -41,6 +43,8 @@
     </div>
     <div class="row">
         <div class="col-12 text-center">
+            
+            
 
         </div>
     <div>

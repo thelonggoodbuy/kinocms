@@ -180,33 +180,3 @@ class ChangeUserForm(forms.ModelForm):
         widgets = {
             'born': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Select a date','type': 'date'})}
 
-
-# class ChangeUserPassword(forms.ModelForm):
-
-#     password = forms.CharField(required=False, label='Пароль',
-#                     widget=forms.PasswordInput(attrs={'class': 'form-control',
-#                                                     'placeholder':'password'}))
-                                            
-#     confirm_password = forms.CharField(required=False, label='Повторите пароль',
-#                         widget=forms.PasswordInput(attrs={'class': 'form-control',
-#                                                         'placeholder':'password'}))
-
-
-
-#     def clean_password(self):
-#         password = self.cleaned_data['password']
-#         validate_password(password)
-#         return password
-
-#     def clean(self):
-#         cleaned_data = super(ChangeUserPassword, self).clean()
-#         password = cleaned_data.get('password')
-#         confirm_password = cleaned_data.get('confirm_password')
-#         if password != confirm_password:
-#             raise forms.ValidationError({
-#                 "password":["Пароли не совпадают"]
-#                 })
-
-#     class Meta:
-#         model = CustomUser
-#         fields = ("password", "confirm_password")

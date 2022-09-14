@@ -1,0 +1,72 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} всі новини {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/DataTables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/table_scripts.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'pages/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'pages/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/js/DataTables/datatables.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
+
+</head>
+<div id="cinema_container">
+        <div class="row">
+            <div class="col-5 text-right my-4">
+                <h3>Список новостей</h3>        
+            </div>
+            <div class="col-3 text-right my-4">
+                <a class="btn btn-secondary" href="#"> <img src="{% static 'pages/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити новину </a>        
+            </div>
+        </div>
+        <div class="row mx-5" >
+            <div class="col-8">
+                <div class="card py-3 px-4">
+                    <div class="card-body table-responsive p-0 ">
+                        <table id="news_and_promo_cinema_hall_id" class="row-border" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>назва</th>
+                                <th>дата створення</th>
+                                <th>статус</th>
+                                <th class="align-middle"> </th>
+                                <th class="align-middle"> </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for novelty in news %}
+                                    <tr>
+                                        <td>{{ novelty.title_news_or_promo|default_if_none:"-----" }}</td>
+                                        <td>{{ novelty.date_news_or_promoptions|default_if_none:"-----" }}</td>
+                                        <td>{{ novelty.get_is_active_display|default_if_none:"-----" }}</td>
+                                        {% comment %} <td><a href="{% url 'cinema:cinema_hall_detail' pk=hall.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
+                                        <td><a href="{% url 'pages:news_detail' pk=novelty.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        {% comment %} <td><a href="{% url 'cinema:del_cinema_hall' pk=hall.id cinema_id=cinema_form.instance.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
+                                        <td><a href="#"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                    </tr>
+                                {% endfor %}                                
+                            </tbody>    
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+{% endblock content %}

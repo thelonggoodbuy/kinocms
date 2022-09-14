@@ -1,0 +1,216 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} новина {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'pages/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
+
+</head>
+<div id="main_form_container">
+    <form method="post" novalidate enctype="multipart/form-data" action=".">
+        {% csrf_token %}
+
+
+
+        {% comment %} <p class="my-1 text-danger">{{ one_news_form.errors }}</p>
+        <p>{{ one_news_form.non_field_errors }}</p>
+        <p>{{ main_image_form.errors }}</p>
+        <p>{{ main_image_form.non_field_errors }}</p>
+        <p>{{ one_news_seo_block.errors }}</p>
+        <p>{{ one_news_seo_block.non_field_errors }}</p> {% endcomment %}
+
+        <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                {% for field in one_news_form %}
+                    {% for error in field.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in one_news_form.non_field_errors %}
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                {% for field in main_image_form %}
+                    {% for error in field.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in main_image_form.non_field_errors %}
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                {% for field in one_news_seo_block %}
+                    {% for error in field.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in one_news_seo_block.non_field_errors %}
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+        <div class="row mt-3 mb-4">
+            <div class="col-2">
+                {{ one_news_form.title_news_or_promo.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ one_news_form.title_news_or_promo }}
+            </div>
+            <div class="col-2">
+                {{ one_news_form.date_news_or_promoptions.label_tag }}
+            </div>
+            <div class="col-2">
+                {{ one_news_form.date_news_or_promoptions| }}
+            </div>
+        </div>
+        {% comment %} ******************************************** {% endcomment %}
+
+        {% comment %} <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+              </div>
+              <input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask>
+            </div>
+          </div> {% endcomment %}
+
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ one_news_form.description_news_or_promo.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ one_news_form.description_news_or_promo }}
+            </div>
+        </div>
+        {% comment %} ************************************************ {% endcomment %}
+        <div class="row" id="main_image_container">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ main_image_form.image.label_tag }}
+            </div>
+            <div class="col-3 justify-content-center align-self-center">
+                {{ main_image_form.image }}
+            </div>
+            <div class="col-1 justify-content-center align-self-center text-center">
+                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            </div>
+            <div class="col-1 justify-content-center align-self-center text-center">
+                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                {{ main_image_form.DELETE_IMAGE }}
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-2 justify-content-center align-self-center">
+                <p><strong>Галерея картинок:</strong></p>
+            </div>
+            <div class="col-10">
+                <div id="galery_container">
+                    {{ one_news_image_formset.management_form }}
+                    <div class="row">
+                        {% for photo_form in one_news_image_formset %}
+                            <div class="col-2">
+                                {% for hidden in photo_form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+                                {{ photo_form.image }}
+                                {{ photo_form.DELETE }}
+                                <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                {% for error in photo_form.image.errors %} 
+                                    <p class="my-1 text-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                            <div class="col-2 my-auto empty_button_container">
+                                <input type="button" value="Добавить фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
+                            </div>
+                            <div id="empty_form_container" style="display:none">
+                                <div class="col-2">
+                                    {{ one_news_image_formset.empty_form.image }}
+                                    {{ one_news_image_formset.empty_form.DELETE }}
+                                    <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                    <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                </div>
+                            </div>
+                            <div>                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3 mb-3">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ one_news_form.url_to_video.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ one_news_form.url_to_video }}
+            </div>
+        </div>
+
+        <div class="row mt-3 mb-3">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ one_news_seo_block.url_seo.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ one_news_seo_block.url_seo }}
+                {% for error in one_news_seo_block.url_seo.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ one_news_seo_block.title_seo.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ one_news_seo_block.title_seo }}
+                {% for error in one_news_seo_block.title_seo.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ one_news_seo_block.keyword_seo.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ one_news_seo_block.keyword_seo }}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ one_news_seo_block.description_seo.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ one_news_seo_block.description_seo }}
+            </div>
+        </div>
+
+        <p><input type="submit" class="mt-5 mb-5" value="внести изменения"></p>
+
+    </form>
+</div>
+
+
+{% endblock content %}

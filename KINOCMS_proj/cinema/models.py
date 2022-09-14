@@ -13,6 +13,7 @@ class Cinema(models.Model):
     image_top_banner = models.OneToOneField('Galery',related_name='cinema_image_top_banner', on_delete=models.PROTECT, null=True)
     image_galery = models.ManyToManyField('Galery', related_name='cinema_image_galery')
     seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT, null=True)
+    on_of_status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title_cinema
@@ -24,9 +25,9 @@ class CinemaHall(models.Model):
     description_cinema_hall = models.TextField()
     schema_hall = models.JSONField(null=True, blank=True)
     cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
-    image_top_banner = models.OneToOneField('Galery', on_delete=models.PROTECT)
+    image_top_banner = models.OneToOneField('Galery', on_delete=models.PROTECT, null=True)
     image_galery = models.ManyToManyField('Galery', related_name='cinemahall_image_galery')
-    seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT)
+    seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return f"{self.cinema}. Зал {self.cinema_hall_name}"
