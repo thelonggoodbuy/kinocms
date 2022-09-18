@@ -36,14 +36,14 @@ class NewsAndPromotions(models.Model):
         ('news', 'Новость'),
         ('promotion', 'Акция')
     )
-    status = (
-        ('on', 'ВКЛ' ),
-        ('off', 'ВЫКЛ')
-    )
+    # status = (
+    #     ('on', 'ВКЛ' ),
+    #     ('off', 'ВЫКЛ')
+    # )
     title_news_or_promo = models.CharField(max_length=30)
     description_news_or_promo = models.TextField()
     date_news_or_promoptions = models.DateField()
-    is_active = models.CharField(max_length=30 ,choices=status)
+    is_active = models.BooleanField(default=True)
     main_image = models.OneToOneField('cinema.Galery', on_delete=models.PROTECT)
     image_galery = models.ManyToManyField('cinema.Galery', related_name='news_and_promotions_galery')
     publ_type = models.CharField(max_length=30, choices=type_variable, blank=True)

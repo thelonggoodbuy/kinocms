@@ -2,11 +2,14 @@ from django import forms
 from django.core.files.images import get_image_dimensions
 from django.core import validators
 from django.forms.utils import ErrorList
+from tempus_dominus.widgets import DatePicker
+from KINOCMS_proj.settings import DATE_INPUT_FORMATS
 
 from .models import NewsAndPromotions
 
 from cinema.widgets import CustomClearableFileInput
 from cinema.models import Galery, SeoBlock
+
 
 
 
@@ -51,7 +54,11 @@ class NewsForm(forms.ModelForm):
                                     error_messages={'required': 'новина має містити назву'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
 
-    date_news_or_promoptions = forms.DateField(required=True)
+    date_news_or_promoptions = forms.DateField(required=True, 
+                                                widget=forms.DateInput(format = '%m/%d/%Y', attrs={"type":"text", 
+                                                                                "class": "form-control datetimepicker-input", 
+                                                                                "data-target": "#datetimepicker4"}), 
+                                                input_formats=DATE_INPUT_FORMATS)
 
     description_news_or_promo = forms.CharField(label = "Текст новини", 
                                     error_messages={'required': 'Новина має містити текст'},
@@ -59,13 +66,15 @@ class NewsForm(forms.ModelForm):
 
     url_to_video = forms.URLField(required=False, label = "посилання на відео",
                                     widget=forms.URLInput(attrs={'class': 'form-control'}))
-
-    date_news_or_promoptions = forms.DateField(required=False, 
-                                                label = "дата публікації")
+    
+    # is_active = forms.ChoiceField(widget=forms.Select(attrs={'type': 'checkbox', 
+    #                                                         'class': 'custom-control-input', 
+    #                                                         'id':'customSwitch1'}))
+    is_active = forms.CheckboxSelectMultiple()
 
     class Meta:
         model = NewsAndPromotions
-        fields = ('title_news_or_promo', 'date_news_or_promoptions', 'description_news_or_promo', 'url_to_video', 'date_news_or_promoptions')
+        fields = ('title_news_or_promo', 'date_news_or_promoptions', 'description_news_or_promo', 'url_to_video', 'date_news_or_promoptions', 'is_active')
 
 
 class MainImage(forms.ModelForm):

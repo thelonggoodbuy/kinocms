@@ -10,12 +10,15 @@
     <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/bootstrap.bundle.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/popper.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/popper.min.js.map' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/bootstrap.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/bootstrap.min.js.map' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/DataTables/datatables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/table_scripts.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'pages/css/bootstrap.min.css' %}">
+    <link rel="application/json" href="{% static 'pages/css/bootstrap.min.css.map' %}">
 
     <link rel="stylesheet" href="{% static 'pages/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'pages/css/OverlayScrollbars.min.css' %}">
@@ -24,6 +27,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'pages/js/DataTables/datatables.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
 
+    <link rel="icon" href="{% static 'pages/images/cinema_logo_2.png' %}">
+
+
 </head>
 <div id="cinema_container">
         <div class="row">
@@ -31,7 +37,7 @@
                 <h3>Список новостей</h3>        
             </div>
             <div class="col-3 text-right my-4">
-                <a class="btn btn-secondary" href="#"> <img src="{% static 'pages/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити новину </a>        
+                <a class="btn btn-secondary" href="{% url 'pages:create_news' %}"> <img src="{% static 'pages/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити новину </a>        
             </div>
         </div>
         <div class="row mx-5" >
@@ -53,7 +59,7 @@
                                     <tr>
                                         <td>{{ novelty.title_news_or_promo|default_if_none:"-----" }}</td>
                                         <td>{{ novelty.date_news_or_promoptions|default_if_none:"-----" }}</td>
-                                        <td>{{ novelty.get_is_active_display|default_if_none:"-----" }}</td>
+                                        <td>{{ novelty.is_active|yesno:"ВКЛ,ВИМК"}}</td>
                                         {% comment %} <td><a href="{% url 'cinema:cinema_hall_detail' pk=hall.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
                                         <td><a href="{% url 'pages:news_detail' pk=novelty.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
                                         {% comment %} <td><a href="{% url 'cinema:del_cinema_hall' pk=hall.id cinema_id=cinema_form.instance.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}

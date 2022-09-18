@@ -2,7 +2,7 @@ from django import forms
 from django.core import validators
 from django.forms.utils import ErrorList
 from django.core.files.images import get_image_dimensions
-
+# from file_resubmit.admin import AdminResubmitImageWidget
 
 from .widgets import CustomClearableFileInput, CustomClearableFileInputBanner, CustomTextAreaWithEditor
 from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, SeoBlock, Cinema, CinemaHall

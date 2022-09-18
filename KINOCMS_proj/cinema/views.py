@@ -352,7 +352,9 @@ def cinema_hall_detail(request, pk):
 
         if cinema_hall_form.is_valid() and cinema_hall_banner_form.is_valid() and cinema_hall_image_formset.is_valid() and cinema_hall_seo_block.is_valid():
             # main form
+            
             cinema_hall = cinema_hall_form.save(commit=False)
+            
             # highest banner form
             try:
                 highest_banner = cinema_hall_banner_form.save() 

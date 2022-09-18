@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'phonenumber_field',
+    'tempus_dominus',
 
     'debug_toolbar',
 
@@ -189,3 +190,9 @@ MEDIA_URL = '/media/'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+DATE_INPUT_FORMATS = ('%m/%d/%Y','%d-%m-%Y','%Y-%m-%d')
+
+# templus dominus
+TEMPUS_DOMINUS_LOCALIZE = True
+# TEMPUS_DOMINUS_DATE_FORMAT = MM-DD-YY
