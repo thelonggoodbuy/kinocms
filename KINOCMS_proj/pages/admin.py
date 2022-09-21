@@ -3,9 +3,11 @@ from .models import *
 
 
 
-admin.site.register(CustomPage)
+admin.site.register(CustomPages)
 admin.site.register(Contact)
 admin.site.register(MainPage)
-admin.site.register(Phones)
 admin.site.register(NewsAndPromotions)
 
+class PhonesAdmin(admin.ModelAdmin):
+    list_display = ('page', 'number')
+admin.site.register(Phones, PhonesAdmin)

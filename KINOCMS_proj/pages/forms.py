@@ -5,10 +5,14 @@ from django.forms.utils import ErrorList
 from tempus_dominus.widgets import DatePicker
 from KINOCMS_proj.settings import DATE_INPUT_FORMATS
 
-from .models import NewsAndPromotions
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
+
+from .models import NewsAndPromotions, Phones
 
 from cinema.widgets import CustomClearableFileInput
 from cinema.models import Galery, SeoBlock
+from pages.models import CustomPages, MainPage
 
 
 
@@ -51,7 +55,7 @@ class GaleryImageForm(forms.ModelForm):
 
 class NewsForm(forms.ModelForm):
     title_news_or_promo = forms.CharField(label = "Назва новини",
-                                    error_messages={'required': 'новина має містити назву'}, 
+                                    error_messages={'required': 'Поле "Назва" не повинно залишатися пустим'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     date_news_or_promoptions = forms.DateField(required=True, 
@@ -60,22 +64,36 @@ class NewsForm(forms.ModelForm):
                                                                                 "data-target": "#datetimepicker4"}), 
                                                 input_formats=DATE_INPUT_FORMATS)
 
-    description_news_or_promo = forms.CharField(label = "Текст новини", 
-                                    error_messages={'required': 'Новина має містити текст'},
+    description_news_or_promo = forms.CharField(label = "Опис", 
+                                    error_messages={'required': 'Поле "Опис" не повинно залишатися пустим'},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
 
     url_to_video = forms.URLField(required=False, label = "посилання на відео",
                                     widget=forms.URLInput(attrs={'class': 'form-control'}))
     
-    # is_active = forms.ChoiceField(widget=forms.Select(attrs={'type': 'checkbox', 
-    #                                                         'class': 'custom-control-input', 
-    #                                                         'id':'customSwitch1'}))
+
     is_active = forms.CheckboxSelectMultiple()
 
     class Meta:
         model = NewsAndPromotions
         fields = ('title_news_or_promo', 'date_news_or_promoptions', 'description_news_or_promo', 'url_to_video', 'date_news_or_promoptions', 'is_active')
 
+
+class CustomPageForm(forms.ModelForm):
+    title = forms.CharField(label = "Назва",
+                                    error_messages={'required': 'Поле "Назва" не повинно залишатися пустим'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+
+    description = forms.CharField(label = "Опис", 
+                                    error_messages={'required': 'Поле "Опис" не повинно залишатися пустим'},
+                                    widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+
+    is_active = forms.CheckboxSelectMultiple()
+
+    class Meta:
+        model = CustomPages
+        fields = ('title', 'description', 'is_active')
 
 class MainImage(forms.ModelForm):
     image = forms.ImageField(label='Головна картинка', required=False, 
@@ -144,3 +162,23 @@ class SeoBlockForm(forms.ModelForm):
     class Meta:
         model = SeoBlock
         fields = ('url_seo', 'title_seo', 'keyword_seo', 'description_seo')
+
+
+class MainPageForm(forms.ModelForm):
+    is_active = forms.CheckboxSelectMultiple()
+    main_page_seo_text = forms.CharField(label = "SEO текст:",
+                                    error_messages={'required': "SEO текст э обовязковим"},
+                                    widget=forms.Textarea(attrs={'class':"form-control", 'rows':"8"}))
+    class Meta:
+        model = MainPage
+        fields = ('is_active', 'main_page_seo_text')
+
+class PhoneForm(forms.ModelForm):
+    number = PhoneNumberField(required=False, label='телефон',
+                            error_messages={'invalid': "Введіть номер телефону одного з мобільних операторів України. Введений номер не є коректним."},
+                            widget=PhoneNumberInternationalFallbackWidget(attrs={'class': 'form-control'}))
+    # number = forms.CharField()
+    
+    class Meta:
+        model = Phones
+        fields = ('number',)

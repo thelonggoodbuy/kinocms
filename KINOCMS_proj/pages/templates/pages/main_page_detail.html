@@ -1,0 +1,136 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} створити новину {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'pages/js/moment.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/moment.min.js.map' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+    
+    <link rel="stylesheet" href="{% static 'pages/css/tempusdominus-bootstrap-4.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'pages/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
+
+    <link rel="icon" href="{% static 'pages/images/cinema_logo_2.png' %}">
+
+
+</head>
+<div id="main_form_container">
+    <form method="post" novalidate enctype="multipart/form-data" action=".">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                {% for field in main_page_form %}
+                    {% for error in field.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in main_page_form.non_field_errors %}
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                {% for field in seo_form %}
+                    {% for error in field.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in seo_form.non_field_errors %}
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="col-10">
+                <label class="switch float-right">
+                    {{ main_page_form.is_active }}
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <p><strong> Телефони</strong></p>
+            </div>
+            <div class="col-4">
+                {{ phone_formset.management_form }}
+                    {% for phone_form in phone_formset %}
+                        {% for hidden in phone_form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        <p>{{ phone_form.number }}</p>
+                        {% for error in phone_form.number.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <p><strong>SEO текст:</strong></p>
+            </div>
+            <div class="col-6">
+                {{ main_page_form.main_page_seo_text }}
+            </div>
+        </div>
+        
+
+
+        <div class="row mt-3 mb-3">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ seo_form.url_seo.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ seo_form.url_seo }}
+                {% for error in seo_form.url_seo.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ seo_form.title_seo.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ seo_form.title_seo }}
+                {% for error in seo_form.title_seo.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ seo_form.keyword_seo.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ seo_form.keyword_seo }}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ seo_form.description_seo.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ seo_form.description_seo }}
+            </div>
+        </div>
+        
+        <p><input type="submit" class="mt-5 mb-5" value="Внести зміни"></p>
+    </form>
+
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,137 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} всі новини {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/popper.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/popper.min.js.map' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/bootstrap.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/bootstrap.min.js.map' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/DataTables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/table_scripts.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'pages/css/bootstrap.min.css' %}">
+    <link rel="application/json" href="{% static 'pages/css/bootstrap.min.css.map' %}">
+
+    <link rel="stylesheet" href="{% static 'pages/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/js/DataTables/datatables.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
+
+    <link rel="icon" href="{% static 'pages/images/cinema_logo_2.png' %}">
+
+
+</head>
+<div id="cinema_container">
+        <div class="row">
+            <div class="col-5 text-right my-4">
+                <h3>Список сторінок</h3>        
+            </div>
+            <div class="col-3 text-right my-4">
+                <a class="btn btn-secondary" href="{% url 'pages:create_page' %}"> <img src="{% static 'pages/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити сторінку </a>        
+            </div>
+        </div>
+        <div class="row mx-5" >
+            <div class="col-8">
+                <div class="card py-3 px-4">
+                    <div class="card-body table-responsive p-0 ">
+                        <table id="pages_id" class="row-border" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>назва</th>
+                                <th>дата створення</th>
+                                <th>статус</th>
+                                <th class="align-middle"> </th>
+                                <th class="align-middle"> </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% comment %} {% for page in main_page %} {% endcomment %}
+                                <tr>
+                                    <td><stront>{{ main_page.title|default_if_none:"-----" }}</stront></td>
+                                    <td>{{ main_page.date_created|default_if_none:"-----" }}</td>
+                                    <td>{{ main_page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                    <td><a href="{% url 'pages:main_page_detail' pk=main_page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                </tr>
+                                {% comment %} {% endfor %} {% endcomment %}
+                                {% for page in pages %}
+                                    {% if page.special_issue == 'about_cinema' %}
+                                        <tr>
+                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
+                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
+                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for page in pages %}
+                                    {% if page.special_issue == 'cafe_bar' %}
+                                        <tr>
+                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
+                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
+                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for page in pages %}
+                                    {% if page.special_issue == 'vip-hall' %}
+                                        <tr>
+                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
+                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
+                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for page in pages %}
+                                    {% if page.special_issue == 'advertising' %}
+                                        <tr>
+                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
+                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
+                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        </tr>
+                                     {% endif %}
+                                {% endfor %}
+                                {% for page in pages %}
+                                     {% if page.special_issue == 'childrens_room' %}
+                                     <tr>
+                                         <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
+                                         <td>{{ page.date_created|default_if_none:"-----" }}</td>
+                                         <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                         <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                     </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for page in pages %}
+
+                                    {% if page.is_undeleteble is False %}
+                                        <tr>
+                                            <td>{{ page.title|default_if_none:"-----" }}</td>
+                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
+                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                            <td><a href="{% url 'pages:page_del' pk=page.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}                                
+                            </tbody>    
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+{% endblock content %}
