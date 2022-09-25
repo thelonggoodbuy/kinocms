@@ -5,11 +5,12 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
+from django import forms
 
 
 
 
-from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm
+from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, SendBoxForm
 from .models import CustomUser
 
 
@@ -100,3 +101,26 @@ def del_user(request, pk):
     return render(request, "users/delete_user.html", context)
 
 
+
+
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def mailing(request):
+
+    users_list = CustomUser.objects.all()
+    if request.method == 'POST':
+        list_form =  SendBoxForm(request.POST, request.FILES)
+        if list_form.is_valid:
+            list_form.save()
+            email_list = []
+            for user in list_form.instance.users.all():
+                email_list.append(user.email)
+            print(email_list)
+    
+    else:
+        list_form =  SendBoxForm()
+
+    context = {'users_list': users_list,
+                'list_form': list_form}
+
+    return render(request, 'users/mailing.html', context)

@@ -14,7 +14,7 @@ from django.contrib.auth.password_validation import validate_password
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget, PhoneNumberInternationalFallbackWidget
 
-from .models import CustomUser
+from .models import CustomUser, Mailing
 
 
 
@@ -180,3 +180,19 @@ class ChangeUserForm(forms.ModelForm):
         widgets = {
             'born': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Select a date','type': 'date'})}
 
+
+
+# class SendBoxForm(forms.Form):
+#     send_user_marker = forms.CheckboxInput()
+
+
+class SendBoxForm(forms.ModelForm):
+    # send_user_marker = forms.CheckboxInput()
+    
+    # users = forms.ModelMultipleChoiceField()
+    class Meta:
+        model = Mailing
+        fields = ("template", "users")
+        widgets = {
+            'users': forms.CheckboxSelectMultiple()
+        }

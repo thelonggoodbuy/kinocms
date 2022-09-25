@@ -1,0 +1,180 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %}список пользователей{% endblock title%}
+
+{% block content %}
+<head>
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'cinema/js/DataTables/datatables.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
+    
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/DataTables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/table_scripts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'users/js/mailing.js' %}"></script>
+
+    
+    
+</head>
+<body>
+    <div class="row">
+        <div class="card col-10 py-3 px-4 mx-5">
+            <div class="row my-5 mx-5">
+                <div class="col-3">
+                    <p>Обрати email кому відправити</p>
+                </div>
+                <div class="col-3">
+                    <p><input type="checkbox" id="all_users"> Всі користувачі із списку</p>
+                </div>
+                <div class="col-2">
+                    <p><input type="checkbox" id="selectively_users"> Вибірково</p>
+                </div>
+                <div class="col-3">
+                    {% comment %} <a class="btn btn-secondary" href='#'> <img class="logo_tables_command brand-image img-circle"> обрати користувачів </a> {% endcomment %}
+                    <button class="btn btn-secondary">обрати користувачів</button>
+
+                </div>
+            </div>
+
+        <div class="row">  
+            <div class="col-6">
+                <div class="row mx-5">
+                    <div class="col-6">
+                        <p>завантажити html лист</p>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-secondary" href='#'> <img class="logo_tables_command brand-image img-circle"> обрати користувачів </a>
+                    </div>
+                </div>
+                <div class="row mx-5 my-3">
+                    <div class="col-6">
+                        <p>завантаженний файл</p>
+                    </div>
+                    <div class="col-6">
+                        <p><strong>назва файлу</strong></p>
+                    </div>
+                </div>
+                <div class="row mx-5 my-3">
+                    <div class="col-6">
+                        <p>Шаблон який буде розіслане</p>
+                    </div>
+                    <div class="col-6">
+                        <p><strong>назва файлу</strong></p>
+                    </div>
+                </div>
+                <div class="row ml-5 my-3">
+                    <div class="col-4">
+                        <p>Кількість листів: <strong>%%%%</strong></p>
+                        
+                    </div>
+                    <div class="col-4">
+                        <p>Розсилку виконано: <strong>%%%%</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 border border-dark rounded">
+                <div class="row text-center">
+                    {% comment %} <p><strong>Лист завантажених шаблонів</strong></p> {% endcomment %}
+                    <div class="col-2">
+                        <input type="checkbox" id="mailing_checkbox">
+                        <input type="checkbox" id="mailing_checkbox">
+                        <input type="checkbox" id="mailing_checkbox">
+                        <input type="checkbox" id="mailing_checkbox">
+                        <input type="checkbox" id="mailing_checkbox">
+                    </div>
+                    <div class="col-6">
+                        <p> 11111111</p>
+                        <p> 22222222</p>
+                        <p> 33333333</p>
+                        <p> 44444444</p>
+                        <p> 55555555</p>
+                    </div>
+                    <div class="col-2">
+                        <p><a href="#">видалити</a></p>
+                        <p><a href="#">видалити</a></p>
+                        <p><a href="#">видалити</a></p>
+                        <p><a href="#">видалити</a></p>
+                        <p><a href="#">видалити</a></p>
+                    </div>
+                </div>
+            <div>
+        </div>
+        
+    </div>
+
+        
+        
+
+        </div>
+        <a class="btn btn-secondary" href='#'> <img class="logo_tables_command brand-image img-circle"> розпочатки розсилку </a>
+    </div>
+
+
+    <div class="row" >
+        <div class="col-10">
+            <form method="post" novalidate enctype="multipart/form-data" id="form_for_letter">
+                {% csrf_token %}
+                {% comment %} <p> Назва: {{ form.letter_name }} </p> {% endcomment %}
+                {{ list_form.template }}
+                <p> {{ list_form.users }} </p> 
+                <input type="submit" class="mt-5 mb-5" value="надіслати данні">       
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row" >
+        <div class="col-10">
+        <div class="card text-center py-3 px-4">
+            <div class="card-body table-responsive p-0 ">
+            <table id="table_id" class="row-border" style="width:100%">
+                <thead>
+                <tr>
+                    <th>!!</th>
+                    <th>ID</th>
+                    <th>дата регистрации</th>
+                    <th>день рождения</th>
+                    <th>email</th>
+                    <th>телефон</th>
+                    <th>ФИО</th>
+                    <th>псевдоним</th>
+                    <th>город</th>
+                    <th> </th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for user in users_list %}
+                        <tr>
+                            <td><input type="checkbox" id="mailing_checkbox"></td>
+                            <td class="align-middle">{{ user.id|default_if_none:"-----" }}</td>
+                            <td class="align-middle">11-7-2014</td>
+                            <td class="align-middle">{{ user.born|default_if_none:"-----" }}</td>
+                            <td class="align-middle">{{ user.email|default_if_none:"-----" }}</td>
+
+                            <td class="align-middle">{{ user.phone_number|default_if_none:"-----" }}</td>
+
+                            <td class="align-middle">{{ user.surname|default_if_none:"-----" }} {{ user.name|default_if_none:"" }}</td>
+                            <td class="align-middle">{{ user.nickname|default_if_none:"-----" }}</td>
+                            <td class="align-middle">{{ user.town|default_if_none:"-----" }}</td>
+                            <td><a href="{% url 'cinema:change_user_data_by_admin' pk=user.id %}"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                            <td><a href="{% url 'users:del_user' pk=user.id %}"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+            </div>
+        </div>
+        <!-- /.card -->
+        </div>
+    </div>
+    <!-- /.row -->
+</body>
+{% endblock content %}

@@ -34,7 +34,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     sex = models.CharField(max_length=15, choices=SEX)
     phone_number = PhoneNumberField(null=True, blank=True)
     born = models.DateField(null=True, blank=True)
-    letters = models.ManyToManyField('Mailing')
+    # letters = models.ManyToManyField('Mailing')
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
@@ -42,17 +42,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    # @property
-    # def is_anonymous(self):
-    #     return False
+
 
     def __str__(self):
         return f"{self.id}"
 
 
 class Mailing(models.Model):
-    letter_name = models.CharField(max_length=25)
-    template = models.FileField()
+    # letter_name = models.CharField(max_length=25)
+    template = models.FileField(upload_to='mailing_templates/')
+    users =  models.ManyToManyField(CustomUser)
 
     def __str__(self):
         return self.letter_name
