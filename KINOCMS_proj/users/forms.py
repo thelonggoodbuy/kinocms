@@ -15,6 +15,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget, PhoneNumberInternationalFallbackWidget
 
 from .models import CustomUser, Mailing
+from .widgets import CustomTemplateFileInput
 
 
 
@@ -182,14 +183,9 @@ class ChangeUserForm(forms.ModelForm):
 
 
 
-# class SendBoxForm(forms.Form):
-#     send_user_marker = forms.CheckboxInput()
-
-
 class SendBoxForm(forms.ModelForm):
-    # send_user_marker = forms.CheckboxInput()
-    
-    # users = forms.ModelMultipleChoiceField()
+
+    template = forms.FileField(widget = forms.FileInput())
     class Meta:
         model = Mailing
         fields = ("template", "users")

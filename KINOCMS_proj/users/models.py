@@ -49,12 +49,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Mailing(models.Model):
-    # letter_name = models.CharField(max_length=25)
     template = models.FileField(upload_to='mailing_templates/')
     users =  models.ManyToManyField(CustomUser)
 
     def __str__(self):
         return self.letter_name
+
+
+
+
 
 class MailingStatistic(models.Model):
     many_of_sended_list = models.PositiveIntegerField()

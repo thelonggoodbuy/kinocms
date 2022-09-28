@@ -182,6 +182,11 @@ PHONENUMBER_DB_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'UA'
 
 
+# FILE_UPLOAD_HANDLERS = [
+#     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+# ]
+
+
 # media settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -196,3 +201,17 @@ DATE_INPUT_FORMATS = ('%m/%d/%Y','%d-%m-%Y','%Y-%m-%d')
 # templus dominus
 TEMPUS_DOMINUS_LOCALIZE = True
 # TEMPUS_DOMINUS_DATE_FORMAT = MM-DD-YY
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+DEFAULT_FROM_EMAIL = 'markus1991kartal@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER =  'markus1991kartal@gmail.com'
+EMAIL_HOST_PASSWORD = 'bkmneyagebxnivag'
+
+
+# CELERY settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

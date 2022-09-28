@@ -21,20 +21,20 @@
 </head>
 <body>
     <div class="row">
-        <div class="card col-10 py-3 px-4 mx-5">
+        <div class="card col-10 py-3 px-4 mx-5" id="main_card">
             <div class="row my-5 mx-5">
                 <div class="col-3">
                     <p>Обрати email кому відправити</p>
                 </div>
                 <div class="col-3">
-                    <p><input type="checkbox" id="all_users"> Всі користувачі із списку</p>
+                    <p><input type="checkbox" id="all_users_checkbox"> Всі користувачі із списку</p>
                 </div>
                 <div class="col-2">
                     <p><input type="checkbox" id="selectively_users"> Вибірково</p>
                 </div>
                 <div class="col-3">
                     {% comment %} <a class="btn btn-secondary" href='#'> <img class="logo_tables_command brand-image img-circle"> обрати користувачів </a> {% endcomment %}
-                    <button class="btn btn-secondary">обрати користувачів</button>
+                    <button class="btn btn-secondary" id="choose_users_button">обрати користувачів</button>
 
                 </div>
             </div>
@@ -46,7 +46,10 @@
                         <p>завантажити html лист</p>
                     </div>
                     <div class="col-6">
-                        <a class="btn btn-secondary" href='#'> <img class="logo_tables_command brand-image img-circle"> обрати користувачів </a>
+                        {% comment %} <a class="btn btn-secondary" href='#' id="download_button"> <img class="logo_tables_command brand-image img-circle"> завантажити </a> {% endcomment %}
+                        {% comment %} <button class="btn btn-secondary" id="download_button">завантажити</button> {% endcomment %}
+                        <button class="btn btn-secondary" id="download_button">завантажити</button>
+
                     </div>
                 </div>
                 <div class="row mx-5 my-3">
@@ -79,11 +82,11 @@
                 <div class="row text-center">
                     {% comment %} <p><strong>Лист завантажених шаблонів</strong></p> {% endcomment %}
                     <div class="col-2">
-                        <input type="checkbox" id="mailing_checkbox">
-                        <input type="checkbox" id="mailing_checkbox">
-                        <input type="checkbox" id="mailing_checkbox">
-                        <input type="checkbox" id="mailing_checkbox">
-                        <input type="checkbox" id="mailing_checkbox">
+                        <input type="checkbox" id="template_checkbox">
+                        <input type="checkbox" id="template_checkbox">
+                        <input type="checkbox" id="template_checkbox">
+                        <input type="checkbox" id="template_checkbox">
+                        <input type="checkbox" id="template_checkbox">
                     </div>
                     <div class="col-6">
                         <p> 11111111</p>
@@ -119,6 +122,7 @@
                 {% csrf_token %}
                 {% comment %} <p> Назва: {{ form.letter_name }} </p> {% endcomment %}
                 {{ list_form.template }}
+                {% comment %} {{ list_form.template.url }} {% endcomment %}
                 <p> {{ list_form.users }} </p> 
                 <input type="submit" class="mt-5 mb-5" value="надіслати данні">       
             </form>
@@ -133,7 +137,7 @@
         <div class="col-10">
         <div class="card text-center py-3 px-4">
             <div class="card-body table-responsive p-0 ">
-            <table id="table_id" class="row-border" style="width:100%">
+            <table id="table_mailing" class="row-border" style="width:100%">
                 <thead>
                 <tr>
                     <th>!!</th>

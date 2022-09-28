@@ -6,12 +6,15 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from django import forms
+import json
+import io
 
 
 
 
 from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, SendBoxForm
 from .models import CustomUser
+from .tasks import send_mass_templates
 
 
 
@@ -109,14 +112,18 @@ def mailing(request):
 
     users_list = CustomUser.objects.all()
     if request.method == 'POST':
+        
         list_form =  SendBoxForm(request.POST, request.FILES)
         if list_form.is_valid:
             list_form.save()
             email_list = []
             for user in list_form.instance.users.all():
                 email_list.append(user.email)
-            print(email_list)
-    
+            template = list_form.cleaned_data['template']
+            string = template.file
+            decod_str = str(string.getvalue())
+            templ = decod_str[2:-3]
+            send_mass_templates.delay(email_list, templ)
     else:
         list_form =  SendBoxForm()
 
