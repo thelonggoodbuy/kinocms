@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5sg6@b&yt32)jac6c(w*zvy05ekt8t_j^0g9ccevt)q1c4m9d5'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -100,11 +100,11 @@ WSGI_APPLICATION = 'KINOCMS_proj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kino_cms_db',
-        'USER': 'maxim',
-        'PASSWORD': env.str('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -204,14 +204,14 @@ TEMPUS_DOMINUS_LOCALIZE = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-DEFAULT_FROM_EMAIL = 'markus1991kartal@gmail.com'
+DEFAULT_FROM_EMAIL = env('EMAIL_SENDING_DEFAULT_FROM_EMAIL')
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER =  'markus1991kartal@gmail.com'
-EMAIL_HOST_PASSWORD = 'bkmneyagebxnivag'
+EMAIL_HOST = env('EMAIL_SENDING_EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_SENDING_EMAIL_PORT')
+EMAIL_HOST_USER =  env('EMAIL_SENDING_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 
 # CELERY settings
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')

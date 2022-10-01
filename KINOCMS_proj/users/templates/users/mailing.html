@@ -81,26 +81,14 @@
             <div class="col-4 border border-dark rounded">
                 <div class="row text-center">
                     {% comment %} <p><strong>Лист завантажених шаблонів</strong></p> {% endcomment %}
-                    <div class="col-2">
-                        <input type="checkbox" id="template_checkbox">
-                        <input type="checkbox" id="template_checkbox">
-                        <input type="checkbox" id="template_checkbox">
-                        <input type="checkbox" id="template_checkbox">
-                        <input type="checkbox" id="template_checkbox">
-                    </div>
-                    <div class="col-6">
-                        <p> 11111111</p>
-                        <p> 22222222</p>
-                        <p> 33333333</p>
-                        <p> 44444444</p>
-                        <p> 55555555</p>
-                    </div>
-                    <div class="col-2">
-                        <p><a href="#">видалити</a></p>
-                        <p><a href="#">видалити</a></p>
-                        <p><a href="#">видалити</a></p>
-                        <p><a href="#">видалити</a></p>
-                        <p><a href="#">видалити</a></p>
+                    <div class="col-12">
+                        {% for mail_obj in mailing_objects %}
+                            <div class="row">
+                                <div class="col-2"><input type="checkbox" id="saved_template_checkbox_{{ mail_obj.id }}"></div>
+                                <div class="col-4"><p>{{ mail_obj.return_filename }}</p></div>
+                                <div class="col-4"><p><a href="{% url 'users:del_mailing' pk=mail_obj.id %}">видалити</a></p></div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             <div>
@@ -149,8 +137,8 @@
                     <th>ФИО</th>
                     <th>псевдоним</th>
                     <th>город</th>
-                    <th> </th>
-                    <th> </th>
+                    {% comment %} <th> </th>
+                    <th> </th> {% endcomment %}
                 </tr>
                 </thead>
                 <tbody>
@@ -167,8 +155,8 @@
                             <td class="align-middle">{{ user.surname|default_if_none:"-----" }} {{ user.name|default_if_none:"" }}</td>
                             <td class="align-middle">{{ user.nickname|default_if_none:"-----" }}</td>
                             <td class="align-middle">{{ user.town|default_if_none:"-----" }}</td>
-                            <td><a href="{% url 'cinema:change_user_data_by_admin' pk=user.id %}"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                            <td><a href="{% url 'users:del_user' pk=user.id %}"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                            {% comment %} <td><a href="{% url 'cinema:change_user_data_by_admin' pk=user.id %}"><img src="{% static 'cinema/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                            <td><a href="{% url 'users:del_user' pk=user.id %}"><img src="{% static 'cinema/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
                         </tr>
                     {% endfor %}
                 </tbody>

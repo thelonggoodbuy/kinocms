@@ -6,6 +6,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from django import forms
+from pathlib import Path
+
 import json
 import io
 
@@ -13,7 +15,7 @@ import io
 
 
 from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, SendBoxForm
-from .models import CustomUser
+from .models import CustomUser, Mailing
 from .tasks import send_mass_templates
 
 
@@ -111,23 +113,32 @@ def del_user(request, pk):
 def mailing(request):
 
     users_list = CustomUser.objects.all()
+    mailing_objects = Mailing.objects.all()
+
     if request.method == 'POST':
-        
         list_form =  SendBoxForm(request.POST, request.FILES)
+        print(request.POST)
+        print(request.FILES)
         if list_form.is_valid:
             list_form.save()
             email_list = []
             for user in list_form.instance.users.all():
                 email_list.append(user.email)
-            template = list_form.cleaned_data['template']
-            string = template.file
-            decod_str = str(string.getvalue())
-            templ = decod_str[2:-3]
-            send_mass_templates.delay(email_list, templ)
+            template = list_form.instance.template.read().decode()
+            send_mass_templates.delay(email_list, template)
     else:
         list_form =  SendBoxForm()
 
     context = {'users_list': users_list,
-                'list_form': list_form}
+                'list_form': list_form,
+                'mailing_objects': mailing_objects}
 
     return render(request, 'users/mailing.html', context)
+
+
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def del_mailing(request, pk):
+    mailing_obj = Mailing.objects.get(id=pk)
+    mailing_obj.delete()
+    return redirect('users:mailing')

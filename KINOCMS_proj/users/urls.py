@@ -1,5 +1,6 @@
 from django.urls import path
-from users.views import sign_in, sign_up, log_out, change_user_data, del_user, mailing
+from users.views import sign_in, sign_up, log_out, change_user_data, del_user, \
+                        mailing, del_mailing
 
 
 
@@ -13,4 +14,5 @@ urlpatterns = [
     path('log_out/', log_out, name='log_out'),
 
     path('mailing/', mailing, name='mailing'),
+    path('del_mailing/<int:pk>/', del_mailing, name='del_mailing'),
 ]

@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, AbstractUser, Permissio
 from django.forms import BooleanField, CharField, EmailField, JSONField
 from django.contrib.auth.models import UserManager
 from phonenumber_field.modelfields import PhoneNumberField
+from pathlib import Path
+import os
 
 
 # from cinema.models import Show
@@ -52,8 +54,12 @@ class Mailing(models.Model):
     template = models.FileField(upload_to='mailing_templates/')
     users =  models.ManyToManyField(CustomUser)
 
-    def __str__(self):
-        return self.letter_name
+    def return_filename(self):
+        file_name = Path(self.template.file.name).stem
+        return file_name
+
+    # def __str__(self):
+    #     return self.letter_name
 
 
 

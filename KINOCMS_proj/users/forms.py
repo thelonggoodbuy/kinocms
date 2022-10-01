@@ -186,6 +186,7 @@ class ChangeUserForm(forms.ModelForm):
 class SendBoxForm(forms.ModelForm):
 
     template = forms.FileField(widget = forms.FileInput())
+    
     class Meta:
         model = Mailing
         fields = ("template", "users")
