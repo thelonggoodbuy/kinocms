@@ -51,15 +51,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Mailing(models.Model):
-    template = models.FileField(upload_to='mailing_templates/')
-    users =  models.ManyToManyField(CustomUser)
+    template = models.FileField(upload_to='mailing_templates/', blank=True)
+    users =  models.ManyToManyField(CustomUser, blank=True)
 
     def return_filename(self):
         file_name = Path(self.template.file.name).stem
         return file_name
 
-    # def __str__(self):
-    #     return self.letter_name
+    def return_current_mailing_statistics(self):
+        all_users = CustomUser.objects.filter(is_superuser=False)
+
+        curent_mailing_ctatus = round(((self.users.filter(is_superuser=False)).count()/(all_users).count())*100)
+        return f"{curent_mailing_ctatus}%"
 
 
 
@@ -67,6 +70,11 @@ class Mailing(models.Model):
 
 class MailingStatistic(models.Model):
     many_of_sended_list = models.PositiveIntegerField()
+
+    def __str__(self):
+        return str(self.many_of_sended_list)
+
+
 
 class Ticket(models.Model):
     cancel_show = 'Сеанс отменен, свяжитесь с администрацией кинотеатра'

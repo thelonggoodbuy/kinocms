@@ -185,11 +185,31 @@ class ChangeUserForm(forms.ModelForm):
 
 class SendBoxForm(forms.ModelForm):
 
-    template = forms.FileField(widget = forms.FileInput())
+    template = forms.FileField(widget = forms.ClearableFileInput())
     
     class Meta:
         model = Mailing
         fields = ("template", "users")
+        widgets = {
+            'users': forms.CheckboxSelectMultiple()
+        }
+
+
+    # def get_uploaded_filename(self):
+    #     try:
+    #         self.data['template']
+    #         return self.cleaned_data['template']
+    #     except:
+    #         pass
+
+class UpdateBoxForm(forms.ModelForm):
+
+    # template = forms.FileField(required=False, widget = forms.FileInput())
+    # users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple())
+    
+    class Meta:
+        model = Mailing
+        fields = ("users", )
         widgets = {
             'users': forms.CheckboxSelectMultiple()
         }

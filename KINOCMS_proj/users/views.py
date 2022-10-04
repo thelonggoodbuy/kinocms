@@ -14,8 +14,8 @@ import io
 
 
 
-from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, SendBoxForm
-from .models import CustomUser, Mailing
+from .forms import RegisterUserForm, LoginForm, SimpleTextErrorList, ChangeUserForm, SendBoxForm, UpdateBoxForm
+from .models import CustomUser, Mailing, MailingStatistic
 from .tasks import send_mass_templates
 
 
@@ -112,26 +112,73 @@ def del_user(request, pk):
 @user_passes_test(lambda admin: admin.is_superuser)
 def mailing(request):
 
+    UpdateMailingFormset = forms.modelformset_factory(Mailing, form=UpdateBoxForm, extra=0, can_delete=True)
     users_list = CustomUser.objects.all()
-    mailing_objects = Mailing.objects.all()
+    mailing_objects = Mailing.objects.filter().order_by('-id')[:5]
+
+    try:
+        counter_of_sending = MailingStatistic.objects.get(id=1)
+    except:
+        counter_of_sending = MailingStatistic(id=1)
+        counter_of_sending.many_of_sended_list = 0
+        counter_of_sending.save()
+
+
+    print(f'Счетчик:{counter_of_sending}')
+
+
 
     if request.method == 'POST':
-        list_form =  SendBoxForm(request.POST, request.FILES)
-        print(request.POST)
-        print(request.FILES)
-        if list_form.is_valid:
+        list_form =  SendBoxForm(request.POST, request.FILES, prefix="main_list_form")
+        update_mailing_formset = UpdateMailingFormset(request.POST, request.FILES, queryset = mailing_objects)
+        email_list = []
+
+        if list_form.is_valid():
+            list_form =  SendBoxForm(request.POST, request.FILES, prefix="main_list_form")
+            update_mailing_formset = UpdateMailingFormset(queryset = mailing_objects)
+
+
             list_form.save()
-            email_list = []
             for user in list_form.instance.users.all():
                 email_list.append(user.email)
             template = list_form.instance.template.read().decode()
             send_mass_templates.delay(email_list, template)
+            counter_of_sending.many_of_sended_list += len(email_list)
+            counter_of_sending.save()
+            return redirect(request.path)
+        
+        elif update_mailing_formset.is_valid():
+            list_form =  SendBoxForm(prefix="main_list_form")
+            update_mailing_formset = UpdateMailingFormset(request.POST, request.FILES, queryset = mailing_objects)
+            update_mailing_formset.save()
+            try:
+                for updated_mail_form in update_mailing_formset:
+                    for user in updated_mail_form.instance.users.all():
+                        email_list.append(user.email)
+                        template = updated_mail_form.instance.template.read().decode()
+                        send_mass_templates.delay(email_list, template)
+                        counter_of_sending.many_of_sended_list += len(email_list)
+                        counter_of_sending.save()
+                        email_list=[]
+            except ValueError:
+                pass
+            
+            return redirect(request.path)
+
+        else:
+            print(update_mailing_formset.errors)
+            print('validation fail')
+            return redirect(request.path)
+
     else:
-        list_form =  SendBoxForm()
+        list_form =  SendBoxForm(prefix="main_list_form")
+        update_mailing_formset = UpdateMailingFormset(queryset = mailing_objects)
 
     context = {'users_list': users_list,
                 'list_form': list_form,
-                'mailing_objects': mailing_objects}
+                'mailing_objects': mailing_objects,
+                'update_mailing_formset': update_mailing_formset,
+                'counter_of_sending': counter_of_sending}
 
     return render(request, 'users/mailing.html', context)
 

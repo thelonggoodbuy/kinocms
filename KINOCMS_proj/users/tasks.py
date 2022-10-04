@@ -5,11 +5,13 @@ from django.template.loader import render_to_string
 from django.core.serializers.json import DjangoJSONEncoder
 import time
 
+from .models import MailingStatistic
 
-# render to string с темплейтом мы перебрасываем в body
+
 @shared_task
 def send_mass_templates(email_list, template):
-    print(template)
+
+
     for email_address in email_list:
         send_mail(
             'Topic_29_09_2022',
@@ -19,3 +21,4 @@ def send_mass_templates(email_list, template):
             fail_silently=False,
             html_message = template
         )
+        # counter_of_sending.many_of_sended_list += 1

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'phonenumber_field',
     'tempus_dominus',
+    'django_cleanup.apps.CleanupConfig',
 
     'debug_toolbar',
 

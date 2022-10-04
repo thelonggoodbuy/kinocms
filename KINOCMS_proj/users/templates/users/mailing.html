@@ -20,7 +20,7 @@
     
 </head>
 <body>
-    <div class="row">
+    <div class="row" id="main_card_table">
         <div class="card col-10 py-3 px-4 mx-5" id="main_card">
             <div class="row my-5 mx-5">
                 <div class="col-3">
@@ -33,7 +33,6 @@
                     <p><input type="checkbox" id="selectively_users"> Вибірково</p>
                 </div>
                 <div class="col-3">
-                    {% comment %} <a class="btn btn-secondary" href='#'> <img class="logo_tables_command brand-image img-circle"> обрати користувачів </a> {% endcomment %}
                     <button class="btn btn-secondary" id="choose_users_button">обрати користувачів</button>
 
                 </div>
@@ -46,8 +45,6 @@
                         <p>завантажити html лист</p>
                     </div>
                     <div class="col-6">
-                        {% comment %} <a class="btn btn-secondary" href='#' id="download_button"> <img class="logo_tables_command brand-image img-circle"> завантажити </a> {% endcomment %}
-                        {% comment %} <button class="btn btn-secondary" id="download_button">завантажити</button> {% endcomment %}
                         <button class="btn btn-secondary" id="download_button">завантажити</button>
 
                     </div>
@@ -57,7 +54,7 @@
                         <p>завантаженний файл</p>
                     </div>
                     <div class="col-6">
-                        <p><strong>назва файлу</strong></p>
+                        <strong><p id='downloaded_template_name'></p></strong>
                     </div>
                 </div>
                 <div class="row mx-5 my-3">
@@ -65,64 +62,101 @@
                         <p>Шаблон який буде розіслане</p>
                     </div>
                     <div class="col-6">
-                        <p><strong>назва файлу</strong></p>
+                        <strong><p id='current_template_name'></p></strong>
                     </div>
                 </div>
                 <div class="row ml-5 my-3">
                     <div class="col-4">
-                        <p>Кількість листів: <strong>%%%%</strong></p>
+                        <p>Кількість листів: <strong>{{ counter_of_sending.many_of_sended_list }}</strong></p>
                         
                     </div>
                     <div class="col-4">
-                        <p>Розсилку виконано: <strong>%%%%</strong></p>
+                        <p>Розсилку виконано: <strong id='mailing_statistic'></strong></p>
                     </div>
                 </div>
             </div>
             <div class="col-4 border border-dark rounded">
-                <div class="row text-center">
-                    {% comment %} <p><strong>Лист завантажених шаблонів</strong></p> {% endcomment %}
-                    <div class="col-12">
-                        {% for mail_obj in mailing_objects %}
+                <form method="post" enctype="multipart/form-data" id="formset_saved_templates">
+                    {% csrf_token %}
+
+                    {{ update_mailing_formset.management_form }}
+                        
+                        {% for update_form in update_mailing_formset %}
+                        {% for hidden in update_form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        {% if update_form.errors %}
+                            <div class="row" id="test-row!">
+                                <div class="col-10 mt-3 mb-3">
+                                    {% for field in update_form %}
+                                        {% for error in field.errors %} 
+                                            <p class="my-1 text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if update_form.non_field_errors %}
                             <div class="row">
-                                <div class="col-2"><input type="checkbox" id="saved_template_checkbox_{{ mail_obj.id }}"></div>
-                                <div class="col-4"><p>{{ mail_obj.return_filename }}</p></div>
-                                <div class="col-4"><p><a href="{% url 'users:del_mailing' pk=mail_obj.id %}">видалити</a></p></div>
+                                <div class="col-10 mt-3 mb-3">
+                                    {% for error in update_form.non_field_errors %}
+                                        <p class="my-1 text-danger">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                            <div class="mt-3">
+                                <div class="row" id="visible_block_{{ update_form.instance.id }}">
+                                    <div class="col-1"><input type="checkbox" id="saved_template_checkbox_{{ update_form.instance.id }}"></div>
+                                    <div class="col-6"><p id="saved_template_name">{{ update_form.instance.return_filename }}</p></div>
+                                    <div class="col-5"><p><a href="#" id="delete_link">видалити</a></p></div>
+                                </div>
+
+                                <div class="row" id="hidden_block_{{ update_form.instance.id }}">
+                                    <div class="col-12">
+                                        <p id="mailing_statistic">{{ update_form.instance.return_current_mailing_statistics }}</p>
+                                        <p>{{ update_form.users }}</p>
+                                        <p>DELETE_CUERRENT: {{update_form.DELETE}}</p>
+                                    </div>
+                                </div>
                             </div>
                         {% endfor %}
-                    </div>
-                </div>
+                    <input type="submit" value="внести зміни" id="update_mailing_submit">
+                </form>
             <div>
-        </div>
-        
+        </div> 
     </div>
-
-        
-        
-
         </div>
-        <a class="btn btn-secondary" href='#'> <img class="logo_tables_command brand-image img-circle"> розпочатки розсилку </a>
+        <div class="row">
+            <div class='col-12 text-center mt-3'>
+                <button type="button" id="main_submit_button" class="btn btn-secondary mt-3">розпочатки розсилку</button>
+            </div>
+        </div>
     </div>
+    
 
 
-    <div class="row" >
+    <div class="row">
         <div class="col-10">
             <form method="post" novalidate enctype="multipart/form-data" id="form_for_letter">
                 {% csrf_token %}
-                {% comment %} <p> Назва: {{ form.letter_name }} </p> {% endcomment %}
                 {{ list_form.template }}
-                {% comment %} {{ list_form.template.url }} {% endcomment %}
                 <p> {{ list_form.users }} </p> 
-                <input type="submit" class="mt-5 mb-5" value="надіслати данні">       
+                <input type="submit" class="mt-5 mb-5" value="надіслати данні" id="new_template_submit">       
             </form>
         </div>
     </div>
+</div>
 
 
 
 
 
-    <div class="row" >
-        <div class="col-10">
+    <div class="row" id="users_list" >
+        <div class="col-10 text-center">
         <div class="card text-center py-3 px-4">
             <div class="card-body table-responsive p-0 ">
             <table id="table_mailing" class="row-border" style="width:100%">
@@ -164,9 +198,11 @@
             </table>
             </div>
         </div>
+        <button type="button" id="submit_to_changed_users" class="btn btn-secondary ">відправити обранним користувачам</button>
+
         <!-- /.card -->
-        </div>
     </div>
+    
     <!-- /.row -->
 </body>
 {% endblock content %}
