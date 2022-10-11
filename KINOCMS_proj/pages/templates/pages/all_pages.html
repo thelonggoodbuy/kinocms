@@ -56,10 +56,12 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    {% if main_page %}
                                     <td><stront>{{ main_page.title|default_if_none:"-----" }}</stront></td>
                                     <td>{{ main_page.date_created|default_if_none:"-----" }}</td>
                                     <td>{{ main_page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
                                     <td><a href="{% url 'pages:main_page_detail' pk=main_page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                    {% endif %}
                                 </tr>
                                 {% for page in pages %}
                                     {% if page.special_issue == 'about_cinema' %}

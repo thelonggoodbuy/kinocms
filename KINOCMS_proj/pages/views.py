@@ -474,14 +474,19 @@ def main_page_detail(request, pk):
     else:
         print(Phones.objects.filter(page=main_page.id))
         main_page_form = MainPageForm(instance=main_page, prefix="main_page_form")
-        # phone_formset = PhoneFormset(queryset=Phones.objects.filter(page=main_page.id))
         phone_formset = PhoneFormset(instance=main_page)
         seo_form = SeoBlockForm(instance=main_page.seo_block, prefix="main_page_seo_form", 
                     error_class=SimpleTextErrorList)
-    # PhoneForm()
-    # main_page = MainPage.objects.select_related('seo_block').get(pk=pk)
-    # phones = Phones.objects.prefetch_related('page').get(pk=main_page.pk)
+
     context = {'main_page_form': main_page_form,
                 'phone_formset': phone_formset,
                 'seo_form': seo_form}
     return render(request, 'pages/main_page_detail.html', context)
+
+
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def statistics(request):
+    data=['25', '26', '27', '28', '29', '30', '31']
+    context = {'data': data}
+    return render(request, 'pages/statistics.html', context)

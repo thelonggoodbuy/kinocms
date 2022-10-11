@@ -14,11 +14,10 @@ def send_mass_templates(email_list, template):
 
     for email_address in email_list:
         send_mail(
-            'Topic_29_09_2022',
+            'Topic',
             None,
             'markus1991kartal@gmail.com',
             (email_address, ),
             fail_silently=False,
             html_message = template
         )
-        # counter_of_sending.many_of_sended_list += 1

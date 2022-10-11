@@ -3,7 +3,8 @@ from django.urls import path
 from .views import index, all_news, news_detail, create_news, del_news,\
                         all_promo, create_promo, promo_detail, promo_del,\
                         all_pages, create_page, page_detail, page_del,\
-                        main_page_detail
+                        main_page_detail,\
+                        statistics
 
 app_name = 'pages'
 
@@ -26,4 +27,6 @@ urlpatterns = [
     path('page_del/<int:pk>/', page_del, name='page_del'),
 
     path('main_page_detail/<int:pk>/', main_page_detail, name='main_page_detail'),
+
+    path('statistics/', statistics, name='statistics' ),
 ]
