@@ -38,8 +38,8 @@ class Show(models.Model):
     cinema_hall = models.ForeignKey(CinemaHall, on_delete=models.CASCADE)
     date_show = models.DateField()
     time_show = models.TimeField()
-    total_booked = models.JSONField()
-    total_bought = models.JSONField()
+    total_booked = models.SmallIntegerField(null=True, blank=True)
+    total_bought = models.SmallIntegerField(null=True, blank=True)
 
 
 class ShowCost(models.Model):

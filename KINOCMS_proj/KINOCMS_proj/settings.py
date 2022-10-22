@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'tempus_dominus',
     'django_cleanup.apps.CleanupConfig',
+    'django_user_agents',
 
     'debug_toolbar',
 
@@ -64,7 +65,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,6 +72,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
+    'users.middleware.identify_user_device',
 ]
 
 ROOT_URLCONF = 'KINOCMS_proj.urls'
@@ -153,8 +155,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-# LANGUAGE_CODE = 'ru'
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
+# LANGUAGE_CODE = 'uk'
 
 TIME_ZONE = 'UTC'
 

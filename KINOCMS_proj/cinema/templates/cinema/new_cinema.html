@@ -1,0 +1,257 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} створити кінотеатр {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/summernote-bs4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/pages_general.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/DataTables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/table_scripts.js' %}"></script>
+
+
+
+    <link rel="stylesheet" href="{% static 'cinema/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/summernote-bs4.min.css' %}">
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+
+    <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cinema/js/DataTables/datatables.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'cinema/css/style.css'%}">
+
+    {{ cinema_form.media }}
+
+</head>
+<div id="cinema_container">
+    <form method="post" novalidate enctype="multipart/form-data" action=".">
+        {% csrf_token %}
+        {% if cinema_form.errors %}
+            <div class="row" id="test-row!">
+                <div class="col-10 mt-3 mb-3">
+                    {% for field in cinema_form %}
+                        {% for error in field.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if cinema_form.title_cinema.errors %}
+            <div class="row">
+                <div class="col-10 mt-3 mb-3">
+                    {% for error in cinema_form.title_cinema.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                    {% for error in cinema_form.non_field_errors %}
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if cinema_logo_form.errors %}
+        <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                {% for field in cinema_logo_form %}
+                    {% for error in field.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if cinema_logo_form.non_field_errors %}
+            <div class="row">
+                <div class="col-10 mt-3 mb-3">
+                    {% for error in cinema_logo_form.non_field_errors %}
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if cinema_highest_banner_form.errors %}
+            <div class="row">
+                <div class="col-10 mt-3 mb-3">
+                    {% for field in cinema_highest_banner_form %}
+                        {% for error in field.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if cinema_highest_banner_form.non_field_errors %}
+            <div class="row">
+                <div class="col-10 mt-3 mb-3">
+                    {% for error in cinema_highest_banner_form.non_field_errors %}
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+
+
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ cinema_form.title_cinema.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ cinema_form.title_cinema }}
+            </div>
+        </div>
+        {% comment %} <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                {% for error in cinema_form.description_cinema.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div> {% endcomment %}
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ cinema_form.description_cinema.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ cinema_form.description_cinema }}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ cinema_form.conditions_cinema.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ cinema_form.conditions_cinema }}
+            </div>
+        </div>
+
+        <div class="row" id="main_image_container">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ cinema_logo_form.image.label_tag }}
+            </div>
+            <div class="col-3 justify-content-center align-self-center">
+                {{ cinema_logo_form.image }}
+            </div>
+            <div class="col-1 justify-content-center align-self-center text-center">
+                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            </div>
+            <div class="col-1 justify-content-center align-self-center text-center">
+                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                {{ cinema_logo_form.DELETE_IMAGE }}
+            </div>
+        </div>
+
+        <div class="row" id="main_image_container">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ cinema_highest_banner_form.image.label_tag }}
+            </div>
+            <div class="col-3 justify-content-center align-self-center">
+                {{ cinema_highest_banner_form.image }}
+            </div>
+            <div class="col-1 justify-content-center align-self-center text-center">
+                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            </div>
+            <div class="col-1 justify-content-center align-self-center text-center">
+                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                {{ cinema_highest_banner_form.DELETE_IMAGE }}
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-2 justify-content-center align-self-center">
+                <p><strong>Галерея картинок:</strong></p>
+            </div>
+            <div class="col-10">
+                <div id="galery_container">
+                    {{ cinema_image_formset.management_form }}
+                    <div class="row">
+                        {% for cinema_photo_form in cinema_image_formset %}
+                            <div class="col-2">
+                                {% for hidden in cinema_photo_form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
+                                {{ cinema_photo_form.image }}
+                                {{ cinema_photo_form.DELETE }}
+                                <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                {% for error in cinema_photo_form.image.errors %} 
+                                    <p class="my-1 text-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                            <div class="col-2 my-auto empty_button_container">
+                                <input type="button" value="Добавить фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
+                            </div>
+                            <div id="empty_form_container" style="display:none">
+                                <div class="col-2">
+                                    {{ cinema_image_formset.empty_form.image }}
+                                    {{ cinema_image_formset.empty_form.DELETE }}
+                                    <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                    <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                </div>
+                            </div>
+                            <div>                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="row mt-3 mb-3">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ cinema_seo_block.url_seo.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ cinema_seo_block.url_seo }}
+                {% for error in cinema_seo_block.url_seo.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2 justify-content-center align-self-center">
+                {{ cinema_seo_block.title_seo.label_tag }}
+            </div>
+            <div class="col-3">
+                {{ cinema_seo_block.title_seo }}
+                {% for error in cinema_seo_block.title_seo.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ cinema_seo_block.keyword_seo.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ cinema_seo_block.keyword_seo }}
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-2">
+                {{ cinema_seo_block.description_seo.label_tag }}
+            </div>
+            <div class="col-5">
+                {{ cinema_seo_block.description_seo }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 text-center">
+                <input type="submit" class="btn btn-outline-dark btn-sm mt-5 mb-5" value="внести зміни">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% endblock content %}

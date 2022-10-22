@@ -18,7 +18,7 @@ class CustomPages(models.Model):
     is_active = models.BooleanField(default=True)
     is_undeleteble = models.BooleanField(default=False)
     main_image = models.OneToOneField('cinema.Galery', related_name='custom_page_main_image', on_delete=models.PROTECT, null=True)
-    image_galery = models.ManyToManyField('cinema.Galery', null=True)
+    image_galery = models.ManyToManyField('cinema.Galery')
     seo_block = models.OneToOneField('cinema.SeoBlock', on_delete=models.PROTECT, null=True)
     special_issue = models.CharField(max_length=100, choices=issue_variable, null=True, blank=True)
 

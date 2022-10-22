@@ -85,4 +85,15 @@ class Ticket(models.Model):
     show = models.ForeignKey('cinema.Show', on_delete=models.SET(cancel_show))
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     ticket_type = models.CharField(max_length=20, choices=STATUS)
-    plase = models.JSONField()
+    plase = models.JSONField(null=True, blank=True)
+
+
+class DevicesStatisticCounter(models.Model):
+    DEVICES = (
+        ('mobile', 'Мобільний телефон або смартфон'),
+        ('tablet_and_other_sensor_devices', 'Планшети та інщі сенсорні пристрої'),
+        ('pc', 'Компьютер, або ноутбук'),
+    )
+    date = models.DateField()
+    device_type = models.CharField(max_length=120, choices=DEVICES)
+    number = models.PositiveIntegerField(default=0)

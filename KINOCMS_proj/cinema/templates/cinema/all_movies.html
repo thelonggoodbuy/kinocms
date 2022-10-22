@@ -9,7 +9,30 @@
 <head>
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
     <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script>
+    <type="text/javascript" src="{% static 'pages/js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/popper.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/popper.min.js.map' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/bootstrap.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/bootstrap.min.js.map' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/DataTables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/table_scripts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/toastr.min.js' %}"></script>  
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <link rel="stylesheet" href="{% static 'pages/css/bootstrap.min.css' %}">
+    <link rel="application/json" href="{% static 'pages/css/bootstrap.min.css.map' %}">
+
+
+    
+    
+    <link rel="stylesheet" href="{% static 'pages/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/js/DataTables/datatables.min.css' %}"/>
+    {% comment %} <link rel="stylesheet" href="{% static 'pages/css/style.css'%}"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/css/toastr.css' %}" media="all">
+    
     <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/adminlte.min.css' %}">
@@ -20,18 +43,31 @@
 <div>
     <div class="row">
         <div class="col-12 text-center">
-            <h3>список фильмов текущий</h3>
+            <h3>перелік фільмів</h3>
         </div>
     </div>
     <div class="cinema_preview_container row mt-4">
     {% for movie in all_films %}
         <div class="col-2 mx-3 text-center">
                 <a href="{% url 'cinema:movie_detail' pk=movie.id %}">
-                    <img src="{{ movie.main_image.image.url }}" class="cinema_preview"/>
+                {% comment %} <a href="#"> {% endcomment %}
+                    {% if movie.main_image.image %}
+                        <img src="{{ movie.main_image.image.url }}" class="cinema_preview"/>
+                    {% else %}
+                        <img src={% static "cinema/images/simple_image_background.jpg" %} class="cinema_preview"/>
+                    {% endif %}
                 </a>
             <p>{{ movie.title_movie }}</p>
+            <a class="delete_link" href="{% url 'cinema:del_movie' pk=movie.id %}"><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}" </a>
+            {% comment %} <a href="#" ><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}" </a> {% endcomment %}
         </div>
     {% endfor %}
+    <div class="col-2 mx-3 text-center">
+        <a href="{% url 'cinema:new_movie' %}">
+            <img src="{% static 'cinema/images/green_plus.png' %}" class="cinema_preview"/>
+        </a>
+        <p>додати фільм</p>
+    </div>
     </div>
     <div class="row">
         <div class="col-12 text-center">
@@ -39,5 +75,82 @@
         </div>
     <div>
 </div>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success'%}
+            <script type=text/javascript>toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+                }</script>
+            {% comment %} <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% elif message.tags == 'error' %}
+            <script type=text/javascript>toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }</script> {% endcomment %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<script type="text/javascript">
 
+    $('.delete_link').click(function(event) {
+        //console.log(this)
+        var link =  $(this);
+        var movie_name = $(this).parent().prev().html()
+        event.preventDefault();
+        swal({
+            title: `Ви дійсно бажаєте видалити сторінку фільму "${movie_name}"?`,
+            text: "Всі данні, в тому числі файли забражень будуть видалені",
+            icon: "warning",
+            buttons: ["Відміна", "Видалити"],
+            dangerMode: true,
+    
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location = this;                
+                //function(event){return true;}
+                //console.log('DELETE DELETE DELETE')
+                //event.returnValue = true;
+                //console.log(window.location.href)
+                //window.location = window.location.href
+                //$(this).parent().click()
+                //event.target.submit();
+                //return true;
+                //window.location.replace("http://stackoverflow.com");
+                //console.log(this)
+                //console.log($(this))
+                //window.location = this
+
+            }
+        });
+    });
+    
+    </script>
 {% endblock content %}

@@ -2,16 +2,20 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django import forms
 from django.shortcuts import redirect
-
-
+import datetime
+from datetime import timedelta
+from django.utils.datetime_safe import datetime
+import json
+from django.core import serializers
+from django.contrib import messages
 
 from .models import NewsAndPromotions, CustomPages, MainPage, Phones
-from cinema.models import SeoBlock
+from cinema.models import SeoBlock, Show
 # from .views import GaleryImageForm
 from .forms import SimpleTextErrorList, NewsForm, MainImage, GaleryImageForm, SeoBlockForm, CustomPageForm, MainPageForm, PhoneForm
 
 from cinema.models import Galery
-
+from users.models import DevicesStatisticCounter, CustomUser, Ticket
 
 
 def index(request):
@@ -436,6 +440,7 @@ def page_detail(request, pk):
 def page_del(request, pk):
     page = CustomPages.objects.get(id=pk)
     page.delete()
+    messages.success(request, 'Сторінка видалена.')
     return redirect('pages:all_pages')
 
 
@@ -487,6 +492,129 @@ def main_page_detail(request, pk):
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
 def statistics(request):
-    data=['25', '26', '27', '28', '29', '30', '31']
-    context = {'data': data}
+
+
+    # devices data
+    device_rought_data = DevicesStatisticCounter.objects.filter(date__gte=(datetime.now().date() - timedelta(days=27)),
+                                                                date__lte=datetime.now().date())
+    shows_rought_data = Show.objects.filter(date_show__gte=(datetime.now().date() - timedelta(days=27)),
+                                                                date_show__lte=datetime.now().date())
+    tickets_rought_data = Ticket.objects.filter(show__in=shows_rought_data)
+    
+    date_labels_list=[]
+    start_day = datetime.now().date()- timedelta(days=27)
+    finish_day = datetime.now().date()
+    actual_day = start_day
+    day_counter = 0
+
+    # date_label
+    while actual_day <= finish_day:
+        day_counter+=1
+        if day_counter==1 or day_counter%8==0:
+            date_labels_list.append(f'{actual_day.day} {actual_day.strftime("%b")}.')
+        else:
+            date_labels_list.append('')
+        actual_day += timedelta(days=1)
+
+    # devices statistics
+    actual_day = start_day
+    day_counter = 0
+    tablet_and_sensor = []
+    pc = []
+    mobile = []
+    sex={}
+    # shows statistics
+    shows_per_day=[]
+    buy_per_day=[]
+    book_per_day=[]
+    # statistic_counter
+    while actual_day <= finish_day:
+        day_counter+=1
+        try:
+            visitors_with_tablet = device_rought_data.filter(device_type='tablet_and_other_sensor_devices').get(date=actual_day)
+            tablet_and_sensor.append(visitors_with_tablet.number)
+        except:
+            tablet_and_sensor.append(0)
+        try:
+            visitors_pc = device_rought_data.filter(device_type='pc').get(date=actual_day)
+            pc.append(visitors_pc.number)
+        except:
+            pc.append(0)
+        try:
+            visitors_mobile = device_rought_data.filter(device_type='mobile').get(date=actual_day)
+            mobile.append(visitors_mobile.number)
+        except:
+            mobile.append(0)
+        # shows statistics
+        try:
+            shows_this_day = shows_rought_data.filter(date_show=str(actual_day))
+            shows_per_day.append(len(shows_this_day))
+        except:
+            shows_per_day.append(0)
+
+        # total_booked and total buying statistics
+        booking=0
+        buyng=0
+        shows_this_day = shows_rought_data.filter(date_show=str(actual_day))
+        if shows_this_day.count()==0:
+            # print(f'There are no seanse.  Date: {actual_day}')
+            buy_per_day.append(0)
+            book_per_day.append(0)
+        else:
+            for show in shows_this_day:
+                booking+=show.total_booked
+                buyng+=show.total_bought
+                # print(f'This actual show: {show}. Date: {actual_day}.')
+            buy_per_day.append(buyng)
+            book_per_day.append(booking)
+
+
+
+
+        actual_day += timedelta(days=1)
+    male = 0
+    female = 0
+    for ticket in tickets_rought_data:
+        if ticket.user.sex=='male': male+=1
+        if ticket.user.sex=='female': female+=1
+    
+    sex['чоловіча'] = male
+    sex['жіноча'] = female
+
+    print(sex)
+
+    # print(f'Чол - {male}') 
+    # print(f'Жін - {female}') 
+
+    # all devices data
+    all_devices = [sum(x) for x in zip(tablet_and_sensor, pc, mobile)]
+
+    #  users statistics
+    users = CustomUser.objects.filter(is_superuser=False, is_staff=False)
+    users_counter = users.count()
+    town_list = []
+    # users city statistics
+    city_list = users.values_list('town').distinct()
+    [town_list.append(obj[0]) for obj in city_list]
+    town_dict = {}
+    for town in town_list:
+        if town==None:
+            town_dict['Не вказано'] = (users.filter(town=town)).count()
+            continue
+        town_dict[town] = (users.filter(town=town)).count()
+    # print(town_dict) 
+    # print(male)
+    # print(female)
+    context = {'tablet_and_sensor': tablet_and_sensor,
+                'date_labels_list': date_labels_list,
+                'pc': pc,
+                'mobile': mobile,
+                'all_devices': all_devices,
+                'shows_per_day': shows_per_day,
+                'users_counter': users_counter,
+                'town_dict': town_dict,
+                'buy_per_day': buy_per_day,
+                'book_per_day': book_per_day,
+                'sex': sex}
+
     return render(request, 'pages/statistics.html', context)

@@ -1,34 +1,38 @@
 from genericpath import exists
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.contrib.auth.management.commands import createsuperuser
 from users.models import CustomUser
+import random
+
+from faker import Faker
+fake = Faker('uk_UA')
 
 class Command(BaseCommand):
     help = 'Команда ініціалізації користувачів сайту'
+    cities = ['Київ', 'Житомир', 'Одесса',\
+             'Чернівці', 'Вінниця', 'Чернігів',\
+            'Львів', 'Івано-Франківськ', 'Черкаси']
 
     def handle(self, *args, **kwargs):
-        try:
-            user = CustomUser.objects.get(email='initial_simple_user_1@gmail.com')
-            print('\nInitial users is already exist. New initial users haven`t been created.\n')
-        except:
+        for index in range(1, 15):   
             password = '12345asdfg'
-            email_1='initial_simple_user_1@gmail.com'
-            email_2='initial_simple_user_2@gmail.com'
-            email_3='initial_simple_user_3@gmail.com'
-            user_1 = CustomUser(email=email_1, is_superuser=False, is_staff=False)
-            user_1.set_password(password)
-            user_1.save()
-            user_2 = CustomUser(email=email_2, is_superuser=False, is_staff=False)
-            user_2.set_password(password)
-            user_2.save()
-            user_3 = CustomUser(email=email_3, is_superuser=False, is_staff=False)
-            user_3.set_password(password)
-            user_3.save()
-            print('\n')
-            print('Initial simple users have been created!')
-            print('Initial simple users emails are:')
-            print('initial_simple_user_1@gmail.com')
-            print('initial_simple_user_2@gmail.com')
-            print('initial_simple_user_3@gmail.com')
-            print('All initial simple users have password is 12345asdfg')
-            print('\n')
+            if CustomUser.objects.filter(email=f'initial_simple_user_{index}@gmail.com'):
+                continue
+            else:
+                email=f'initial_simple_user_{index}@gmail.com'
+                fake_name=fake.name()
+                fake_list=fake_name.split(' ')
+                surname = fake_list[-1]
+                name = fake_list[-2]
+                user=CustomUser(email=email,
+                                is_active=True,
+                                is_staff=False,
+                                is_superuser=False,
+                                name=name,
+                                surname=surname,
+                                nickname=fake_name,
+                                town=(random.choices(self.cities))[0],
+                                sex=random.choices(['male', 'female'])[0]
+                )
+                user.set_password(password)
+                user.save()

@@ -16,6 +16,11 @@
     <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/DataTables/datatables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/table_scripts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/toastr.min.js' %}"></script> 
+    {% comment %} <script type="text/javascript" src="{% static 'pages/js/sweetalert.min.js' %}"></script>  {% endcomment %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
     <link rel="stylesheet" href="{% static 'pages/css/bootstrap.min.css' %}">
     <link rel="application/json" href="{% static 'pages/css/bootstrap.min.css.map' %}">
@@ -26,6 +31,7 @@
     <link rel="stylesheet" href="{% static 'pages/css/icheck-bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'pages/js/DataTables/datatables.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/css/toastr.css' %}" media="all">
 
     <link rel="icon" href="{% static 'pages/images/cinema_logo_2.png' %}">
 
@@ -121,7 +127,7 @@
                                             <td>{{ page.date_created|default_if_none:"-----" }}</td>
                                             <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
                                             <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                            <td><a href="{% url 'pages:page_del' pk=page.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                            <td><a href="{% url 'pages:page_del' pk=page.id %}" id="delete_link"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}                                
@@ -131,7 +137,54 @@
                 </div>
             </div>
         </div>
-
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success'%}
+                    <script type=text/javascript>toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "15000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                      }</script>
+                    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
 </div>
+<script type="text/javascript">
+
+$('#delete_link').click(function(event) {
+    console.log(this)
+    var link =  $(this);
+    var page_name = $(this).parent().prevAll().last().html()
+    event.preventDefault();
+    swal({
+        title: `Ви дійсно бажаєте видалити сторінку "${page_name}"?`,
+        text: "Всі данні, в тому числі файли забражень будуть видалені",
+        icon: "warning",
+        buttons: ["Відміна", "Видалити"],
+        dangerMode: true,
+
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            window.location = this
+            
+        }
+    });
+});
+
+</script>
 
 {% endblock content %}

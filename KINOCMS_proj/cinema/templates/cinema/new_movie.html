@@ -9,7 +9,6 @@
 <head>
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
     <script type="text/javascript" src="{% static 'cinema/js/pages_general.js' %}"></script>
-    <script type="text/javascript" src="{% static 'pages/js/toastr.min.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
@@ -176,33 +175,10 @@
             </div>
         </div>
 
-        <p><input type="submit" class="mt-5 mb-5" value="зберігти"></p>
+        <p><input type="submit" class="mt-5 mb-5" value="внести изменения"></p>
+
     </form>
 </div>
 
-{% if messages %}
-    {% for message in messages %}
-        <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
-        {% if message.tags == 'error' %}
-            <script type=text/javascript>toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-center",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-        }</script>
-        {% endif %} 
-    {% endfor %}
-{% endif %}
 
 {% endblock content %}
