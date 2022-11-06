@@ -8,11 +8,12 @@ from django.utils.datetime_safe import datetime
 import json
 from django.core import serializers
 from django.contrib import messages
+from itertools import chain
 
-from .models import NewsAndPromotions, CustomPages, MainPage, Phones
+from .models import NewsAndPromotions, CustomPages, MainPage, Phones, Contact, ContactCell
 from cinema.models import SeoBlock, Show
 # from .views import GaleryImageForm
-from .forms import SimpleTextErrorList, NewsForm, MainImage, GaleryImageForm, SeoBlockForm, CustomPageForm, MainPageForm, PhoneForm
+from .forms import SimpleTextErrorList, NewsForm, MainImage, GaleryImageForm, SeoBlockForm, CustomPageForm, MainPageForm, PhoneForm, ContactCellForm
 
 from cinema.models import Galery
 from users.models import DevicesStatisticCounter, CustomUser, Ticket
@@ -292,11 +293,18 @@ def promo_del(request, pk):
 def all_pages(request):
 
     pages = CustomPages.objects.all()
-    main_page = MainPage.objects.first()
+    main_page = MainPage.objects.all()
+    contact_page = Contact.objects.all()
     
-    context = {'pages': pages,
-                'main_page': main_page}
-    print(context)
+    pages_list = sorted(
+                chain(pages, main_page, contact_page),
+                key=lambda page: page.is_active,
+                reverse=True)
+
+    context = {'pages_list': pages_list,
+                'pages': pages}
+
+    # print(context)
     return render(request, 'pages/all_pages.html', context)
 
 
@@ -450,7 +458,10 @@ def page_del(request, pk):
 def main_page_detail(request, pk):
 
     main_page = MainPage.objects.select_related('seo_block').get(pk=pk)
-    phones = Phones.objects.prefetch_related('page').get(pk=main_page.pk)
+    try:
+        phones = Phones.objects.prefetch_related('page').get(pk=main_page.pk)
+    except:
+        pass
 
     PhoneFormset = forms.inlineformset_factory(MainPage, Phones, 
                                             form=PhoneForm, fk_name='page',
@@ -467,9 +478,6 @@ def main_page_detail(request, pk):
             main_page = main_page_form.save(commit=False)
 
             phone_formset.save()
-            # for phone_form in phone_formset:
-            #     if phone_form.id != None:
-            #         main_page.
 
             seo = seo_form.save()
             main_page.seo_block = seo
@@ -487,6 +495,48 @@ def main_page_detail(request, pk):
                 'phone_formset': phone_formset,
                 'seo_form': seo_form}
     return render(request, 'pages/main_page_detail.html', context)
+
+@login_required
+@user_passes_test(lambda admin: admin.is_superuser)
+def contacts_detail(request, pk):
+    # contacts_page = Contact.objects.select_related('seo_block').first()
+
+    contacts_page = Contact.objects.select_related('seo_block').get(pk=pk)
+
+    exists_contacts = ContactCell.objects.all()
+
+    ContactFormset = forms.modelformset_factory(ContactCell, 
+                                            form=ContactCellForm,
+                                            can_delete=True, extra=0, min_num=1)
+    
+    if request.method == "POST":
+        contact_formset = ContactFormset(request.POST, request.FILES, queryset=exists_contacts)
+        seo_form = SeoBlockForm(request.POST, 
+                    instance=contacts_page.seo_block, 
+                    error_class=SimpleTextErrorList)
+
+        if contact_formset.is_valid() and seo_form.is_valid():
+            contact_formset.save()
+            seo = seo_form.save()
+            contacts_page.seo_block = seo
+            contacts_page.save()
+            return redirect('pages:all_pages')
+
+        else:
+            print(request.POST)
+            print(seo_form.errors)
+            print(contact_formset.errors)
+            print('ERROR!!!')
+
+    else:
+        contact_formset = ContactFormset(queryset=exists_contacts)
+        seo_form = SeoBlockForm(instance=contacts_page.seo_block, 
+                    error_class=SimpleTextErrorList)
+
+    context = {'contacts_page': contacts_page,
+                'contact_formset': contact_formset,
+                'seo_form': seo_form}
+    return render(request, 'pages/contacts_page_detail.html', context)
 
 
 @login_required
@@ -552,24 +602,18 @@ def statistics(request):
         except:
             shows_per_day.append(0)
 
-        # total_booked and total buying statistics
         booking=0
         buyng=0
         shows_this_day = shows_rought_data.filter(date_show=str(actual_day))
         if shows_this_day.count()==0:
-            # print(f'There are no seanse.  Date: {actual_day}')
             buy_per_day.append(0)
             book_per_day.append(0)
         else:
             for show in shows_this_day:
                 booking+=show.total_booked
                 buyng+=show.total_bought
-                # print(f'This actual show: {show}. Date: {actual_day}.')
             buy_per_day.append(buyng)
             book_per_day.append(booking)
-
-
-
 
         actual_day += timedelta(days=1)
     male = 0
@@ -580,13 +624,6 @@ def statistics(request):
     
     sex['чоловіча'] = male
     sex['жіноча'] = female
-
-    print(sex)
-
-    # print(f'Чол - {male}') 
-    # print(f'Жін - {female}') 
-
-    # all devices data
     all_devices = [sum(x) for x in zip(tablet_and_sensor, pc, mobile)]
 
     #  users statistics
@@ -602,9 +639,7 @@ def statistics(request):
             town_dict['Не вказано'] = (users.filter(town=town)).count()
             continue
         town_dict[town] = (users.filter(town=town)).count()
-    # print(town_dict) 
-    # print(male)
-    # print(female)
+
     context = {'tablet_and_sensor': tablet_and_sensor,
                 'date_labels_list': date_labels_list,
                 'pc': pc,

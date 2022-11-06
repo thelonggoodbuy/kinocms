@@ -1,0 +1,375 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} все фильмы {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/pages_general.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/toastr.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cinema/css/style.css'%}">
+
+</head>
+<div id="main_form_container">
+    <form method="post" novalidate enctype="multipart/form-data" action=".">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-10 mt-3 mb-3">
+                <p>!!!!</p>
+                {% for field in movie_main_form.fields %}
+                    {% if field.error %}
+                        {% for error in field.errors %}
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {% for error in movie_main_form.non_field_errors %}
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <ul class="nav nav-tabs justify-content-end" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Українська мова</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Русский язык</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_main_form.title_movie_uk.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_main_form.title_movie_uk }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_main_form.description_movie_uk.label_tag }}
+                    </div>
+                    <div class="col-5">
+                        {{ movie_main_form.description_movie_uk }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10 mt-3 mb-3">
+                        {% for error in movie_main_form.description_movie.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="row" id="main_image_container">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_main_image_form.image.label_tag }}
+                    </div>
+                    <div class="col-3 justify-content-center align-self-center">
+                        {{ movie_main_image_form.image }}
+                    </div>
+                    <div class="col-1 justify-content-center align-self-center text-center">
+                        <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                    </div>
+                    <div class="col-1 justify-content-center align-self-center text-center">
+                        <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                        {{ movie_main_image_form.DELETE_IMAGE }}
+                    </div>
+                </div>
+        
+                <div class="row mb-4">
+                    <div class="col-2 justify-content-center align-self-center">
+                        <p><strong>Галерея картинок:</strong></p>
+                    </div>
+                    <div class="col-10">
+                        <div id="galery_container">
+                            {{ movie_image_formset.management_form }}
+                            <div class="row">
+                                {% for movie_photo_form in movie_image_formset %}
+                                    <div class="col-2">
+                                        {% for hidden in movie_photo_form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                        {{ movie_photo_form.image }}
+                                        {{ movie_photo_form.DELETE }}
+                                        <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                        <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                        {% for error in movie_photo_form.image.errors %} 
+                                            <p class="my-1 text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                                    <div class="col-2 my-auto empty_button_container">
+                                        <input type="button" value="Добавить фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
+                                    </div>
+                                    <div id="empty_form_container" style="display:none">
+                                        <div class="col-2">
+                                            {{ movie_image_formset.empty_form.image }}
+                                            {{ movie_image_formset.empty_form.DELETE }}
+                                            <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                            <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                        </div>
+                                    </div>
+                                    <div>                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_main_form.url_to_trailer.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_main_form.url_to_trailer }}
+                    </div>
+                </div>
+        
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        <p><strong>тип кино:</strong></p>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-check form-check-inline">
+                            {{ movie_main_form.type_3d }} <span><strong>3D</strong>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            {{ movie_main_form.type_2d }} <span><strong>2D</strong>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            {{ movie_main_form.type_IMAX }} <span><strong>IMAX</strong>    
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_seo_block.url_seo.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_seo_block.url_seo }}
+                        {% for error in movie_seo_block.url_seo.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_seo_block.title_seo.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_seo_block.title_seo }}
+                        {% for error in movie_seo_block.title_seo.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_seo_block.keyword_seo.label_tag }}
+                    </div>
+                    <div class="col-5">
+                        {{ movie_seo_block.keyword_seo }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_seo_block.description_seo.label_tag }}
+                    </div>
+                    <div class="col-5">
+                        {{ movie_seo_block.description_seo }}
+                    </div>
+                </div>
+            </div>
+{% comment %} !!!!!!!!!!!!!! {% endcomment %}
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_main_form.title_movie_ru.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_main_form.title_movie_ru }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_main_form.description_movie_ru.label_tag }}
+                    </div>
+                    <div class="col-5">
+                        {{ movie_main_form.description_movie_ru }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-10 mt-3 mb-3">
+                        {% for error in movie_main_form.description_movie.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="row" id="main_image_container">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_main_image_form.image.label_tag }}
+                    </div>
+                    <div class="col-3 justify-content-center align-self-center">
+                        {{ movie_main_image_form.image }}
+                    </div>
+                    <div class="col-1 justify-content-center align-self-center text-center">
+                        <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                    </div>
+                    <div class="col-1 justify-content-center align-self-center text-center">
+                        <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                        {{ movie_main_image_form.DELETE_IMAGE }}
+                    </div>
+                </div>
+        
+                <div class="row mb-4">
+                    <div class="col-2 justify-content-center align-self-center">
+                        <p><strong>Галерея картинок:</strong></p>
+                    </div>
+                    <div class="col-10">
+                        <div id="galery_container">
+                            {{ movie_image_formset.management_form }}
+                            <div class="row">
+                                {% for movie_photo_form in movie_image_formset %}
+                                    <div class="col-2">
+                                        {% for hidden in movie_photo_form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                        {{ movie_photo_form.image }}
+                                        {{ movie_photo_form.DELETE }}
+                                        <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                        <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                        {% for error in movie_photo_form.image.errors %} 
+                                            <p class="my-1 text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                                    <div class="col-2 my-auto empty_button_container">
+                                        <input type="button" value="Добавить фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
+                                    </div>
+                                    <div id="empty_form_container" style="display:none">
+                                        <div class="col-2">
+                                            {{ movie_image_formset.empty_form.image }}
+                                            {{ movie_image_formset.empty_form.DELETE }}
+                                            <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                                            <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                        </div>
+                                    </div>
+                                    <div>                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_main_form.url_to_trailer.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_main_form.url_to_trailer }}
+                    </div>
+                </div>
+        
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        <p><strong>тип кино:</strong></p>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-check form-check-inline">
+                            {{ movie_main_form.type_3d }} <span><strong>3D</strong>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            {{ movie_main_form.type_2d }} <span><strong>2D</strong>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            {{ movie_main_form.type_IMAX }} <span><strong>IMAX</strong>    
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_seo_block.url_seo.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_seo_block.url_seo }}
+                        {% for error in movie_seo_block.url_seo.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2 justify-content-center align-self-center">
+                        {{ movie_seo_block.title_seo.label_tag }}
+                    </div>
+                    <div class="col-3">
+                        {{ movie_seo_block.title_seo }}
+                        {% for error in movie_seo_block.title_seo.errors %} 
+                            <p class="my-1 text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_seo_block.keyword_seo.label_tag }}
+                    </div>
+                    <div class="col-5">
+                        {{ movie_seo_block.keyword_seo }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-2">
+                        {{ movie_seo_block.description_seo.label_tag }}
+                    </div>
+                    <div class="col-5">
+                        {{ movie_seo_block.description_seo }}
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          
+        
+
+        <p><input type="submit" class="mt-5 mb-5" value="зберігти"></p>
+    </form>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}')</script>
+        {% if message.tags == 'error' %}
+            <script type=text/javascript>toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+        }</script>
+        {% endif %} 
+    {% endfor %}
+{% endif %}
+
+{% endblock content %}

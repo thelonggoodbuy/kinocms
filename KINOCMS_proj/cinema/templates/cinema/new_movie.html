@@ -32,14 +32,53 @@
             </div>
         </div>
 
-        <div class="row mt-3 mb-3">
-            <div class="col-2">
-                {{ movie_main_form.title_movie.label_tag }}
+        <ul class="nav nav-tabs justify-content-end row" id="myTab" role="tablist">
+            <li class="nav-item col-6 col-sm-5 col-md-4 col-xl-3">
+              <a class="nav-link active" id="uk-block-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Українська мова</a>
+            </li>
+            <li class="nav-item col-6 col-sm-5 col-md-4 col-xl-3">
+              <a class="nav-link" id="ru-block-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Русский язык</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ movie_main_form.title_movie_uk.label_tag }}
+                    </div>
+                    <div class="col-12 col-xl-5">
+                        {{ movie_main_form.title_movie_uk }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ movie_main_form.description_movie_uk.label_tag }}
+                    </div>
+                    <div class="col-12 col-xl-5">
+                        {{ movie_main_form.description_movie_uk }}
+                    </div>
+                </div>
             </div>
-            <div class="col-3">
-                {{ movie_main_form.title_movie }}
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ movie_main_form.title_movie_ru.label_tag }}
+                    </div>
+                    <div class="ccol-12 col-xl-5">
+                        {{ movie_main_form.title_movie_ru }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ movie_main_form.description_movie_ru.label_tag }}
+                    </div>
+                    <div class="col-12 col-xl-5">
+                        {{ movie_main_form.description_movie_ru }}
+                    </div>
+                </div>
             </div>
-        </div>
+          </div>
         <div class="row">
             <div class="col-10 mt-3 mb-3">
                 {% for error in movie_main_form.description_movie.errors %} 
@@ -47,61 +86,55 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="row mt-3 mb-3">
-            <div class="col-2">
-                {{ movie_main_form.description_movie.label_tag }}
-            </div>
-            <div class="col-5">
-                {{ movie_main_form.description_movie }}
-            </div>
-        </div>
-        <div class="row" id="main_image_container">
-            <div class="col-2 justify-content-center align-self-center">
+        {% comment %}  {% endcomment %}
+
+        <div class="row" id="main_image_container" align="center">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 justify-content-center align-self-center">
                 {{ movie_main_image_form.image.label_tag }}
             </div>
-            <div class="col-3 justify-content-center align-self-center">
+            <div class="col-12 col-md-6 col-xl-3 justify-content-center align-self-center">
                 {{ movie_main_image_form.image }}
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-12 col-md-6 col-xl-2 justify-content-center align-self-center text-center">
+                <input type="button" value="додати" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-12 col-md-6 col-xl-2 col-md-6 justify-content-center align-self-center text-center">
+                <input type="button" value="видалити" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
                 {{ movie_main_image_form.DELETE_IMAGE }}
             </div>
         </div>
-
+{% comment %} s {% endcomment %}
         <div class="row mb-4">
-            <div class="col-2 justify-content-center align-self-center">
-                <p><strong>Галерея картинок:</strong></p>
+            <div class="col-12 col-xl-2 mt-3 mt-xl-5 justify-content-center" align="center">
+                <p><strong>Галерея малюнків:</strong></p>
             </div>
             <div class="col-10">
                 <div id="galery_container">
                     {{ movie_image_formset.management_form }}
-                    <div class="row">
+                    <div class="row justify-content-center">
                         {% for movie_photo_form in movie_image_formset %}
-                            <div class="col-2">
+                            <div class="col-12 col-sm-4 col-md-3 col-xl-3 mx-3 text-center">
                                 {% for hidden in movie_photo_form.hidden_fields %}
                                     {{ hidden }}
                                 {% endfor %}
                                 {{ movie_photo_form.image }}
                                 {{ movie_photo_form.DELETE }}
-                                <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                                <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                <input type="button" value="додати" id="add_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
+                                <input type="button" value="видалити" id="del_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
                                 {% for error in movie_photo_form.image.errors %} 
                                     <p class="my-1 text-danger">{{ error }}</p>
                                 {% endfor %}
                             </div>
                         {% endfor %}
-                            <div class="col-2 my-auto empty_button_container">
-                                <input type="button" value="Добавить фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
+                            <div class="col-6 col-md-3 col-xl-3 empty_button_container justify-content-center align-self-center my-0 my-xl-3 mx-3">
+                                <input type="button" value="додати фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
                             </div>
                             <div id="empty_form_container" style="display:none">
-                                <div class="col-2">
+                                <div class="col-12 col-sm-4 col-md-3 col-xl-3 mx-3 text-center">
                                     {{ movie_image_formset.empty_form.image }}
                                     {{ movie_image_formset.empty_form.DELETE }}
-                                    <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                                    <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                    <input type="button" value="додати" id="add_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
+                                    <input type="button" value="видалити" id="del_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
                                 </div>
                             </div>
                             <div>                
@@ -112,19 +145,19 @@
         </div>
 
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-lg-10 col-xl-2">
                 {{ movie_main_form.url_to_trailer.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-lg-10 col-xl-5 justify-content-center align-self-center">
                 {{ movie_main_form.url_to_trailer }}
             </div>
         </div>
 
-        <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+        <div class="row mt-6 mb-3">
+            <div class="col-6 col-xl-2 justify-content-center align-self-center">
                 <p><strong>тип кино:</strong></p>
             </div>
-            <div class="col-5">
+            <div class="col-12 col-xl-5">
                 <div class="form-check form-check-inline">
                     {{ movie_main_form.type_3d }} <span><strong>3D</strong>
                 </div>
@@ -137,10 +170,10 @@
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-lg-10 col-xl-2 justify-content-center align-self-center">
                 {{ movie_seo_block.url_seo.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-lg-10 col-xl-5">
                 {{ movie_seo_block.url_seo }}
                 {% for error in movie_seo_block.url_seo.errors %} 
                     <p class="my-1 text-danger">{{ error }}</p>
@@ -148,35 +181,26 @@
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
-                {{ movie_seo_block.title_seo.label_tag }}
-            </div>
-            <div class="col-3">
-                {{ movie_seo_block.title_seo }}
-                {% for error in movie_seo_block.title_seo.errors %} 
-                    <p class="my-1 text-danger">{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-lg-10 col-xl-2">
                 {{ movie_seo_block.keyword_seo.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-lg-10 col-xl-5">
                 {{ movie_seo_block.keyword_seo }}
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-lg-10 col-xl-2">
                 {{ movie_seo_block.description_seo.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-lg-10 col-xl-5">
                 {{ movie_seo_block.description_seo }}
             </div>
         </div>
-
-        <p><input type="submit" class="mt-5 mb-5" value="внести изменения"></p>
-
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <input type="submit" value="зберігти" id="add_button" class="btn btn-outline-dark btn-sm mx-3">
+            </div>
+        </div>
     </form>
 </div>
 

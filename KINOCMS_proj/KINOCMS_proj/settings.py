@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import environ
 import os
-# from . import password_validators
+from django.utils.translation import gettext_lazy as _
 
 
 
@@ -50,13 +50,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'modeltranslation',
+    'debug_toolbar',
     'bootstrap4',
     'phonenumber_field',
     'tempus_dominus',
     'django_cleanup.apps.CleanupConfig',
     'django_user_agents',
-
-    'debug_toolbar',
 
     'pages.apps.PagesConfig',
     'users.apps.UsersConfig',
@@ -67,6 +67,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -74,6 +75,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'users.middleware.identify_user_device',
+    # 'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'KINOCMS_proj.urls'
@@ -155,8 +157,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
-# LANGUAGE_CODE = 'uk'
+LANGUAGE_CODE = 'uk'
+# LANGUAGE_CODE = "ru-RU"
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'uk'
+
+# gettext = lambda s: s
+LANGUAGES = (
+    ("uk", _("Українська")),
+    ("ru", _("Русский")),
+)
+
+MODELTRANSLATION_LANGUAGES = ('uk', 'ru')
+
 
 TIME_ZONE = 'UTC'
 
@@ -165,6 +177,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale/',
+]
 
 
 # Static files (CSS, JavaScript, Images)

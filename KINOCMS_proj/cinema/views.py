@@ -98,16 +98,19 @@ def add_banners(request):
     
 
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
 
         # highest banner logic
         if "btnform1" in request.POST:
-            print(print('валидация первого баннера'))
+            # print(print('валидация первого баннера'))
             if highest_banner_form.is_valid() and add_banner_cell_formset.is_valid():
-                # print('первый')
+                print('оба баннера валидированы')
                 highest_banner_form.save()
                 add_banner_cell_formset.save()
                 return redirect(request.path)
+            else:
+                print(f' баннер: {highest_banner_form.is_valid()}')
+                print(f' ячейки: {add_banner_cell_formset.is_valid()}')
         else:
             highest_banner_form = HighestBannerForm(instance = my_banner, prefix='highest_banner')      
             add_banner_cell_formset = AddBannerCellFormSet(queryset=BannerCell.objects.filter(purpose='highest_banner').all()) 
@@ -202,17 +205,13 @@ def movie_detail(request, pk=None):
         if movie_main_form.is_valid() == False:
             print(movie_main_form.errors.as_text())
             messages.error(request, f'{movie_main_form.errors.as_text()}')
-            # [print(error) for error in movie_main_form.errors]
         elif movie_main_image_form.is_valid() == False:
-            # [print(error) for error in movie_main_image_form.errors]
             print(movie_main_image_form.errors.as_text())
             messages.error(request, f'{movie_main_image_form.errors.as_text()}')
         elif movie_image_formset.is_valid() == False:
-            # [print(error) for error in movie_image_formset.errors]
             print(movie_main_image_form.errors.as_text())
             messages.error(request, f'{movie_main_image_form.errors.as_text()}')
         elif movie_seo_block.is_valid() == False:
-            # [print(error) for error in movie_seo_block.errors]
             print(movie_seo_block.errors.as_text())
             messages.error(request, f'{movie_seo_block.errors.as_text()}')
 
@@ -280,7 +279,7 @@ def new_movie(request):
                 movie.main_image = None
 
 
-            movie_image_formset.save()
+            movie_image_formset.save(commit=False)
             for movie_image_form in movie_image_formset:
                 if movie_image_form.instance.id != None:
                     movie.image_galery.add(movie_image_form.instance.id)
@@ -290,6 +289,8 @@ def new_movie(request):
             movie.save()
             messages.success(request, f'Сторінка фільму {movie.title_movie} створена.')
             return redirect('cinema:all_movies')
+        else:
+            print(movie_main_form.errors, movie_main_image_form.errors, movie_image_formset.errors, movie_seo_block.errors)
 
     else:
         movie_main_form = MovieForm(error_class=SimpleTextErrorList)

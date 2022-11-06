@@ -6,8 +6,9 @@ from django.core.files.images import get_image_dimensions
 
 from .widgets import CustomClearableFileInput, CustomClearableFileInputBanner, CustomTextAreaWithEditor
 from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, SeoBlock, Cinema, CinemaHall
+from django.utils.translation import ugettext_lazy as _
 
-
+from modeltranslation.forms import TranslationModelForm
 
 
 class SimpleTextErrorList(ErrorList):
@@ -56,13 +57,14 @@ class AddBannerCellForm(forms.ModelForm):
                             error_messages={
                                 'invalid_image': 'Файли з таким розширенням не підтримуються'},
                             widget=CustomClearableFileInputBanner())
+                            # widget=CustomClearableFileInput())
 
     url = forms.URLField(required=False, 
                         error_messages={'invalid': 'Введіть корректну URL адрессу'}, 
                         label='URL', 
-                        widget=forms.URLInput())
+                        widget=forms.URLInput(attrs={'class': 'form-control'}))
     text = forms.CharField(error_messages={'required': 'Баннер має містити назву або текст'},
-                            widget=forms.TextInput())
+                            widget=forms.TextInput(attrs={'class': 'form-control'}))
     purpose = forms.CharField(initial = 'highest_banner')
 
 
@@ -192,13 +194,19 @@ class AddBannerPromotionAndNewsCellForm(forms.ModelForm):
 
 # Movie Forms
 class MovieForm(forms.ModelForm):
-    title_movie = forms.CharField(label = "Название фильма",
-                                    error_messages={'required': 'Фільма має містити назву'}, 
+    title_movie_uk = forms.CharField(label = "Назва фільму",
+                                    error_messages={'required': 'Фільм повинен містити назву українскьою'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description_movie = forms.CharField(label = "Описание фильма", 
-                                    error_messages={'required': 'Фільма має містити опис'},
+    title_movie_ru = forms.CharField(label = "Название фильма",
+                                error_messages={'required': 'Фільм повинен містити назву російською'}, 
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description_movie_uk = forms.CharField(label = "Опис фільму", 
+                                    error_messages={'required': 'Фільм має містити опис українською'},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
-    url_to_trailer = forms.URLField(required=False, label = "ссылка на трейлер",
+    description_movie_ru = forms.CharField(label = "Описание фильма", 
+                                error_messages={'required': 'Фільм має містити опис російською'},
+                                widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+    url_to_trailer = forms.URLField(required=False, label = _("Посилання на трейлер"),
                                     widget=forms.URLInput(attrs={'class': 'form-control'}))
     type_2d = forms.BooleanField(required=False, label = "2d",
                                     widget=forms.CheckboxInput(attrs={"class": "form-check-input", 
@@ -218,23 +226,23 @@ class MovieForm(forms.ModelForm):
 
     class Meta:
         model = Movie
-        fields = ('title_movie', 'description_movie', 'type_2d', 'type_3d', 'type_IMAX', 'url_to_trailer')
+        fields = ('title_movie_uk', 'title_movie_ru', 'description_movie_uk', 'description_movie_ru', 'type_2d', 'type_3d', 'type_IMAX', 'url_to_trailer')
 
     def clean(self):
         type_2d = self.cleaned_data['type_2d']
         type_3d = self.cleaned_data['type_3d']
         type_IMAX = self.cleaned_data['type_IMAX']
         if (type_2d or type_3d or type_IMAX) is False:
-            raise forms.ValidationError("Потрібно обрати хоча б один вариант показу")
+            raise forms.ValidationError(_("Потрібно обрати хоча б один вариант показу"))
        
 
 
 class MovieMainImage(forms.ModelForm):
-    image = forms.ImageField(label='Главная картинка', required=False, 
+    image = forms.ImageField(label=_('Головний малюнок'), required=False, 
                             validators=[validators.FileExtensionValidator(
                             allowed_extensions=('gif', 'jpg', 'png', 'jpeg'))],
                             error_messages={
-                                'invalid_image': 'Этот формат не поддерживается'},
+                                'invalid_image': _('Такий формат зображення не підтримується')},
                             widget=CustomClearableFileInput())
 
 

@@ -31,15 +31,6 @@
     <form method="post" novalidate enctype="multipart/form-data" action=".">
         {% csrf_token %}
 
-
-
-        {% comment %} <p class="my-1 text-danger">{{ one_news_form.errors }}</p>
-        <p>{{ one_news_form.non_field_errors }}</p>
-        <p>{{ main_image_form.errors }}</p>
-        <p>{{ main_image_form.non_field_errors }}</p>
-        <p>{{ one_news_seo_block.errors }}</p>
-        <p>{{ one_news_seo_block.non_field_errors }}</p> {% endcomment %}
-
         <div class="row">
             <div class="col-10 mt-3 mb-3">
                 {% for field in one_news_form %}
@@ -76,24 +67,21 @@
                 {% endfor %}
             </div>
         </div>
-        <label class="switch float-right">
-            {{ one_news_form.is_active }}
-            <span class="slider round"></span>
-        </label>
-        </div>
+
+
 
         <div class="row mt-3 mb-4">
-            <div class="col-2">
+            <div class="col-12 col-xl-2">
                 {{ one_news_form.title_news_or_promo.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-sm-8 col-xl-3">
                 {{ one_news_form.title_news_or_promo }}
             </div>
 
-            <div class="col-2">
+            <div class="col-12 offset-xl-1 col-xl-2">
                 {{ one_news_form.date_news_or_promoptions.label_tag }}
             </div>
-            <div class="col-2 d-inline">
+            <div class="col-12 col-sm-8 col-xl-2 d-inline">
                 <div class="form-group">
                     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
                         {{ one_news_form.date_news_or_promoptions }}
@@ -104,73 +92,64 @@
                 </div>
             </div>
 
-
-            {% comment %} <div class="col-2">
-                {{ one_news_form.date_news_or_promoptions.label_tag }}
-            </div>
-            <div class="col-3">
-                {{ one_news_form.date_news_or_promoptions }}
-            </div> {% endcomment %}
-
-            {% comment %} ***************************** {% endcomment %}
         </div>
  
         <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-xl-2">
                 {{ one_news_form.description_news_or_promo.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ one_news_form.description_news_or_promo}}
             </div>
         </div>
         {% comment %} ************************************************ {% endcomment %}
         <div class="row" id="main_image_container">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 justify-content-center align-self-center" align="center">
                 {{ main_image_form.image.label_tag }}
             </div>
-            <div class="col-3 justify-content-center align-self-center">
+            <div class="col-12 col-md-6 col-xl-3 justify-content-center align-self-center" align="center">
                 {{ main_image_form.image }}
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-1 offset-3 col-md-3 offset-md-3 offset-xl-0 col-xl-1 px-3 justify-content-right align-self-center text-center">
+                <input type="button" value="додати" id="add_button" class="mt-5 mb-5 btn btn-dark">
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-6 col-md-3 col-xl-1 px-3 ml-4 ml-sm-3 justify-content-center align-self-center text-center">
+                <input type="button" value="видалити" id="del_button" class="mt-5 mb-5 btn btn-dark">
                 {{ main_image_form.DELETE_IMAGE }}
             </div>
         </div>
 
         <div class="row mb-4">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-xl-2 mt-3 mt-xl-5 justify-content-center" align="center">
                 <p><strong>Галерея картинок:</strong></p>
             </div>
             <div class="col-10">
                 <div id="galery_container">
                     {{ one_news_image_formset.management_form }}
-                    <div class="row">
+                    <div class="row justify-content-center">
                         {% for photo_form in one_news_image_formset %}
-                            <div class="col-2">
+                            <div class="col-12 col-md-4 col-xl-3 ml-5 ml-md-3 text-center align-self-center">
                                 {% for hidden in photo_form.hidden_fields %}
                                     {{ hidden }}
                                 {% endfor %}
                                 {{ photo_form.image }}
                                 {{ photo_form.DELETE }}
-                                <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                                <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
+                                <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
                                 {% for error in photo_form.image.errors %} 
                                     <p class="my-1 text-danger">{{ error }}</p>
                                 {% endfor %}
                             </div>
                         {% endfor %}
-                            <div class="col-2 my-auto empty_button_container">
+                            <div class="col-6 col-md-3 col-xl-3 empty_button_container justify-content-center align-self-center">
                                 <input type="button" value="Добавить фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
                             </div>
                             <div id="empty_form_container" style="display:none">
                                 <div class="col-2">
                                     {{ one_news_image_formset.empty_form.image }}
                                     {{ one_news_image_formset.empty_form.DELETE }}
-                                    <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                                    <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                    <input type="button" value="додати" id="add_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
+                                    <input type="button" value="видалити" id="del_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
                                 </div>
                             </div>
                             <div>                
@@ -181,19 +160,19 @@
         </div>
 
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-lg-10 col-xl-2 justify-content-center align-self-center">
                 {{ one_news_form.url_to_video.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-8 col-xl-8">
                 {{ one_news_form.url_to_video }}
             </div>
         </div>
 
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-lg-10 col-xl-2 justify-content-center align-self-center">
                 {{ one_news_seo_block.url_seo.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-8 col-xl-8">
                 {{ one_news_seo_block.url_seo }}
                 {% for error in one_news_seo_block.url_seo.errors %} 
                     <p class="my-1 text-danger">{{ error }}</p>
@@ -201,10 +180,10 @@
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-lg-10 col-xl-2 justify-content-center align-self-center">
                 {{ one_news_seo_block.title_seo.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-8 col-xl-8">
                 {{ one_news_seo_block.title_seo }}
                 {% for error in one_news_seo_block.title_seo.errors %} 
                     <p class="my-1 text-danger">{{ error }}</p>
@@ -212,23 +191,28 @@
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-lg-10 col-xl-2">
                 {{ one_news_seo_block.keyword_seo.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-8 col-xl-8">
                 {{ one_news_seo_block.keyword_seo }}
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-lg-10 col-xl-2">
                 {{ one_news_seo_block.description_seo.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-8 col-xl-8">
                 {{ one_news_seo_block.description_seo }}
             </div>
         </div>
 
-        <p><input type="submit" class="mt-5 mb-5" value="внести изменения"></p>
+        {% comment %} <p><input type="submit" class="mt-5 mb-5" value="внести изменения"></p> {% endcomment %}
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <input type="submit" value="внести зміни" id="add_button" class="btn btn-outline-dark btn-sm mx-3">
+            </div>
+        </div>
 
     </form>
 </div>

@@ -16,7 +16,7 @@
     <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/DataTables/datatables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/table_scripts.js' %}"></script>
-    <script type="text/javascript" src="{% static 'pages/js/toastr.min.js' %}"></script> 
+    {% comment %} <script type="text/javascript" src="{% static 'pages/js/toastr.min.js' %}"></script>  {% endcomment %}
     {% comment %} <script type="text/javascript" src="{% static 'pages/js/sweetalert.min.js' %}"></script>  {% endcomment %}
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
@@ -37,17 +37,18 @@
 
 
 </head>
+{% load get_classname_filter %}
 <div id="cinema_container">
         <div class="row">
-            <div class="col-5 text-right my-4">
+            <div class="col-12 col-xl-5 text-center text-xl-right my-0 my-xl-4">
                 <h3>Список сторінок</h3>        
             </div>
-            <div class="col-3 text-right my-4">
+            <div class="col-12 col-xl-3 text-center text-xl-right mb-4 my-0 my-xl-4 offset-xl-2">
                 <a class="btn btn-secondary" href="{% url 'pages:create_page' %}"> <img src="{% static 'pages/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити сторінку </a>        
             </div>
         </div>
         <div class="row mx-5" >
-            <div class="col-8">
+            <div class="col-12 col-xl-10">
                 <div class="card py-3 px-4">
                     <div class="card-body table-responsive p-0 ">
                         <table id="pages_id" class="row-border" style="width:100%">
@@ -61,76 +62,25 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    {% if main_page %}
-                                    <td><stront>{{ main_page.title|default_if_none:"-----" }}</stront></td>
-                                    <td>{{ main_page.date_created|default_if_none:"-----" }}</td>
-                                    <td>{{ main_page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
-                                    <td><a href="{% url 'pages:main_page_detail' pk=main_page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                    {% endif %}
-                                </tr>
-                                {% for page in pages %}
-                                    {% if page.special_issue == 'about_cinema' %}
-                                        <tr>
-                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
-                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
-                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                {% for page in pages_list %}
+                                    <tr>
+                                        <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
+                                        <td>{{ page.date_created|default_if_none:"-----" }}</td>
+                                        <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
+                                        {% if page|classname == 'CustomPages' %}
                                             <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                                {% for page in pages %}
-                                    {% if page.special_issue == 'cafe_bar' %}
-                                        <tr>
-                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
-                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
-                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
-                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                                {% for page in pages %}
-                                    {% if page.special_issue == 'vip-hall' %}
-                                        <tr>
-                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
-                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
-                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
-                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                                {% for page in pages %}
-                                    {% if page.special_issue == 'advertising' %}
-                                        <tr>
-                                            <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
-                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
-                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
-                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        </tr>
-                                     {% endif %}
-                                {% endfor %}
-                                {% for page in pages %}
-                                     {% if page.special_issue == 'childrens_room' %}
-                                     <tr>
-                                         <td><stront>{{ page.title|default_if_none:"-----" }}</stront></td>
-                                         <td>{{ page.date_created|default_if_none:"-----" }}</td>
-                                         <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
-                                         <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                     </tr>
-                                    {% endif %}
-                                {% endfor %}
-                                {% for page in pages %}
-
-                                    {% if page.is_undeleteble is False %}
-                                        <tr>
-                                            <td>{{ page.title|default_if_none:"-----" }}</td>
-                                            <td>{{ page.date_created|default_if_none:"-----" }}</td>
-                                            <td>{{ page.is_active|yesno:"ВКЛ,ВИМК"}}</td>
-                                            <td><a href="{% url 'pages:page_detail' pk=page.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        {% elif page|classname == 'MainPage' %}
+                                            <td><a href="{% url 'pages:main_page_detail' pk=page.id%}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        {% elif page|classname == 'Contact' %}
+                                            <td><a href="{% url 'pages:contacts_detail' pk=page.id%}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        {% endif %}
+                                        {% if page.is_undeleteble %}
+                                            <td> </td>
+                                        {% else %}
                                             <td><a href="{% url 'pages:page_del' pk=page.id %}" id="delete_link"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}                                
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}                       
                             </tbody>    
                         </table>
                     </div>

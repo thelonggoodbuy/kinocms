@@ -33,15 +33,15 @@
 </head>
 <div id="cinema_container">
         <div class="row">
-            <div class="col-5 text-right my-4">
+            <div class="col-12 col-xl-5 text-center text-xl-right my-0 my-xl-4">
                 <h3>Список акцій</h3>        
             </div>
-            <div class="col-3 text-right my-4">
+            <div class="col-12 col-xl-3 text-center text-xl-right mb-4 my-0 my-xl-4 offset-xl-2">
                 <a class="btn btn-secondary" href="{% url 'pages:create_promo' %}"> <img src="{% static 'pages/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити акцію </a>        
             </div>
         </div>
         <div class="row mx-5" >
-            <div class="col-8">
+            <div class="col-12 col-xl-10">
                 <div class="card py-3 px-4">
                     <div class="card-body table-responsive p-0 ">
                         <table id="news_and_promo_cinema_hall_id" class="row-border" style="width:100%">
@@ -60,9 +60,7 @@
                                         <td>{{ promotion.title_news_or_promo|default_if_none:"-----" }}</td>
                                         <td>{{ promotion.date_news_or_promoptions|default_if_none:"-----" }}</td>
                                         <td>{{ promotion.is_active|yesno:"ВКЛ,ВИМК"}}</td>
-                                        {% comment %} <td><a href="{% url 'cinema:cinema_hall_detail' pk=hall.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
                                         <td><a href="{% url 'pages:promo_detail' pk=promotion.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        {% comment %} <td><a href="{% url 'cinema:del_cinema_hall' pk=hall.id cinema_id=cinema_form.instance.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
                                         <td><a href="{% url 'pages:promo_del' pk=promotion.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
                                     </tr>
                                 {% endfor %}                                

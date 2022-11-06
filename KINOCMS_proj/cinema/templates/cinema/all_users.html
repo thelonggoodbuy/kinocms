@@ -9,10 +9,18 @@
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'cinema/js/DataTables/datatables.min.css' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'cinema/css/DataTables/jquery.dataTables.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cinema/js/DataTables/rowReorder.dataTables.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cinema/js/DataTables/responsive.dataTables.min.css' %}"/>
+
+
     <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}">
     
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
     <script type="text/javascript" src="{% static 'cinema/js/DataTables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/DataTables/dataTables.rowReorder.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cinema/js/DataTables/dataTables.responsive.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'cinema/js/table_scripts.js' %}"></script>
     
 </head>
@@ -26,24 +34,12 @@
             </div>
             <div>
             </div>
-{% comment %} 
-            <div class="col-3 offset-md-2">
-                <div class="form-inline">
-                    <div>
-                        <form>
-                            {{ form.keyword }}
-                            <button type="submit"> поиск </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> {% endcomment %}
 
         <div class="row" >
             <div class="col-12">
             <div class="card text-center py-3 px-4">
                 <div class="card-body table-responsive p-0 ">
-                <table id="table_id" class="row-border" style="width:100%">
+                <table id="table_id" class="display nowrap" style="width:100%">
                     <thead>
                     <tr>
                         <th>ID</th>

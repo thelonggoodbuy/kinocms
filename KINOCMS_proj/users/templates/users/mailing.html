@@ -16,66 +16,72 @@
     <script type="text/javascript" src="{% static 'cinema/js/table_scripts.js' %}"></script>
     <script type="text/javascript" src="{% static 'users/js/mailing.js' %}"></script>
 
-    
+    <style>
+        @media screen and (max-width: 1200px) {
+            .min-display-border {
+                border: 2px solid cadetblue;
+            }
+        }
+    </style>
     
 </head>
 <body>
     <div class="row" id="main_card_table">
         <div class="card col-10 py-3 px-4 mx-5" id="main_card">
-            <div class="row my-5 mx-5">
-                <div class="col-3">
-                    <p>Обрати email кому відправити</p>
+            <div class="row my-5 mx-5 justify-content-center min-display-border py-3 px-3">
+                <div class="col-12 col-xl-3">
+                    <p><strong>Обрати email кому відправити</strong></p>
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-xl-3 " align="left">
                     <p><input type="checkbox" id="all_users_checkbox"> Всі користувачі із списку</p>
                 </div>
-                <div class="col-2">
+                <div class="col-12 col-xl-3">
                     <p><input type="checkbox" id="selectively_users"> Вибірково</p>
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-xl-3" align="center">
                     <button class="btn btn-secondary" id="choose_users_button">обрати користувачів</button>
 
                 </div>
             </div>
 
         <div class="row">  
-            <div class="col-6">
-                <div class="row mx-5">
-                    <div class="col-6">
-                        <p>завантажити html лист</p>
+            <div class="col-12 col-xl-6">
+                <div class="row mx-5 min-display-border py-3 px-3">
+                    <div class="col-12 col-xl-6">
+                        <p><strong>завантажити html лист</strong></p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6" align="center">
                         <button class="btn btn-secondary" id="download_button">завантажити</button>
 
                     </div>
                 </div>
-                <div class="row mx-5 my-3">
-                    <div class="col-6">
+                <div class="row mx-5 my-3 min-display-border py-3 px-3">
+                    <div class="col-12 col-xl-6">
                         <p>завантаженний файл</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <strong><p id='downloaded_template_name'></p></strong>
                     </div>
                 </div>
-                <div class="row mx-5 my-3">
-                    <div class="col-6">
+                <div class="row mx-5 my-3 min-display-border py-3 px-3">
+                    <div class="col-12 col-xl-6">
                         <p>Шаблон який буде розіслане</p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         <strong><p id='current_template_name'></p></strong>
                     </div>
                 </div>
                 <div class="row ml-5 my-3">
-                    <div class="col-4">
+                    <div class="col-12 col-xl-4">
                         <p>Кількість листів: <strong>{{ counter_of_sending.many_of_sended_list }}</strong></p>
                         
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-xl-4">
                         <p>Розсилку виконано: <strong id='mailing_statistic'></strong></p>
                     </div>
                 </div>
             </div>
-            <div class="col-4 border border-dark rounded">
+            <div class="col-12 col-xl-4 border border-dark rounded">
                 <form method="post" enctype="multipart/form-data" id="formset_saved_templates">
                     {% csrf_token %}
 

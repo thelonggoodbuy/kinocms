@@ -171,7 +171,8 @@ class ChangeUserForm(forms.ModelForm):
             raise forms.ValidationError({
                 "password":["Пароли не совпадают"]
                 })
-    
+
+        
     class Meta:
         model = CustomUser
         fields = ("name", "surname", "nickname", "email", "address",

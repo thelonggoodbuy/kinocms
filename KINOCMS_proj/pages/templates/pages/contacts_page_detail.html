@@ -1,0 +1,176 @@
+{% extends "layout/_base_cinema.html" %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block title %} створити новину {% endblock title%}
+
+{% block content %}
+
+<head>
+    <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script> {% endcomment %}
+    <script type="text/javascript" src="{% static 'pages/js/pages_contact.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'pages/js/moment.min.js' %}"></script>
+    <script type="application/json" src="{% static 'pages/js/moment.min.js.map' %}"></script>
+    <script type="text/javascript" src="{% static 'pages/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+    
+    <link rel="stylesheet" href="{% static 'pages/css/tempusdominus-bootstrap-4.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'pages/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/OverlayScrollbars.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
+
+    <link rel="icon" href="{% static 'pages/imagephone_formsets/cinema_logo_2.png' %}">
+
+
+</head>
+<form method="post" novalidate enctype="multipart/form-data" action="." id="contact_form">
+    {% csrf_token %}
+
+    {{ contact_formset.management_form }}
+    {% for form in contact_formset %}
+        {% for hidden in form.hidden_fields %}            
+            {{ hidden }}
+        {% endfor %}
+    {% endfor %}
+    {% for form in contact_formset %}
+    <div class="row" id="main_card_table">
+
+        <div class="card col-10 py-3 px-4 mx-5" id="main_card">
+            <div id="single_contact_cell_form">
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Назва кінотеатру: </spam>
+                    </div>
+                    <div class="col-6">
+                        {{ form.cinema_name }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Адресса кінотеатру: </spam>
+                    </div>
+                    <div class="col-6">
+                        {{ form.address }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Координати на карті: </spam>
+                    </div>
+                    <div class="col-6">
+                        {{ form.location }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Лого: </spam>
+                    </div>
+                    <div class="col-3">
+                        {{ form.logo }}
+                    </div>
+                    <div class="col-1 justify-content-center align-self-center text-center">
+                        <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                    </div>
+                    <div class="col-1 justify-content-center align-self-center text-center">
+                        <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                        {% comment %} {{ form.DELETE_IMAGE }} {% endcomment %}
+                    </div>
+                </div>
+                <spam>Видалити: </spam> {{ form.DELETE }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="row" >
+        <div class="col-8 text-center">
+            <a class="btn btn-secondary" id='add_more'> <img src="{% static 'cinema/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> додати кінотеатр </a>
+        </div>
+    </div>
+
+    <div class="row" id="main_card_table_empty_form">
+        <div class="card col-10 py-3 px-4 mx-5" id="main_card">
+            <div id="single_contact_cell_form">
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Назва кінотеатру пуста форма: </spam>
+                    </div>
+                    <div class="col-4">
+                        {{ contact_formset.empty_form.cinema_name }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Адресса кінотеатру пуста форма: </spam>
+                    </div>
+                    <div class="col-4">
+                        {{ contact_formset.empty_form.address }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Координати на карті пуста форма: </spam>
+                    </div>
+                    <div class="col-4">
+                        {{ contact_formset.empty_form.location }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-4">
+                    <div class="col-2">
+                        <spam>Лого пуста форма: </spam>
+                    </div>
+                    <div class="col-4">
+                        {{ contact_formset.empty_form.logo }}
+                    </div>
+                </div>
+                <spam>Видалити пуста форма:</spam> {{ contact_formset.empty_form.DELETE }}
+            </div>
+        </div>
+    </div>
+
+
+    <input type="submit" value="сохранить" class="mt-5 mb-5" name="btnform1">
+
+    <div id="contact_seo_form">
+            <div class="row mt-3 mb-3">
+                <div class="col-2">
+                    {{ seo_form.url_seo.label_tag }}
+                </div>
+                <div class="col-5">
+                    {{ seo_form.url_seo }}
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-2">
+                    {{ seo_form.title_seo.label_tag }}
+                </div>
+                <div class="col-5">
+                    {{ seo_form.title_seo }}
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-2">
+                    {{ seo_form.keyword_seo.label_tag }}
+                </div>
+                <div class="col-5">
+                    {{ seo_form.keyword_seo }}
+                </div>
+            </div>
+            <div class="row mt-3 mb-5">
+                <div class="col-2">
+                    {{ seo_form.description_seo.label_tag }}
+                </div>
+                <div class="col-5">
+                    {{ seo_form.description_seo }}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

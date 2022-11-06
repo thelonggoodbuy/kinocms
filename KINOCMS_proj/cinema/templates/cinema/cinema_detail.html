@@ -103,99 +103,93 @@
 
 
         <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-xl-2">
                 {{ cinema_form.title_cinema.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_form.title_cinema }}
             </div>
         </div>
-        {% comment %} <div class="row">
-            <div class="col-10 mt-3 mb-3">
-                {% for error in cinema_form.description_cinema.errors %} 
-                    <p class="my-1 text-danger">{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div> {% endcomment %}
+
         <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-xl-2">
                 {{ cinema_form.description_cinema.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_form.description_cinema }}
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2">
+            <div class="col-12 col-xl-2">
                 {{ cinema_form.conditions_cinema.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_form.conditions_cinema }}
             </div>
         </div>
 
-        <div class="row" id="main_image_container">
-            <div class="col-2 justify-content-center align-self-center">
+        <div class="row" id="main_image_container" align="center">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 justify-content-center align-self-center">
                 {{ cinema_logo_form.image.label_tag }}
             </div>
-            <div class="col-3 justify-content-center align-self-center">
+            <div class="col-12 col-md-6 col-xl-3 justify-content-center align-self-center">
                 {{ cinema_logo_form.image }}
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-1 offset-3 col-md-3 offset-md-3 offset-xl-0 col-xl-1 px-3 justify-content-right align-self-center text-center">
+                <input type="button" value="додати" id="add_button" class="mt-5 mb-5 btn btn-dark">
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-6 col-md-3 col-xl-1 px-3 justify-content-center align-self-center text-center">
+                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-dark">
                 {{ cinema_logo_form.DELETE_IMAGE }}
             </div>
         </div>
 
-        <div class="row" id="main_image_container">
-            <div class="col-2 justify-content-center align-self-center">
+        <div class="row" id="main_image_container" align="center">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2 justify-content-center align-self-center">
                 {{ cinema_highest_banner_form.image.label_tag }}
             </div>
-            <div class="col-3 justify-content-center align-self-center">
+            <div class="col-12 col-md-6 col-xl-3 justify-content-center align-self-center">
                 {{ cinema_highest_banner_form.image }}
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-1 offset-3 col-md-3 offset-md-3 offset-xl-0 col-xl-1 px-3 justify-content-right align-self-center text-center">
+                <input type="button" value="додати" id="add_button" class="mt-5 mb-5 btn btn-dark">
             </div>
-            <div class="col-1 justify-content-center align-self-center text-center">
-                <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+            <div class="col-6 col-md-3 col-xl-1 px-3 justify-content-center align-self-center text-center">
+                <input type="button" value="видалити" id="del_button" class="mt-5 mb-5 btn btn-dark">
                 {{ cinema_highest_banner_form.DELETE_IMAGE }}
             </div>
         </div>
         <div class="row mb-4">
-            <div class="col-2 justify-content-center align-self-center">
-                <p><strong>Галерея картинок:</strong></p>
+            <div class="col-12 col-xl-2 mt-3 mt-xl-5 justify-content-center" align="center">
+                <p><strong>Галерея малюнків:</strong></p>
             </div>
             <div class="col-10">
                 <div id="galery_container">
                     {{ cinema_image_formset.management_form }}
-                    <div class="row">
+                    <div class="row justify-content-center">
                         {% for cinema_photo_form in cinema_image_formset %}
-                            <div class="col-2">
+                            <div class="col-12 col-xl-3 ml-5 ml-md-3 text-center align-self-center">
                                 {% for hidden in cinema_photo_form.hidden_fields %}
                                     {{ hidden }}
                                 {% endfor %}
                                 {{ cinema_photo_form.image }}
                                 {{ cinema_photo_form.DELETE }}
-                                <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                                <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                <input type="button" value="додати" id="add_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
+                                <input type="button" value="видалити" id="del_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
                                 {% for error in cinema_photo_form.image.errors %} 
                                     <p class="my-1 text-danger">{{ error }}</p>
                                 {% endfor %}
                             </div>
                         {% endfor %}
-                            <div class="col-2 my-auto empty_button_container">
-                                <input type="button" value="Добавить фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
-                            </div>
+                        <div class="col-12 col-xl-3 ml-5 ml-md-3 text-center align-self-center">
+                            <input type="button" value="додати фото" id="add_more" class="btn btn-outline-dark btn-sm btn-block">
+                        </div>
                             <div id="empty_form_container" style="display:none">
-                                <div class="col-2">
+                                <div class="col-12 col-xl-3 ml-5 ml-md-3 text-center align-self-center">
                                     {{ cinema_image_formset.empty_form.image }}
                                     {{ cinema_image_formset.empty_form.DELETE }}
-                                    <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
-                                    <input type="button" value="удалить" id="del_button" class="btn btn-outline-dark btn-sm btn-block">
+                                    <input type="button" value="додати" id="add_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
+                                    <input type="button" value="видалити" id="del_button" class="btn btn-outline-dark btn-sm btn-block mx-auto">
                                 </div>
                             </div>
                             <div>                
@@ -206,7 +200,7 @@
         </div>
 
         <div class="row" >
-            <div class="col-8">
+            <div class="col-12 col-lg-8">
                 <div class="card py-3 px-4">
                     <div class="card-body table-responsive p-0 ">
                         <table id="table_cinema_hall_id" class="row-border" style="width:100%">
@@ -242,11 +236,13 @@
                 <a class="btn btn-secondary" href="{% url 'cinema:new_cinema_hall' cinema_id=cinema_form.instance.id%}"> <img src="{% static 'cinema/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> створити зал </a>
             </div>
         </div>
+
+
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-lg-10 col-xl-2 justify-content-center align-self-center">
                 {{ cinema_seo_block.url_seo.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_seo_block.url_seo }}
                 {% for error in cinema_seo_block.url_seo.errors %} 
                     <p class="my-1 text-danger">{{ error }}</p>
@@ -254,10 +250,10 @@
             </div>
         </div>
         <div class="row mt-3 mb-3">
-            <div class="col-2 justify-content-center align-self-center">
+            <div class="col-12 col-lg-10 col-xl-2">
                 {{ cinema_seo_block.title_seo.label_tag }}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_seo_block.title_seo }}
                 {% for error in cinema_seo_block.title_seo.errors %} 
                     <p class="my-1 text-danger">{{ error }}</p>
@@ -268,7 +264,7 @@
             <div class="col-2">
                 {{ cinema_seo_block.keyword_seo.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_seo_block.keyword_seo }}
             </div>
         </div>
@@ -276,13 +272,13 @@
             <div class="col-2">
                 {{ cinema_seo_block.description_seo.label_tag }}
             </div>
-            <div class="col-5">
+            <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_seo_block.description_seo }}
             </div>
         </div>
-        <div class="row">
-            <div class="col-8 text-center">
-                <input type="submit" class="btn btn-outline-dark btn-sm mt-5 mb-5" value="внести зміни">
+        <div class="row mb-5">
+            <div class="col-8 text-center mb-5">
+                <input type="submit" class="btn btn-outline-dark btn-sm mx-3" value="внести зміни">
             </div>
         </div>
 

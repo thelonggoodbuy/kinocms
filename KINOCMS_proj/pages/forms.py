@@ -12,7 +12,10 @@ from .models import NewsAndPromotions, Phones
 
 from cinema.widgets import CustomClearableFileInput
 from cinema.models import Galery, SeoBlock
-from pages.models import CustomPages, MainPage
+from pages.models import CustomPages, MainPage, ContactCell
+from cinema.widgets import CustomClearableFileInputBanner
+
+
 
 
 
@@ -144,17 +147,17 @@ class GaleryImageForm(forms.ModelForm):
 
 
 class SeoBlockForm(forms.ModelForm):
-    url_seo = forms.URLField(label = "URL",
+    url_seo = forms.URLField(label = " Seo URL",
                                     error_messages={'invalid': 'Введіть корректну URL адрессу',
                                                     'required': "це поле обовязков'язкове"}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
-    title_seo = forms.CharField(label = "Title",
+    title_seo = forms.CharField(label = "Seo Назва",
                                     error_messages={'required': "це поле обовязков'язкове"},
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
-    keyword_seo = forms.CharField(label = "Keywords",
+    keyword_seo = forms.CharField(label = "Seo ключові слова",
                                     error_messages={'required': "це поле обовязков'язкове"}, 
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
-    description_seo = forms.CharField(label = "Description:",
+    description_seo = forms.CharField(label = "Seo Опис",
                                     error_messages={'required': "це поле обовязков'язкове"},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"6"}))
    
@@ -177,8 +180,31 @@ class PhoneForm(forms.ModelForm):
     number = PhoneNumberField(required=False, label='телефон',
                             error_messages={'invalid': "Введіть номер телефону одного з мобільних операторів України. Введений номер не є коректним."},
                             widget=PhoneNumberInternationalFallbackWidget(attrs={'class': 'form-control'}))
-    # number = forms.CharField()
     
     class Meta:
         model = Phones
         fields = ('number',)
+
+class ContactCellForm(forms.ModelForm):
+
+    cinema_name = forms.CharField(label = "Назва кінотеатру",
+                                    error_messages={'required': 'Контакт кінотеатру має містити назву'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    is_active = forms.CheckboxSelectMultiple()
+    address = forms.CharField(label = "Адреса кінотеатру",
+                                    error_messages={'required': "це поле обовязков'язкове"}, 
+                                    widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+    location = forms.CharField(label = "Координати кінотеатру",
+                                    error_messages={'required': "це поле обовязков'язкове"}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    logo = forms.ImageField(label='Изображение', required=False, 
+                                    validators=[validators.FileExtensionValidator(
+                                    allowed_extensions=('gif', 'jpg', 'png', 'jpeg'))],
+                                    error_messages={
+                                        'invalid_image': 'Файли з таким розширенням не підтримуються'},
+                                    widget=CustomClearableFileInput(attrs={'class': 'justify-content-center align-self-center text-center'}))
+
+    class Meta:
+        model = ContactCell
+        fields = ('cinema_name', 'is_active', 'address', 'location', 'logo')

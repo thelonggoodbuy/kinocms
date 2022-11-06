@@ -10,6 +10,8 @@
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
     <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script>
 
+    <link rel="stylesheet" href="{% static 'cinema/frameworks/bootstrap-4.6.2/css/bootstrap.min.css.map' %}">
+    <link rel="stylesheet" href="{% static 'cinema/frameworks/bootstrap-4.6.2/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/adminlte.min.css' %}">
@@ -37,57 +39,99 @@
     </div>
 
         {{ add_banner_cell_formset.management_form }}
-        <div class="row" id="top_banner_cell_form_set">
+        <div class="row" id="top_banner_cell_form_set" align="center">
             {% for form in add_banner_cell_formset %}
-
-            <div class="col-2 mt-3 mx-4">
-                {% for hidden in form.hidden_fields %}            
-                    {{ hidden }}
-                {% endfor %}
-                <div class="single_form_container mt-3">
-                {{ form.image }}
-                
-                <div class="row"><div class="col-2">{{ form.url.label_tag }}</div><div class="col-2"> {{ form.url }}</div></div>
-                <div class="row"><div class="col-2">{{ form.text.label_tag }}</div><div class="col-2"> {{ form.text }}</div></div>
+                <div class="col-10 col-sm-8 col-md-7 col-lg-4 col-xl-2 mt-3 mx-4 mt-3" align="center">
+                    {% for hidden in form.hidden_fields %}            
+                        {{ hidden }}
+                    {% endfor %}
+                    <div class="single_form_container" align="center">
+                    {{ form.image }}
+                <div class="row">
+                    <div class="col-12" align="left">
+                        {{ form.url.label_tag }}
+                    </div>
+                    <div class="col-12"> 
+                        {{ form.url }}
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-12" align="left">
+                        {{ form.text.label_tag }}
+                    </div>
+                <div class="col-12">
+                     {{ form.text }}
+                </div>
+            </div>
                 <div class="row d-none"><div class="col-2">{{ form.purpose.label_tag }}</div><div class="col-2"> {{ form.purpose }}</div></div>
-                {{ form.DELETE }}
-                <img src={% static "cinema/images/del_image.png" %} id="delete_button" class="del_icon">
-                
+                {{ form.DELETE }}                
                 {% for field in form %}
                     {% for error in field.errors %} 
                         <p class="my-1 text-danger">{{ error }}</p>
                     {% endfor %}
-                {% endfor %}
-
-                <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block ml-3">
+                {% endfor %}                
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" value="добавить" id="add_button" class="btn btn-outline-dark mt-3">додати</button>
+                    <button type="button" value="добавить" id="delete_button" class="btn btn-outline-dark mt-3">видалити</button>
+                </div>
                 </div>
             </div>
             {% endfor %}
-            <div class="col-2">
-                <input type="button" value="Добавить фото" id="add_more">
+            <div class="col-10 col-sm-8 col-md-7 col-lg-5 col-xl-3" align="center">
+                <img src="{% static 'cinema/images/green_plus.png' %}" class="cinema_preview mt-5" id="add_more"/>
+
             </div>
-            <div id="empty_form_container" style="display:none">
-                <div class="col-2 single_form_container mt-4 mx-3" id="empty_form">
-                    <div>
+        </div>
+            <div id="top_empty_form" style="display:none">
+            <div class="col-10 col-sm-8 col-md-6 col-lg-4 col-xl-2 mt-3 mx-4 mt-3">
+                {% for hidden in form.hidden_fields %}            
+                    {{ hidden }}
+                {% endfor %}
+                <div class="single_form_container" align="center">
                         {{ add_banner_cell_formset.empty_form.image }}
-                        <div class="row"><div class="col-2">{{ add_banner_cell_formset.empty_form.url.label_tag }}</div><div class="col-2">{{ add_banner_cell_formset.empty_form.url }}</div></div>
-                        <div class="row"><div class="col-2">{{ add_banner_cell_formset.empty_form.text.label_tag }}</div><div class="col-2">{{ add_banner_cell_formset.empty_form.text }}</div></div>
-                        <div class="row d-none"><div class="col-2">{{ add_banner_cell_formset.empty_form.purpose.label_tag }}</div><div class="col-2"> {{ add_banner_cell_formset.empty_form.purpose }}</div></div>
-                        {{ add_banner_cell_formset.empty_form.DELETE }}
-                        <img src={% static "cinema/images/del_image.png" %} id="delete_button" class="del_icon">
-                        <input type="button" value="добавить" id="add_button" class="btn btn-outline-dark btn-sm btn-block">
+                    <div class="row">
+                        <div class="col-12" align="left">
+                            {{ add_banner_cell_formset.empty_form.url.label_tag }}
+                        </div>
+                        <div class="col-12"> 
+                            {{ add_banner_cell_formset.empty_form.url }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12" align="left">
+                            {{ add_banner_cell_formset.empty_form.text.label_tag }}
+                        </div>
+                    <div class="col-12">
+                        {{ add_banner_cell_formset.empty_form.text }}
                     </div>
                 </div>
+            <div class="row d-none"><div class="col-2">{{ add_banner_cell_formset.empty_form.purpose.label_tag }}</div><div class="col-2"> {{ add_banner_cell_formset.empty_form.purpose }}</div></div>
+            {{ add_banner_cell_formset.empty_form.DELETE }}               
+            {% for field in form %}
+                {% for error in field.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}                
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" value="добавить" id="add_button" class="btn btn-outline-dark mt-3">додати</button>
+                <button type="button" value="добавить" id="delete_button" class="btn btn-outline-dark mt-3">видалити</button>
             </div>
+            </div>
+        </div>
+
         </div>
         <div class="row">
             <div class="col-3 text-center">
                 <div class="my-5">{{ highest_banner_form.timescrolling }}</div>
             </div>
             <div class="col-6 offset-3">
-                <input type="submit" value="сохранить" id="save_top_banner" class="mt-5 mb-5" name="btnform1">
+                <input type="submit" value="сохранить" id="save_promotion_and_news_banner" class="btn btn-outline-dark mt-5 mb-5" name="btnform1">
             </div>
         </div>
+
+
     </form>
 </div>
 </div>
@@ -99,8 +143,9 @@
     <div class="row">
         <div class="col-12">
             <form method="post" enctype="multipart/form-data" action="." class="pb-5">
+                {% csrf_token %}
                 <div class='row justify-content-md-center'>
-                    <div class='col-8'>
+                    <div class='col-12 col-xl-8'>
                         {% for through_field in through_background_banner_form %}
                             {% for error in through_field.errors %} 
                                 <p class="my-1 text-danger">{{ error }}</p>
@@ -120,16 +165,15 @@
                 </div>
 
 
-                <div class="row">
-                    {% csrf_token %}
-                    <div class="col-3 mx-4 mt-5">
+                <div class="row align-items-center">
+                    <div class="col-12 col-lg-12 col-xl-3 mx-4 mt-5" align="center">
                         {% for background_type in through_background_banner_form.background_type %}
                             <div>
                                 {{ background_type }}
                             </div>
                         {% endfor %}
                     </div>
-                    <div class="col-3 mx-4 mt-3">
+                    <div class="col-12 col-lg-12 col-xl-3 mx-4 mt-3" align="center">
                         {% if through_background_banner_form.instance.background_type == 'background_photo' %}
                             <div id="background_container">{{ add_photo_to_galery_form.image }}</div>
                             <img id="default_image" src={% static "cinema/images/simple_image_background.jpg" %} class="image_test_card" style="display: none">
@@ -138,17 +182,17 @@
                             <img id="default_image" src={% static "cinema/images/simple_image_background.jpg" %} class="image_test_card">
                         {% endif %}
                     </div>
-                    <div class="col-1 mx-4 mt-4">
-                        <input type="button" value="добавить" id="add_button" class="mt-5 mb-5">
-                    </div>
-                    <div class="col-1 mx-4 mt-4">
-                        <input type="button" value="удалить" id="del_button" class="mt-5 mb-5">
-                        {{ add_photo_to_galery_form.delete_image }}
-                    </div>
-                    <div class="col-1 mt-4">
-                        <input type="submit" value="сохранить" class="mt-5 mb-5" name="btnform2">
-
-                    </div>
+                    <div class="btn-toolbar col-12 col-lg-12 col-xl-4 d-block" role="toolbar" aria-label="Toolbar with button groups" align="center">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                          <button type="button" class="btn btn-secondary" id="add_button">добавить</button>
+                        </div>
+                        <div class="btn-group mr-2" role="group" aria-label="Second group">
+                          <button type="button" class="btn btn-secondary" id="del_button">удалить</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Third group">
+                          <button type="submit" class="btn btn-secondary" value="сохранить" name="btnform2">сохранить</button>
+                        </div>
+                    </div>                    
                 </div>    
             </form>   
            
@@ -156,11 +200,139 @@
         </div>
     </div>
 
-{% comment %} **************************************************************************************** {% endcomment %}
 
 <h2 class="text-center">На главной: новости и акции</h2>
+<div id="banner_promo_news">
+    <form method="post" novalidate enctype="multipart/form-data" action="." id="banner_form">
+        {% csrf_token %}
+        <div class="mx-1 my-1" id="banner_top_container">
+            <div class="row">
+                <div class="col">
+                    <p>{{ banner_promotions_and_news_form.errors }}</p>
+                    <p>{{ banner_promotions_and_news_form.non_field_errors }}</p>
+
+                    <label class="switch float-right">
+                        {{ banner_promotions_and_news_form.on_of_status }}
+                        <span class="slider round"></span>
+                    </label>
+                <div>
+            </div>
+        </div>
+    </div>
+
+        {{ add_bannee_promo_cell_formset.management_form }}
+        <div class="row" id="top_banner_cell_form_set" align="center">
+            {% for form in add_bannee_promo_cell_formset %}
+                <div class="col-10 col-sm-8 col-md-7 col-lg-4 col-xl-2 mt-3 mx-4 mt-3" align="center">
+                    {% for hidden in form.hidden_fields %}            
+                        {{ hidden }}
+                    {% endfor %}
+                <div class="single_form_container" align="center">
+                    {{ form.image }}
+                <div class="row">
+                    <div class="col-12" align="left">
+                        {{ form.url.label_tag }}
+                    </div>
+                    <div class="col-12"> 
+                        {{ form.url }}
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    {% comment %} <div class="col-12" align="left">
+                        {{ form.purpose.label_tag }}
+                    </div>
+                    <div class="col-12">
+                        {{ form.purpose }}
+                    </div> {% endcomment %}
+            </div>
+                <div class="row d-none"><div class="col-2">{{ form.purpose.label_tag }}</div><div class="col-2"> {{ form.purpose }}</div></div>
+                {{ form.DELETE }}                
+                {% for field in form %}
+                    {% for error in field.errors %} 
+                        <p class="my-1 text-danger">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}                
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" value="добавить" id="add_button" class="btn btn-outline-dark mt-3">додати</button>
+                    <button type="button" value="добавить" id="delete_button" class="btn btn-outline-dark mt-3">видалити</button>
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-10 col-sm-8 col-md-7 col-lg-5 col-xl-3" align="center">
+                <img src="{% static 'cinema/images/green_plus.png' %}" class="cinema_preview mt-5" id="add_more_images"/>
+            </div>
+        </div>
+            <div id="promo_empty_form" style="display:none">
+            <div class="col-10 col-sm-8 col-md-6 col-lg-4 col-xl-2 mt-3 mx-4 mt-3">
+                {% for hidden in form.hidden_fields %}            
+                    {{ hidden }}
+                {% endfor %}
+                <div class="single_form_container" align="center">
+                        {{ add_bannee_promo_cell_formset.empty_form.image }}
+                    <div class="row">
+                        <div class="col-12" align="left">
+                            {{ add_bannee_promo_cell_formset.empty_form.url.label_tag }}
+                        </div>
+                        <div class="col-12"> 
+                            {{ add_bannee_promo_cell_formset.empty_form.url }}
+                        </div>
+                    </div>
+
+                    {% comment %} <div class="row">
+                        <div class="col-12" align="left">
+                            {{ add_bannee_promo_cell_formset.empty_form.purpose.label_tag }}
+                        </div>
+                        <div class="col-12">
+                            {{ add_bannee_promo_cell_formset.empty_form.purpose }}
+                        </div>
+                    </div> {% endcomment %}
+            <div class="row d-none"><div class="col-2">{{ add_bannee_promo_cell_formset.empty_form.purpose.label_tag }}</div><div class="col-2"> {{ add_bannee_promo_cell_formset.empty_form.purpose }}</div></div>
+            {{ add_bannee_promo_cell_formset.empty_form.DELETE }}               
+            {% for field in form %}
+                {% for error in field.errors %} 
+                    <p class="my-1 text-danger">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}                
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" value="добавить" id="add_button" class="btn btn-outline-dark mt-3">додати</button>
+                <button type="button" value="добавить" id="delete_button" class="btn btn-outline-dark mt-3">видалити</button>
+            </div>
+            </div>
+        </div>
+
+        </div>
+        <div class="row">
+            <div class="col-3 text-center">
+                <div class="my-5">{{ banner_promotions_and_news_form.timescrolling }}</div>
+            </div>
+            <div class="col-6 offset-3">
+                <input type="submit" value="сохранить" id="save_top_banner" class="btn btn-outline-dark mt-5 mb-5" name="btnform3">
+            </div>
+        </div>
+
+
+    </form>
+</div>
+</div>
+
+
+
+{% comment %} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! {% endcomment %}
+
+
+
+
+
+{% comment %} **************************************************************************************** {% endcomment %}
+
+    
+
+
+{% comment %} <h2 class="text-center">На главной: новости и акции</h2>
     <div id="banner_promo_news">
-        <form method="post" enctype="multipart/form-data" action="." id="banner_promotion_news">
+        <form method="post" novalidate enctype="multipart/form-data" action="." id="banner_promotion_news">
             {% csrf_token %}
             <div class="mx-1 my-1" id="banner_promo_container">
                 <div class="row">
@@ -209,7 +381,6 @@
                         <div>
                             {{ add_bannee_promo_cell_formset.empty_form.image }}
                             <div class="row"><div class="col-2">{{ add_bannee_promo_cell_formset.empty_form.url.label_tag }}</div><div class="col-2">{{ add_bannee_promo_cell_formset.empty_form.url }}</div></div>
-                            {% comment %} <div class="row"><div class="col-2">{{ add_bannee_promo_cell_formset.empty_form.text.label_tag }}</div><div class="col-2">{{ add_banner_cell_formset.empty_form.text }}</div></div> {% endcomment %}
                             <div class="row d-none"><div class="col-2">{{ add_bannee_promo_cell_formset.empty_form.purpose.label_tag }}</div><div class="col-2"> {{ add_bannee_promo_cell_formset.empty_form.purpose }}</div></div>
                             {{ add_bannee_promo_cell_formset.empty_form.DELETE }}
                             <img src={% static "cinema/images/del_image.png" %} id="delete_button" class="del_icon">
@@ -229,5 +400,5 @@
             </div>
         </form>
     </div>
-</div>
+</div> {% endcomment %}
 {% endblock content %}

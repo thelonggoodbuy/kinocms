@@ -42,26 +42,31 @@
 
 
 <div class="row" id="main_card_table">
-    <div class="card col-10">
+    <div class="card col-12 col-lg-10">
 
-      <div class="row mt-3">
-        {% comment %} <div class="col-offset-7"></div> {% endcomment %}
-        <div class="col-3 offset-8">
+      <div class="row mt-3 justify-content-end">
+        <div class="col-12 col-md-12 col-lg-5 col-xl-4 align-self-end">
           <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>{{ users_counter }}</h3>
-              <p>Кількіст зареєстрованих користувачів</p>
+
+          <div class="row mx-3">
+            <div class="col-12 col-md-8">
+              <div class="inner badge badge-warning text-wrap">
+                <h3>{{ users_counter }}</h3>
+                <p>Кількість зареєстрованих користувачів</p>
+              </div>
             </div>
-            <div class="icon">
-              <i class="ion ion-person-add"></i>
+            <div class="col-none col-md-4">
+              <div class="icon float-right">
+                <i class="ion ion-person-add"></i>
+              </div>
+            </div>
             </div>
           </div>
-
         </div>
       </div>
       <div class="row">
         <!-- /.card -->
-        <div class="card col-4">
+        <div class="card col-12 col-xl-5 align-self-center">
           <div class="card-header">
             <h3 class="card-title">
               <i class="fas fa-chart-pie mr-1"></i>
@@ -84,8 +89,8 @@
         </div>
         <!-- /.card -->
         <!-- ________________sales graph___________________ -->
-        <div class="col-7">
-          <div class="card bg-gradient-info">
+        <div class="col-12 col-xl-6">
+          <div class="card bg-gradient-info my-0">
             <div class="card-header border-0">
               <h3 class="card-title">
                 <i class="fas fa-chart-pie mr-1"></i>
@@ -126,7 +131,7 @@
       
     </div>
         <div class="row">
-        <div class="card mt-4 col-11">
+        <div class="card mt-4 col-12 col-lg-11">
 
             <div class="card-header">
               <h3 class="card-title">
@@ -161,7 +166,7 @@
         </div>
       <div class="row">
         <!-- Map card -->
-        <div class="card bg-gradient-primary col-6">
+        <div class="card bg-gradient-primary col-12 col-xl-6">
           <div class="card-header border-0">
             <h3 class="card-title">
               <i class="fas fa-map-marker-alt mr-1"></i>
@@ -204,7 +209,7 @@
           </div>
         </div>
         <!-- /.card -->
-        <div class="card col-4">
+        <div class="card col-12 col-xl-5">
             <div class="card-header">
               <h3 class="card-title">
                 <i class="fas fa-chart-pie mr-1"></i>
@@ -213,34 +218,11 @@
             </div><!-- /.card-header -->
             <div class="card-body">
               <!-- /.d-flex -->
-              <canvas id="pie-chart-sex" width="800" height="450"></canvas>
+              <canvas id="pie-chart-sex" width="500" height="500"></canvas>
             </div>
-
-
-          {% comment %} <div class="card-header">
-            <h3 class="card-title">
-              <i class="fas fa-chart-pie mr-1"></i>
-              Sales
-            </h3>
-            <div class="card-tools">
-              
-            </div>
-          </div><!-- /.card-header -->
-          <div class="card-body">
-            <div class="tab-content p-0">
-              <!-- Morris chart - Sales -->
-              <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                <canvas id="sales-chart-canvas_sex" height="300" style="height: 300px;"></canvas>
-              </div>
-            </div>
-          </div><!-- /.card-body --> {% endcomment %}
         </div>
         <!-- /.card -->
-
-      </div>
-
-
-        
+      </div>   
 
         {{ date_labels_list|json_script:'date_label'}}
         {{ all_devices|json_script:'all_devices'}}
@@ -433,7 +415,8 @@
     responsive: false,
     legend: {
       display: true,
-      position: 'right',
+      position: 'bottom',
+      alignment : 'start',
       
     }
   }
@@ -495,7 +478,8 @@
     scales: {
       xAxes: [{
         ticks: {
-          fontColor: '#efefef'
+          fontColor: '#efefef',
+          autoSkip: false
         },
         gridLines: {
           display: false,

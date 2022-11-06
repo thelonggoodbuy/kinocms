@@ -2,14 +2,14 @@
 
 {% if widget.is_initial %}
     <a href="{{ widget.value.url }}">        
-        <img src="{{ widget.value.url }}" class="image_test_card"/>
+        <img src="{{ widget.value.url }}" class="cinema_preview_banner"/>
         {% comment %} <img src="{{ widget.value.url }}" class="image_test_card"/> {% endcomment %}
     </a>
     <input type="{{ widget.type }}" name="{{ widget.name }}"/>
 {% else %}
     <a href="{{ widget.value.url }}">
         {% comment %} <img src="{% static 'cinema/images/empty_form_logo.png' %}" class="image_test_card"/> {% endcomment %}
-        <img src="{% static 'cinema/images/empty_form_logo.png' %}" class="image_test_card"/>
+        <img src="{% static 'cinema/images/empty_form_logo.png' %}" class="cinema_preview_banner"/>
     </a>    
     <input type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}/>
 {% endif %}

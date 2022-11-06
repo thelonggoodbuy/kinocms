@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 {% load static %}
 
-{% block title %} все фильмы {% endblock title%}
+{% block title %} Всі кінотеатри {% endblock title%}
 
 {% block content %}
 
@@ -20,25 +20,36 @@
 <div>
     <div class="row">
         <div class="col-12 text-center">
-            <h3>список кинотеатров</h3>
+            <h3>перелік кінотеатрів</h3>
         </div>
     </div>
-    <div class="cinema_preview_container row mt-4">
+    <div class="cinema_preview_container row mt-4" align="center">
     {% for cinema in all_cinemas %}
-        <div class="col-2 mx-3 text-center">
-                <a href="{% url 'cinema:cinema_detail' pk=cinema.id %}">
-                    <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>
-                </a>
-            <p>{{ cinema.title_cinema }}</p>
+        <div class="col-8 col-sm-6 col-md-4 col-xl-2 mx-3 text-center">
 
-            <a href="{% url 'cinema:del_cinema' pk=cinema.id %}"><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}" </a>
+            <div class="row" align="right">
+                <div class="col-12">
+                    <a href="#" ><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}"></a>
+                    <a href="{% url 'cinema:cinema_detail' pk=cinema.id %}">
+                        {% if cinema.logo.image %}
+                            <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>
+                        {% else %}
+                            <img src={% static "cinema/images/simple_image_background.jpg" %} class="cinema_preview"/>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+            <p>{{ cinema.title_movie }}</p>
+
+
+            
         </div>
     {% endfor %}
-    <div class="col-2 mx-3 text-center">
-        <a href="{% url 'cinema:new_cinema' %}">
+    <div class="col-8 col-sm-6 col-md-4 col-xl-2 mx-auto mx-md-3  text-center" align="center">
+        <a href="{% url 'cinema:new_cinema' %}" class="ml-3" >
             <img src="{% static 'cinema/images/green_plus.png' %}" class="cinema_preview"/>
         </a>
-        <p>додати</p>
+        <p>додати кінотетр</p>
     </div>
     </div>
     <div class="row">

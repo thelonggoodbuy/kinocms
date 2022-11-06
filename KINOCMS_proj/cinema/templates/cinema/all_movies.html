@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 {% load static %}
 
-{% block title %} все фильмы {% endblock title%}
+{% block title %} всі фільми {% endblock title%}
 
 {% block content %}
 
@@ -46,24 +46,30 @@
             <h3>перелік фільмів</h3>
         </div>
     </div>
-    <div class="cinema_preview_container row mt-4">
+    <div class="cinema_preview_container row mt-4" align="center">
     {% for movie in all_films %}
-        <div class="col-2 mx-3 text-center">
-                <a href="{% url 'cinema:movie_detail' pk=movie.id %}">
-                {% comment %} <a href="#"> {% endcomment %}
+        <div class="col-8 col-sm-6 col-md-4 col-xl-2 mx-3 text-center">
+                <div class="row" align="right">
+                    <div class="col-12">
+                        <a href="#" ><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}"></a>
+                                        <a href="{% url 'cinema:movie_detail' pk=movie.id %}">
                     {% if movie.main_image.image %}
                         <img src="{{ movie.main_image.image.url }}" class="cinema_preview"/>
                     {% else %}
                         <img src={% static "cinema/images/simple_image_background.jpg" %} class="cinema_preview"/>
                     {% endif %}
                 </a>
+                    </div>
+                </div>
+
             <p>{{ movie.title_movie }}</p>
-            <a class="delete_link" href="{% url 'cinema:del_movie' pk=movie.id %}"><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}" </a>
+            <a class="delete_link" href="{% url 'cinema:del_movie' pk=movie.id %}"><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}"> </a>
             {% comment %} <a href="#" ><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}" </a> {% endcomment %}
+   
         </div>
     {% endfor %}
-    <div class="col-2 mx-3 text-center">
-        <a href="{% url 'cinema:new_movie' %}">
+    <div class="col-8 col-sm-6 col-md-4 col-xl-2 mx-3 text-center">
+        <a href="{% url 'cinema:new_movie' %}" class="ml-3" >
             <img src="{% static 'cinema/images/green_plus.png' %}" class="cinema_preview"/>
         </a>
         <p>додати фільм</p>
