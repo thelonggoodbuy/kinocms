@@ -16,44 +16,39 @@
                 <header class="p-3 bg-transparent text-dark">
                   {% comment %} <div class="container"> {% endcomment %}
                       <div class="row">
-                        <div class="col-2"><a href="{% url 'pages:index' %}"><img src="{% static 'pages/images/cinema_logo_2.png' %}" class="logo_responsive"></a></div>
-                        <div class="col-2 d-block">
-                            <div class="container d-flex h-100">
-                                <div class="row justify-content-center align-self-center">
-                                    <form class="row">
-                                        <input type="search" class="form-control form-control-dark " placeholder="Search..." aria-label="Search">
-                                      </form>
-                                </div>
+                        <div class="col-lg-2 d-none d-lg-block">
+                            <a href="{% url 'pages:index' %}"><img src="{% static 'pages/images/cinema_logo_2.png' %}" class="logo_responsive"></a>
+                        </div>
+                        <div class="col-12 col-lg-3 d-block my-0 my-md-3">
+                            <div class="container d-flex">
+                                {% comment %} <form class="row"> {% endcomment %}
+                                <input type="search" class="form-control form-control-dark " placeholder="пошук по сайту" aria-label="Search">
+                                {% comment %} </form> {% endcomment %}
                             </div>
                         </div>
-                        <div class="col-1">
-                            <div class="container d-flex h-100">
+                        <div class="col-12 col-lg-2 my-3 my-md-3">
+                            {% comment %} <div class="container d-flex"> {% endcomment %}
                                 <div class="row justify-content-center align-self-center">
                                     <div>
-
                                         {% if user.is_authenticated %}
-                                            <a class="btn btn-secondary" href="{% url 'users:log_out' %}" class="nav-link">выход</a>
+                                        <div class="col-12">
+                                            <a class="btn btn-secondary btn-block" href="{% url 'users:log_out' %}" class="nav-link">вихід</a>
+                                        
                                         {% else %}    
-                                            <a class="btn btn-secondary" href="{% url 'users:sign_in' %}" class="nav-link">логин</a>
+                                            <a class="btn btn-secondary" href="{% url 'users:sign_in' %}" class="nav-link">логін</a>
                                         {% endif %}
                                         {% if user.is_anonymous %}
-                                            <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" class="nav-link">регистрация</a>
-                                        {% endif %}
-                                        
+                                            <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" class="nav-link">реєстрація</a>
+                                        {% endif %}  
+                                        {% comment %} </div> {% endcomment %}
                                 </div>
                             </div>
+                            {% comment %} </div> {% endcomment %}
                         </div>
-                        <div class="col-1">
-                            <div class="container d-flex h-100">
-                                <div class="row justify-content-center align-self-center">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="container d-flex h-100">
-                                <div class="row justify-content-center align-self-center">
-                                    <div class="container_with_sm">
+                        <div class="col-12 col-lg-3 text-center">
+                            <div class="container mt-0 mb-3 mt-lg-3">
+                                {% comment %} <div class="row"> {% endcomment %}
+                                    {% comment %} <div class="container_with_sm"> {% endcomment %}
                                         <img src="{% static 'pages/images/fb.png'%}" class="nav_sm_logo">
                                         <img src="{% static 'pages/images/twitter.png'%}" class="nav_sm_logo">
                                         <img src="{% static 'pages/images/google.png'%}" class="nav_sm_logo">
@@ -61,8 +56,8 @@
                                         <img src="{% static 'pages/images/ok.png'%}" class="nav_sm_logo">
                                         <img src="{% static 'pages/images/vk.png'%}" class="nav_sm_logo">
                                     </div>
-                                </div>
-                            </div>
+                                {% comment %} </div> {% endcomment %}
+                            {% comment %} </div> {% endcomment %}
                         </div>
                       </div>
                       <ul class="nav col-12  me-lg-auto mb-2 justify-content-center px-4 bg-muted text-dark rounded-pill border border-bottom py-2">

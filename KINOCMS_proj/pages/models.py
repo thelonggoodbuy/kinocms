@@ -12,8 +12,6 @@ class CustomPages(models.Model):
         ('vip-hall', 'VIP-зала'),
         ('advertising', 'реклама'),
         ('childrens_room', 'дитяча кімната'),
-
-
     )
     title = models.CharField(max_length=100)
     description = models.TextField()

@@ -40,132 +40,144 @@
     {% for form in contact_formset %}
     <div class="row" id="main_card_table">
 
-        <div class="card col-10 py-3 px-4 mx-5" id="main_card">
+        <div class="card col-12 col-sm-10 py-3 px-4 mx-0 mx-xl-5" id="main_card">
             <div id="single_contact_cell_form">
                 <div class="row mt-3 mb-4">
-                    <div class="col-2">
-                        <spam>Назва кінотеатру: </spam>
+                    <div class="col-12 col-xl-2">
+                        <spam>{{ form.cinema_name.label_tag }}</spam>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         {{ form.cinema_name }}
                     </div>
                 </div>
                 <div class="row mt-3 mb-4">
-                    <div class="col-2">
-                        <spam>Адресса кінотеатру: </spam>
+                    <div class="col-12 col-xl-2">
+                        <spam>{{ form.address.label_tag }} </spam>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         {{ form.address }}
                     </div>
                 </div>
                 <div class="row mt-3 mb-4">
-                    <div class="col-2">
-                        <spam>Координати на карті: </spam>
+                    <div class="col-12 col-xl-2">
+                        <spam>{{ form.location.label_tag }}</spam>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-xl-6">
                         {{ form.location }}
                     </div>
                 </div>
                 <div class="row mt-3 mb-4">
                     <div class="col-2">
-                        <spam>Лого: </spam>
+                        <spam>{{ form.logo.label_tag }}</spam>
                     </div>
-                    <div class="col-3">
+                    <div class="col-12 col-md-4 col-xl-3">
                         {{ form.logo }}
                     </div>
-                    <div class="col-1 justify-content-center align-self-center text-center">
-                        <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
+                    <div class="col-1 offset-3 col-md-3 offset-md-3 offset-xl-0 col-xl-1 px-3 justify-content-right align-self-center text-center">
+                        <input type="button" value="додати" id="add_button" class="mt-5 mb-5 btn btn-dark">
                     </div>
-                    <div class="col-1 justify-content-center align-self-center text-center">
-                        <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-outline-dark btn-sm btn-block">
-                        {% comment %} {{ form.DELETE_IMAGE }} {% endcomment %}
+                    <div class="col-6 col-md-3 col-xl-1 px-3 ml-4 ml-sm-3 justify-content-center align-self-center text-center">
+                        <input type="button" value="видалити" id="del_button" class="mt-5 mb-5 btn btn-dark">
+                        {{ form.DELETE }}
                     </div>
                 </div>
-                <spam>Видалити: </spam> {{ form.DELETE }}
+                {% comment %} <spam>Видалити: </spam> {{ form.DELETE }} {% endcomment %}
             </div>
         </div>
     </div>
     {% endfor %}
 
     <div class="row" >
-        <div class="col-8 text-center">
+        <div class="offset-xl-5 col-12 col-xl-2 text-center">
             <a class="btn btn-secondary" id='add_more'> <img src="{% static 'cinema/images/plus_for_button.png' %}" class="logo_tables_command brand-image img-circle"> додати кінотеатр </a>
         </div>
     </div>
 
-    <div class="row" id="main_card_table_empty_form">
-        <div class="card col-10 py-3 px-4 mx-5" id="main_card">
+    <div class="row" id="main_card_table_empty_form" style="display:none">
+        <div class="card col-12 col-sm-10 py-3 px-4 mx-0 mx-xl-5" id="main_card">
             <div id="single_contact_cell_form">
                 <div class="row mt-3 mb-4">
-                    <div class="col-2">
-                        <spam>Назва кінотеатру пуста форма: </spam>
+                    <div class="col-12 col-xl-2">
+                        <spam>{{ contact_formset.empty_form.cinema_name.label_tag }}</spam>
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-xl-6">
                         {{ contact_formset.empty_form.cinema_name }}
                     </div>
                 </div>
                 <div class="row mt-3 mb-4">
-                    <div class="col-2">
-                        <spam>Адресса кінотеатру пуста форма: </spam>
+                    <div class="col-12 col-xl-2">
+                        <spam>{{ contact_formset.empty_form.address.label_tag }}</spam>
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-xl-6">
                         {{ contact_formset.empty_form.address }}
                     </div>
                 </div>
                 <div class="row mt-3 mb-4">
-                    <div class="col-2">
-                        <spam>Координати на карті пуста форма: </spam>
+                    <div class="col-12 col-xl-2">
+                        <spam>{{ contact_formset.empty_form.location.label_tag }}</spam>
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-xl-6">
                         {{ contact_formset.empty_form.location }}
                     </div>
                 </div>
                 <div class="row mt-3 mb-4">
                     <div class="col-2">
-                        <spam>Лого пуста форма: </spam>
+                        <spam>{{ contact_formset.empty_form.logo.label_tag }}</spam>
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-md-4 col-xl-3">
                         {{ contact_formset.empty_form.logo }}
                     </div>
+                    <div class="col-1 offset-3 col-md-3 offset-md-3 offset-xl-0 col-xl-1 px-3 justify-content-right align-self-center text-center">
+                        <input type="button" value="добавить" id="add_button" class="mt-5 mb-5 btn btn-dark">
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-1 px-3 ml-4 ml-sm-3 justify-content-center align-self-center text-center">
+                        <input type="button" value="удалить" id="del_button" class="mt-5 mb-5 btn btn-dark">
+                        {{ contact_formset.empty_form.DELETE }}
+                    </div>
                 </div>
-                <spam>Видалити пуста форма:</spam> {{ contact_formset.empty_form.DELETE }}
             </div>
         </div>
     </div>
 
 
-    <input type="submit" value="сохранить" class="mt-5 mb-5" name="btnform1">
+
+    
+    <div class="row" >
+        <div class="offset-xl-5 col-12 col-xl-2 text-center">
+            <input type="submit" value="Зберігти контакти" class="mt-5 mb-5 btn-lg btn-dark" name="mt-5 mb-5">
+        </div>
+    </div>
 
     <div id="contact_seo_form">
             <div class="row mt-3 mb-3">
-                <div class="col-2">
+                <div class="col-12 col-xl-2">
                     {{ seo_form.url_seo.label_tag }}
                 </div>
-                <div class="col-5">
+                <div class="col-12 col-xl-6">
                     {{ seo_form.url_seo }}
                 </div>
             </div>
             <div class="row mt-3 mb-3">
-                <div class="col-2">
+                <div class="col-12 col-xl-2">
                     {{ seo_form.title_seo.label_tag }}
                 </div>
-                <div class="col-5">
+                <div class="col-12 col-xl-6">
                     {{ seo_form.title_seo }}
                 </div>
             </div>
             <div class="row mt-3 mb-3">
-                <div class="col-2">
+                <div class="col-12 col-xl-2">
                     {{ seo_form.keyword_seo.label_tag }}
                 </div>
-                <div class="col-5">
+                <div class="col-12 col-xl-6">
                     {{ seo_form.keyword_seo }}
                 </div>
             </div>
             <div class="row mt-3 mb-5">
-                <div class="col-2">
+                <div class="col-12 col-xl-2">
                     {{ seo_form.description_seo.label_tag }}
                 </div>
-                <div class="col-5">
+                <div class="col-12 col-xl-6">
                     {{ seo_form.description_seo }}
                 </div>
             </div>

@@ -68,20 +68,20 @@
             </div>
         </div>
 
-
+        <ul class="nav nav-tabs justify-content-end row" id="myTab" role="tablist">
+            <li class="nav-item col-6 col-sm-5 col-md-4 col-xl-3">
+              <a class="nav-link active" id="uk-block-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Українська мова</a>
+            </li>
+            <li class="nav-item col-6 col-sm-5 col-md-4 col-xl-3">
+              <a class="nav-link" id="ru-block-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Русский язык</a>
+            </li>
+        </ul>
 
         <div class="row mt-3 mb-4">
-            <div class="col-12 col-xl-2">
-                {{ one_news_form.title_news_or_promo.label_tag }}
-            </div>
-            <div class="col-12 col-sm-8 col-xl-3">
-                {{ one_news_form.title_news_or_promo }}
-            </div>
-
-            <div class="col-12 offset-xl-1 col-xl-2">
+            <div class="col-12 offset-xl-6 col-xl-2">
                 {{ one_news_form.date_news_or_promoptions.label_tag }}
             </div>
-            <div class="col-12 col-sm-8 col-xl-2 d-inline">
+            <div class="col-12 col-sm-8 col-xl-4 d-inline">
                 <div class="form-group">
                     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
                         {{ one_news_form.date_news_or_promoptions }}
@@ -91,18 +91,53 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                {% comment %} translaete Ukrainian {% endcomment %}
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ one_news_form.title_news_or_promo_uk.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8 col-xl-5">
+                        {{ one_news_form.title_news_or_promo_uk }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ one_news_form.description_news_or_promo_uk.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8">
+                        {{ one_news_form.description_news_or_promo_uk }}
+                    </div>
+                </div>
+    
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                {% comment %} translaete Russiam {% endcomment %}
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ one_news_form.title_news_or_promo_ru.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8 col-xl-5">
+                        {{ one_news_form.title_news_or_promo_ru }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ one_news_form.description_news_or_promo_ru.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8">
+                        {{ one_news_form.description_news_or_promo_ru }}
+                    </div>
+                </div>
 
-        </div>
- 
-        <div class="row mt-3 mb-3">
-            <div class="col-12 col-xl-2">
-                {{ one_news_form.description_news_or_promo.label_tag }}
-            </div>
-            <div class="col-12 col-md-8 col-xl-5">
-                {{ one_news_form.description_news_or_promo}}
+
+                {% comment %} !!!!!!!!!!!!!!!!!!! {% endcomment %}
             </div>
         </div>
-        {% comment %} ************************************************ {% endcomment %}
+
         <div class="row" id="main_image_container">
             <div class="col-12 col-md-6 col-lg-4 col-xl-2 justify-content-center align-self-center" align="center">
                 {{ main_image_form.image.label_tag }}

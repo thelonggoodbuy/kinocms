@@ -499,8 +499,6 @@ def main_page_detail(request, pk):
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
 def contacts_detail(request, pk):
-    # contacts_page = Contact.objects.select_related('seo_block').first()
-
     contacts_page = Contact.objects.select_related('seo_block').get(pk=pk)
 
     exists_contacts = ContactCell.objects.all()

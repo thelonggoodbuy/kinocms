@@ -57,8 +57,11 @@ class GaleryImageForm(forms.ModelForm):
 
 
 class NewsForm(forms.ModelForm):
-    title_news_or_promo = forms.CharField(label = "Назва новини",
-                                    error_messages={'required': 'Поле "Назва" не повинно залишатися пустим'}, 
+    title_news_or_promo_uk = forms.CharField(label = "Назва",
+                                    error_messages={'required': 'Поле "Назва" (укр. мовою) не повинно залишатися пустим'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    title_news_or_promo_ru = forms.CharField(label = "Назва(рос. мовою)",
+                                    error_messages={'required': 'Поле "Назва" (рос. мовою) не повинно залишатися пустим'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     date_news_or_promoptions = forms.DateField(required=True, 
@@ -67,9 +70,13 @@ class NewsForm(forms.ModelForm):
                                                                                 "data-target": "#datetimepicker4"}), 
                                                 input_formats=DATE_INPUT_FORMATS)
 
-    description_news_or_promo = forms.CharField(label = "Опис", 
-                                    error_messages={'required': 'Поле "Опис" не повинно залишатися пустим'},
+    description_news_or_promo_uk = forms.CharField(label = "Опис", 
+                                    error_messages={'required': 'Поле "Опис" (укр. мова) не повинно залишатися пустим'},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+
+    description_news_or_promo_ru = forms.CharField(label = "Опис (рос.мова)", 
+                                error_messages={'required': 'Поле "Опис" (рос.мова) не повинно залишатися пустим'},
+                                widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
 
     url_to_video = forms.URLField(required=False, label = "посилання на відео",
                                     widget=forms.URLInput(attrs={'class': 'form-control'}))
@@ -83,12 +90,18 @@ class NewsForm(forms.ModelForm):
 
 
 class CustomPageForm(forms.ModelForm):
-    title = forms.CharField(label = "Назва",
-                                    error_messages={'required': 'Поле "Назва" не повинно залишатися пустим'}, 
+    title_uk = forms.CharField(label = "Назва",
+                                    error_messages={'required': 'Поле "Назва (укр. мова)" не повинно залишатися пустим'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    title_ru = forms.CharField(label = "Назва (рос. мова)",
+                                    error_messages={'required': 'Поле "Назва (рос. мова)" не повинно залишатися пустим'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 
-    description = forms.CharField(label = "Опис", 
+    description_uk = forms.CharField(label = "Опис", 
+                                    error_messages={'required': 'Поле "Опис (укр. мова)" не повинно залишатися пустим'},
+                                    widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+    description_ru = forms.CharField(label = "Опис (рос. мова)", 
                                     error_messages={'required': 'Поле "Опис" не повинно залишатися пустим'},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
 

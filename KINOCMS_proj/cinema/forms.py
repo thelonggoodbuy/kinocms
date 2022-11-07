@@ -197,13 +197,13 @@ class MovieForm(forms.ModelForm):
     title_movie_uk = forms.CharField(label = "Назва фільму",
                                     error_messages={'required': 'Фільм повинен містити назву українскьою'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
-    title_movie_ru = forms.CharField(label = "Название фильма",
+    title_movie_ru = forms.CharField(label = "Назва фільму (рос. мовою)",
                                 error_messages={'required': 'Фільм повинен містити назву російською'}, 
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
     description_movie_uk = forms.CharField(label = "Опис фільму", 
                                     error_messages={'required': 'Фільм має містити опис українською'},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
-    description_movie_ru = forms.CharField(label = "Описание фильма", 
+    description_movie_ru = forms.CharField(label = "Опис фільму (рос. мовою)", 
                                 error_messages={'required': 'Фільм має містити опис російською'},
                                 widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
     url_to_trailer = forms.URLField(required=False, label = _("Посилання на трейлер"),
@@ -309,15 +309,23 @@ class SeoBlockForm(forms.ModelForm):
 
 # cinema forms
 class CinemaForm(forms.ModelForm):
-    title_cinema = forms.CharField(label = "Назва кінотеатру",
-                                    error_messages={'required': 'кінотеатр має містити назву'}, 
+    title_cinema_uk = forms.CharField(label = "Назва кінотеатру",
+                                    error_messages={'required': 'кінотеатр має містити назву українською'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description_cinema = forms.CharField(label = "Опис кінотеатру", 
-                                    error_messages={'required': 'Кінотеатр має містити опис'},
+    title_cinema_ru = forms.CharField(label = "Назва кінотеатру (рос. мовою)",
+                                    error_messages={'required': 'кінотеатр має містити назву російською'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description_cinema_uk = forms.CharField(label = "Опис кінотеатру", 
+                                    error_messages={'required': 'Кінотеатр має містити опис українською'},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
-
-    conditions_cinema = forms.CharField(label = "Умови кінотеатру", 
-                                    error_messages={'required': 'Кінотеатр має містити опис умов'},
+    description_cinema_ru = forms.CharField(label = "Опис кінотеатру (рос. мовою)", 
+                                error_messages={'required': 'Кінотеатр має містити опис російською'},
+                                widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+    conditions_cinema_uk = forms.CharField(label = "Умови кінотеатру", 
+                                    error_messages={'required': 'Кінотеатр має містити опис умов українською'},
+                                    widget=CustomTextAreaWithEditor(attrs={'rows': "20"}))
+    conditions_cinema_ru = forms.CharField(label = "Умови кінотеатру (рос. мовою)", 
+                                    error_messages={'required': 'Кінотеатр має містити опис умов російською'},
                                     widget=CustomTextAreaWithEditor(attrs={'rows': "20"}))
 
     def save(self, commit=True):
@@ -326,24 +334,26 @@ class CinemaForm(forms.ModelForm):
 
     class Meta:
         model = Cinema
-        fields = ('title_cinema', 'description_cinema', 'conditions_cinema', 'on_of_status')
+        fields = ('title_cinema_uk', 'title_cinema_ru', 'description_cinema_uk', 'description_cinema_ru', 'conditions_cinema_uk', 'conditions_cinema_ru', 'on_of_status')
 
 
 
 # cinema hall forms
 
 class CinemaHallForm(forms.ModelForm):
-    cinema_hall_name = forms.CharField(label = "Назва кінозалу",
-                                    error_messages={'required': 'кінозал має містити назву'}, 
+    cinema_hall_name_uk = forms.CharField(label = "Назва кінозалу",
+                                    error_messages={'required': 'кінозал має містити назву українською'}, 
                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description_cinema_hall = forms.CharField(label = "Опис кінозалу", 
+    cinema_hall_name_ru = forms.CharField(label = "Назва кінозалу (рос. мовою)",
+                                    error_messages={'required': 'кінозал має містити назву російською'}, 
+                                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description_cinema_hall_uk = forms.CharField(label = "Опис кінозалу", 
+                                    error_messages={'required': 'кінозал має містити опис українською'},
+                                    widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
+    description_cinema_hall_ru = forms.CharField(label = "Опис кінозалу (рос. мовою)", 
                                     error_messages={'required': 'кінозал має містити опис'},
                                     widget=forms.Textarea(attrs={'class':"form-control", 'rows':"3"}))
-
     
-
-
-
     class Meta:
         model = CinemaHall
-        fields = ('cinema_hall_name', 'description_cinema_hall', 'schema_hall')
+        fields = ('cinema_hall_name_uk', 'cinema_hall_name_ru', 'description_cinema_hall_uk', 'description_cinema_hall_ru', 'schema_hall')

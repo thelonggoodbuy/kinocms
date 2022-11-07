@@ -1,5 +1,5 @@
 from modeltranslation.translator import translator, TranslationOptions, register
-from .models import NewsAndPromotions, CustomPages, ContactCell
+from .models import NewsAndPromotions, CustomPages, ContactCell, MainPage
 
 
 
@@ -9,8 +9,16 @@ class NewsAndPromotionsTranslationOptions(TranslationOptions):
 
 @register(CustomPages)
 class CinemaTranslationOptions(TranslationOptions):
-    fields = ('title_cinema', 'description_cinema', 'conditions_cinema')
+    fields = ('title', 'description')
 
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 @register(ContactCell)
 class CinemaHallTranslationOptions(TranslationOptions):
     fields = ('cinema_name', 'address')
+
+
+
+@register(MainPage)
+class CinemaHallTranslationOptions(TranslationOptions):
+    fields = ('title',)

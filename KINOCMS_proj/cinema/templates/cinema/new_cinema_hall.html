@@ -65,7 +65,7 @@
 
 
 
-        <div class="row mt-3 mb-3">
+        {% comment %} <div class="row mt-3 mb-3">
             <div class="col-12 col-xl-2">
                 {{ cinema_hall_form.cinema_hall_name.label_tag }}
             </div>
@@ -80,7 +80,54 @@
             <div class="col-12 col-md-8 col-xl-5">
                 {{ cinema_hall_form.description_cinema_hall }}
             </div>
-        </div>
+        </div> {% endcomment %}
+        <ul class="nav nav-tabs justify-content-end row" id="myTab" role="tablist">
+            <li class="nav-item col-6 col-sm-5 col-md-4 col-xl-3">
+              <a class="nav-link active" id="uk-block-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Українська мова</a>
+            </li>
+            <li class="nav-item col-6 col-sm-5 col-md-4 col-xl-3">
+              <a class="nav-link" id="ru-block-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Русский язык</a>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ cinema_hall_form.cinema_hall_name_uk.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8 col-xl-5">
+                        {{ cinema_hall_form.cinema_hall_name_uk }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ cinema_hall_form.description_cinema_hall_uk.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8 col-xl-5">
+                        {{ cinema_hall_form.description_cinema_hall_uk }}
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ cinema_hall_form.cinema_hall_name_ru.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8 col-xl-5">
+                        {{ cinema_hall_form.cinema_hall_name_ru }}
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 col-xl-2">
+                        {{ cinema_hall_form.description_cinema_hall_ru.label_tag }}
+                    </div>
+                    <div class="col-12 col-md-8 col-xl-5">
+                        {{ cinema_hall_form.description_cinema_hall_ru }}
+                    </div>
+                </div>
+            </div>
+            
         <div class="row mt-3 mb-3">
             <div class="col-12 col-xl-2">
                 {{ cinema_hall_form.schema_hall.label_tag }}

@@ -193,8 +193,6 @@ def movie_detail(request, pk=None):
                                                         can_delete=True, extra=0, min_num=1,
                                                         max_num=5)
 
-
-    
     if request.method == 'POST':
         movie_main_form = MovieForm(request.POST, instance = movie_instance, error_class=SimpleTextErrorList)
         movie_main_image_form = MovieMainImage(request.POST, request.FILES, instance = movie_instance.main_image)
