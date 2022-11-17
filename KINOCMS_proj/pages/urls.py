@@ -1,15 +1,19 @@
 from django.urls import path
 
-from .views import index, all_news, news_detail, create_news, del_news,\
-                        all_promo, create_promo, promo_detail, promo_del,\
-                        all_pages, create_page, page_detail, page_del,\
-                        main_page_detail, contacts_detail,\
-                        statistics
+from .views import all_news, news_detail, create_news, del_news,\
+                    all_promo, create_promo, promo_detail, promo_del,\
+                    all_pages, create_page, page_detail, page_del,\
+                    main_page_detail, contacts_detail,\
+                    statistics,\
+                    main_page, all_cinemas, about_cinema, front_all_promo, front_promo_detail,\
+                    front_schedule, schedule_sort_cinema, schedule_sort_cinema_hall
+                    
+                    
 
 app_name = 'pages'
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', main_page, name='main_page'),
 
     path('all_news/', all_news, name='all_news'),
     path('news_detail/<int:pk>/', news_detail, name='news_detail'),
@@ -30,4 +34,15 @@ urlpatterns = [
     path('contacts_detail/<int:pk>/', contacts_detail, name="contacts_detail"),
 
     path('statistics/', statistics, name='statistics' ),
+
+    path('all_cinemas/', all_cinemas, name='all_cinemas'),
+    path('about_cinema/<int:pk>/', about_cinema, name='about_cinema'),
+
+    path('promo_list/', front_all_promo, name='front_all_promo'),
+    path('front_promo_detail/<int:pk>/', front_promo_detail, name='front_promo_detail'),
+
+    path('front_schedule/', front_schedule, name='front_schedule'),
+    path('front_schedule/ajax/schedule_sort_cinema/', schedule_sort_cinema, name='schedule_sort_cinema'),
+    path('front_schedule/ajax/schedule_sort_cinema_hall/', schedule_sort_cinema_hall, name='schedule_sort_cinema_hall'),
+
 ]

@@ -1,24 +1,162 @@
 {% extends "layout/_base_pages.html" %}
 
+{% load static %}
+
+
+
+{% block upperheader %}
+  <style type="text/css">
+    #carousel_font_background{
+      backdrop-filter: blur(10px) saturate(100%);
+    }
+  </style>
+    {% if highest_banner.on_of_status is True %}
+      <div id="carouselTopBanner" class="carousel slide ml-5" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for top_banner_cell in top_bannest_cells %}
+              {% if forloop.first %}
+                <div class="carousel-item active">
+              {% else %}
+                <div class="carousel-item">
+              {% endif %}
+              <a href={{top_banner_cell.url}}>
+                <img class="d-block logo_responsiv rounded d-block" src="{{ top_banner_cell.image.url }}">
+                <div class="carousel-caption d-none d-md-block mx-auto" id="carousel_font_background">
+                  <h3 class="text-white">{{ top_banner_cell.text }}<h3>
+                </div>
+              </a>
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+    {% comment %} </div>
+  </div> {% endcomment %}
+  {% endif %}
+{% endblock upperheader %}
+
+
+
 {% block content %}
 
-{% if user.is_authenticated %}
-    <h1>Hi, {{ user.email }}!</h1>
-{% endif %}
-{% if user.is_authenticated %}
-    <p>Добро пожаловать!</p>
-{% endif %}
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
-<h2>Тестовая проверка расположения хидеров и полей страницы</h2>
+<style type="text/css">
+  body { 
+   background: url('{{ though_background.background.image.url }}');
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+   backdrop-filter: sepia(90%);
+   box-shadow: inset 0 0 100px 50px #cccccc;
+  };
+</style>
 
+
+  <div class="main_container bg-light px-3 py-3">
+    <div class="row">
+      <div class="col-10 mx-0 px-0">
+        <div id="carouselCurrentFilms" class="carousel slide carousel-fade" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for show in today_shows %}
+                  {% if forloop.first %}
+                    <div class="carousel-item active" id="today_films_item">
+                  {% else %}
+                    <div class="carousel-item" id="today_films_item">
+                  {% endif %}
+                    <img class="d-block logo_responsiv rounded mx-auto d-block image_carousel_responsive" src="{{ show.movie.main_image.image.url }}">
+                  </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-12" align="center">
+          <h3>Дивіться сьогодні, {{ today_date|date:"j E" }}</h3>
+        </div>
+      </div>
+
+      <div class="row my-3">
+        {% for show in today_shows %}
+          <div class="col-3 mx-0 my-3">
+            <div class="card px-3 py-3" style="width: 12rem;">
+              <img class="card-img-top" src="{{ show.movie.main_image.image.url }}" alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">{{ show.movie.title_movie_uk }}</p>
+              </div>
+              <a href="#" class="btn btn-outline-dark">купити квиток</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-12" align="center">
+          <h3>Дивіться найближчим часом</h3>
+        </div>
+      </div>
+      <div class="row my-3">
+        {% for announced_movie in next_month_announced %}
+          <div class="col-3 mx-0 my-3">
+            <div class="card px-3 py-3" style="width: 12rem;">
+              <img class="card-img-top" src="{{ announced_movie.main_image.image.url }}" alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">{{ announced_movie.title_movie_uk }}</p>
+              </div>
+              <h5>З {{ announced_movie.movie_distribution_start|date:"j E" }}</h5>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+        <div class="row mt-3">
+          <div class="col-12" align="center">
+            {% if banner_promo_and_news.on_of_status is True %}
+              <div id="carouselBannerPromoAndActions" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% for banner_cell in promo_and_news_bannercells %}
+                      {% if forloop.first %}
+                        <div class="carousel-item active">
+                      {% else %}
+                        <div class="carousel-item">
+                      {% endif %}
+                      <a href={{ banner_cell.url}}>
+                        <img class="d-block logo_responsiv rounded mx-auto d-block" src="{{ banner_cell.image.url }}">
+                      </a>
+                      </div>
+                    {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+            <a href="https://docs.djangoproject.com">
+              <img class="" src="{% static 'pages/images/context_advertising_horizontal.jpg'%}" id="horizontal_advertising">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+    $(function (){
+
+      $('#carouselCurrentFilms').carousel({
+        interval: 5000
+      });
+
+      $('#carouselTopBanner').carousel({
+        interval: {{ highest_banner_timescrolling }}
+      });
+
+      $('#carouselBannerPromoAndActions').carousel({
+        interval: {{ banner_promo_and_news_timescrolling }}
+      });
+
+    });
+</script>
 {% endblock content %}

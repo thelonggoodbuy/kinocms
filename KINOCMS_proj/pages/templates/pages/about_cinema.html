@@ -1,0 +1,102 @@
+{% extends "layout/_base_pages.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <img src="{{ cinema.image_top_banner.image.url }}" class="img-responsive">
+    </div>
+</div>
+
+<div class="row mt-3 align-items-start">
+    <div class="col-2 text-center">
+        <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising">
+        <div class="mt-5 pt-3">
+            <p>кількість залів: <strong>{{cinema_halles.count}}</strong></p>
+            <div class="btn-group-vertical btn-group-sm btn-block">
+                {% for hall in cinema_halles %}
+                    <a href="#" class="btn btn-outline-dark"><p>{{ hall.cinema_hall_name }}</p></a>
+                {% endfor %}
+            </div>
+        </div>
+        <p class="mt-3">дивиться сьогодні:</p>
+        <div class="btn-group-vertical btn-group-sm btn-block">
+            {% for show in today_show %}
+                <a class="btn btn-outline-dark pt-3">
+                <p>{{show.movie.title_movie}}</p>
+                <p>{{show.time_show}}</p>
+                </a>
+            {% endfor %}
+        </div>
+        <a class="btn btn-secondary btn-lg my-3">Розклад сеансів</a>
+    </div>
+
+    <div class="col-8">
+        <div class="row">
+            <div class="col-3" align="right">
+                <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>
+            </div>
+            <div class="col-3 my-auto" align="left">
+                <h3>Кінотеатр</h3>
+                <h3>"{{ cinema.title_cinema }}"</h3>
+            </div>
+            <div class="offset-1 col-4 my-auto" align="left">
+                <a class="btn btn-secondary btn-lg">Розклад сеансів</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mx-3 my-3">
+                {{cinema.description_cinema}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mx-3 my-3 bg-dark">
+                {{cinema.conditions_cinema|safe}}
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="offset-2 col-8">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            {% for index in cinema.image_galery.all %}
+                {% if forloop.first %}
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                {% else %}
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1">
+                {% endif %}
+                    </li>
+            {% endfor %}
+        </ol>
+        <div class="carousel-inner">
+            {% for carousel_image in cinema.image_galery.all %}
+            {% if forloop.first %}
+                <div class="carousel-item active">
+            {% else %}
+                <div class="carousel-item">
+            {% endif %}
+                    <img src="{{carousel_image.image.url}}" class="d-block w-100" alt="...">
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </button>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends "layout/_base_pages.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="row">
+    <div class="col-12">
+        <img src="{% static 'pages/images/promo_top_2.jpg'%}" class="img-responsive" style="width: 100%;">
+
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-12" align="center">
+        <h3>Акції та знижки</h3>
+    </div>
+</div>
+
+<div class="row ml-2">
+
+    <div class="col-10">
+        <div class="row bg-secondary rounded mb-5 mr-5">
+            {% for promo in all_promo %}    
+                <div class="col-2">
+                    <a href="{% url 'pages:front_promo_detail' pk=promo.id %}">
+                        <div class="card my-3 mx-3" style="width: 18rem;">
+                            <img class="card-img-top" src="{{ promo.main_image.image.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ promo.title_news_or_promo_uk }}</h5>
+                                <h5 class="card-title">{{ promo.date_news_or_promoptions }}</h5>
+                                <p class="card-text">{{ promo.description_news_or_promo_uk }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-2 text-center">
+        <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising">
+    </div>
+
+    
+
+</div>
+
+
+
+{% endblock content %}

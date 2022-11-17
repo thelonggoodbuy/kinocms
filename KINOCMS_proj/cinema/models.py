@@ -30,7 +30,7 @@ class CinemaHall(models.Model):
     seo_block = models.OneToOneField('SeoBlock', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
-        return f"{self.cinema}. Зал {self.cinema_hall_name}"
+        return f"{self.cinema_hall_name}"
 
 
 class Show(models.Model):
@@ -41,6 +41,8 @@ class Show(models.Model):
     total_booked = models.SmallIntegerField(null=True, blank=True)
     total_bought = models.SmallIntegerField(null=True, blank=True)
 
+    def __str__(self):
+        return f"Сеанс {self.movie}. {self.cinema_hall}. Дата {self.date_show}. Час {self.time_show}."
 
 class ShowCost(models.Model):
     Show = models.ForeignKey(Show, on_delete=models.CASCADE)

@@ -86,7 +86,7 @@ class NewsForm(forms.ModelForm):
 
     class Meta:
         model = NewsAndPromotions
-        fields = ('title_news_or_promo', 'date_news_or_promoptions', 'description_news_or_promo', 'url_to_video', 'date_news_or_promoptions', 'is_active')
+        fields = ('title_news_or_promo_uk','title_news_or_promo_ru', 'date_news_or_promoptions', 'description_news_or_promo_uk', 'description_news_or_promo_ru','url_to_video', 'date_news_or_promoptions', 'is_active')
 
 
 class CustomPageForm(forms.ModelForm):

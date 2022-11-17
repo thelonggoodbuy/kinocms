@@ -1,0 +1,138 @@
+{% extends "layout/_base_pages.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+  <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>
+  <script type="text/javascript" src="{% static 'pages/js/popper.min.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'pages/js/bootstrap.bundle.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'pages/js/bootstrap.min.js' %}"></script>
+
+</head>
+
+
+<div class="row my-3">
+  <div class="col-3 mx-3">
+    <div class="form-group">
+      <select class="custom-select" id="cinema_index">
+        <option id="cinema_hasnt_changed">всі кінотеатри</option>
+        {% for cinema in cinemas %}
+          <option>{{ cinema.title_cinema }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="col-3 mx-3">
+    <div class="form-group">
+      <select class="custom-select" id="hall_index">
+        <option id="cinema_hall_hasnt_changed">всі зали</option>
+        {% for hall in cinema_halles %}
+          <option id="hall_from_{{ hall.cinema.title_cinema }}">{{ hall.cinema_hall_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+    <div class="col-11 pl-3">
+        <table class="table table-dark ml-3 mr-5">
+            <thead>
+              <tr>
+                <th scope="col">час</th>
+                <th scope="col">фільм</th>
+                <th scope="col">кінотеатр</th>
+                <th scope="col">зал</th>
+                <th scope="col">ціна</th>
+                <th scope="col">броньувати</th>
+              </tr>
+            </thead>
+            <tbody id='senses_table_body'>
+            {% for show in seanses %}
+                <tr id="schedule_content_{{ show.id }}">
+                    <th>{{ show.date_show}}:{{ show.time_show }}</th>
+                    <td>{{ show.movie.title_movie }}</td>
+                    <td>{{ show.cinema_hall.cinema.title_cinema }}</td>
+                    <td>{{ show.cinema_hall.cinema_hall_name }}</td>
+                    <td>$$$</td>
+                    <td>$$$</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-9">
+
+    </div>
+</div>
+
+<script>
+
+
+
+  $("#cinema_index").change(function () {
+    var title_cinema = $(this).val()
+    if(title_cinema == 'всі кінотеатри'){
+      $("tr[id^=schedule_content]").show()
+      cinema_hall_name = $(hall_index).val('всі зали')
+    } else {
+      $('option[id^="hall_from"').hide()
+      $('option[id$='+ title_cinema +']').show()
+    $.ajax({
+      url: "{% url 'pages:schedule_sort_cinema' %}",
+      data: {
+        'title_cinema': title_cinema
+      },
+      dataType: 'json',
+      success: function(data) {
+        if (data){
+          $("tr[id^=schedule_content]").hide()
+          $.each(data.this_film_seanses, function(i, val){
+            $("tr[id$="+ val +"]").show() 
+          });
+        } 
+      },
+    })
+    };
+  });
+
+  $("#hall_index").change(function(){
+
+    var cinema_hall_name = $(this).val()
+    if(cinema_hall_name == 'всі зали'){
+      $("tr[id^=schedule_content]").show()  
+    } else {
+      console.log(cinema_hall_name)
+      $.ajax({
+        url: "{% url 'pages:schedule_sort_cinema_hall' %}",
+        data: {
+          'cinema_hall_name': cinema_hall_name
+        },
+        dataType: 'json',
+        success: function(data) {
+          console.log('Ajax is!')
+          if (data){
+            console.log(data)
+            $("tr[id^=schedule_content]").hide()
+            $.each(data.show_filtered_id, function(i, val){
+              $("tr[id$="+ val +"]").show()
+            })
+          }
+        }
+      })
+    }; 
+
+  });
+  
+
+</script>
+
+
+{% endblock content %}

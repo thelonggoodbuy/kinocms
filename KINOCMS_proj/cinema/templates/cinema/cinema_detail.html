@@ -36,6 +36,7 @@
 <div id="cinema_container">
     <form method="post" novalidate enctype="multipart/form-data" action=".">
         {% csrf_token %}
+        
         {% if cinema_form.errors %}
             <div class="row" id="test-row!">
                 <div class="col-10 mt-3 mb-3">

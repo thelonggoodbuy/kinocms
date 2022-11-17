@@ -367,8 +367,9 @@ def cinema_detail(request, pk=None):
 
             # final save
             cinema.save()
-            return redirect(request.path)
-
+            return redirect("cinema:all_cinemas")
+        else:
+            print(f'{cinema_form.errors}, {cinema_logo_form.errors}, {cinema_highest_banner_form.errors}, {cinema_image_formset.errors}, {cinema_seo_block.errors}')
 
     else:
         cinema_form = CinemaForm(instance=cinema_instance, prefix="cinema_base_form")
@@ -499,6 +500,8 @@ def cinema_hall_detail(request, pk):
             # final save
             cinema_hall.save()
             return redirect(request.path)
+        else:
+            print(f'{cinema_hall_form.errors}, {cinema_hall_banner_form.errors}, {cinema_hall_image_formset.errors}, {cinema_hall_seo_block.errors}')
     else:
         cinema_hall_form = CinemaHallForm(instance=cinema_hall, prefix="cinema_hall_base_form")
         cinema_hall_banner_form = MovieMainImage(instance = cinema_hall.image_top_banner, prefix="cinema_hall_highest_banner")

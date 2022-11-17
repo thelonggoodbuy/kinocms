@@ -1,0 +1,36 @@
+{% extends "layout/_base_pages.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-10">
+        <img src="{% static 'pages/images/cinema_top_image.jpg'%}" class="img-fluid">
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-12" align="center">
+        <h3>Наші кінотеатри</h3>
+    </div>
+</div>
+
+
+<div class="row">
+    {% for cinema in cinema_list %}
+        <div class="col-8 col-sm-6 col-md-4 col-xl-2 mx-3 text-center">
+            <div class="row" align="right">
+                <a href="{% url 'pages:about_cinema' pk=cinema.pk %}">
+                    <div class="col-12">
+                        <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>   
+                    </div>
+                </a>
+            </div>
+            <p>{{ cinema.title_cinema_uk }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

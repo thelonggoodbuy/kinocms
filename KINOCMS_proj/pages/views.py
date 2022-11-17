@@ -9,20 +9,140 @@ import json
 from django.core import serializers
 from django.contrib import messages
 from itertools import chain
+from datetime import date
+from django.db.models import Q
+from django.http import JsonResponse
+from dateutil.rrule import rrule, DAILY
 
 from .models import NewsAndPromotions, CustomPages, MainPage, Phones, Contact, ContactCell
 from cinema.models import SeoBlock, Show
 # from .views import GaleryImageForm
 from .forms import SimpleTextErrorList, NewsForm, MainImage, GaleryImageForm, SeoBlockForm, CustomPageForm, MainPageForm, PhoneForm, ContactCellForm
 
-from cinema.models import Galery
+from cinema.models import Galery, Show, Movie, HighestBannerWithTimeScrolling, BannerCell, BannerPromotionsAndNews, ThroughBackroundBanner, Cinema, CinemaHall
 from users.models import DevicesStatisticCounter, CustomUser, Ticket
 
 
-def index(request):
-    return render(request, 'pages/main.html') 
+# ************************************************************************
+# frontend data 
+# ************************************************************************
+# main page
+def main_page(request):
+    today_shows = Show.objects.filter(date_show = date.today()).distinct('movie')
+    announced_date_start = date.today()
+    announced_date_finish = date.today() + timedelta(days=30)
+    next_month_announced = Movie.objects.filter(movie_distribution_start__range=(announced_date_start, announced_date_finish))
+    highest_banner = HighestBannerWithTimeScrolling.objects.all()[0]
+    top_bannest_cells = BannerCell.objects.filter(purpose="highest_banner")
+    highest_banner_timescrolling = highest_banner.timescrolling*1000
+    banner_promo_and_news = BannerPromotionsAndNews.objects.all()[0]
+    promo_and_news_bannercells = BannerCell.objects.filter(purpose="banner_news_and_promotions")
+    banner_promo_and_news_timescrolling = banner_promo_and_news.timescrolling*1000
+    though_background = ThroughBackroundBanner.objects.all()[0]
+    print(though_background.background.image.url)
+
+    today_date = date.today()
+    context = {'today_shows': today_shows,
+                'today_date': today_date,
+                'next_month_announced': next_month_announced,
+                'highest_banner': highest_banner,
+                'top_bannest_cells': top_bannest_cells,
+                'highest_banner_timescrolling': highest_banner_timescrolling,
+                'banner_promo_and_news': banner_promo_and_news,
+                'promo_and_news_bannercells': promo_and_news_bannercells,
+                'banner_promo_and_news_timescrolling': banner_promo_and_news_timescrolling,
+                'though_background': though_background,
+                }
+    
+    return render(request, 'pages/main.html', context) 
+
+# cinema and halls data
+def all_cinemas(request):
+    cinema_list = Cinema.objects.all()
+    context = {'cinema_list': cinema_list}
+    return render(request, 'pages/all_cinemas.html', context)
 
 
+def about_cinema(request, pk):
+    cinema = Cinema.objects.get(id=pk)
+    cinema_halles = CinemaHall.objects.filter(cinema=cinema)
+    today_show_filter = Q(cinema_hall__in = cinema_halles) & Q(date_show = date.today())
+    today_show = Show.objects.filter(today_show_filter)
+    # print(today_show)
+    context = {'cinema': cinema,
+                'cinema_halles': cinema_halles,
+                'today_show': today_show}
+    return render(request, 'pages/about_cinema.html', context)
+
+
+def front_all_promo(request):
+    actual_promo = Q(publ_type = 'promotion') & Q(is_active = True)
+    all_promo = NewsAndPromotions.objects.filter(actual_promo)
+    context = {
+        'all_promo': all_promo
+    }
+    return render(request, 'pages/front_all_promo.html', context)
+
+def front_promo_detail(request, pk):
+    promo = NewsAndPromotions.objects.get(id=pk)
+    context = {'promo': promo}
+    return render(request, 'pages/front_promo_detail.html', context)
+
+
+def front_schedule(request):
+    start_date = datetime.now().date()
+    finish_date = datetime.now().date() + timedelta(days=7)
+
+    # datetime.now().date()- timedelta(days=27)
+
+    # print(start_date, finish_date)
+    seanses = Show.objects.filter(date_show__range=[start_date, finish_date]).order_by('time_show')
+
+    date_of_seanses = set()
+    for seanse in seanses:
+        date_of_seanses.add(seanse.date_show)
+    print(date_of_seanses)
+
+    # data_list = []
+    # for date_seance in range(start_date, finish_date):
+    #     print(date_seance)
+
+    # print(data_list)
+
+    cinemas = Cinema.objects.all()
+    cinema_halles = CinemaHall.objects.all()
+    context = {'seanses': seanses, 
+                'cinemas': cinemas,
+                'cinema_halles': cinema_halles}
+    return render(request, 'pages/front_schedule.html', context)
+
+
+def schedule_sort_cinema(request):
+    cinema_name = request.GET.get('title_cinema', None)
+    cinema_hall_test = CinemaHall.objects.filter(cinema=Cinema.objects.get(title_cinema = cinema_name))
+    seanses_filter = Q(date_show=date.today()) & Q(cinema_hall__in=cinema_hall_test)
+    cinema_shows = Show.objects.filter(seanses_filter).order_by('time_show')
+    shows = [show.id for show in cinema_shows]
+
+    data = {
+        'this_film_seanses': shows
+    }
+    return JsonResponse(data)
+
+def schedule_sort_cinema_hall(request):
+    hall_name = request.GET.get('cinema_hall_name')
+    cinema_hall = CinemaHall.objects.filter(cinema_hall_name=hall_name)
+    seanses_filteret_by_cinema_hall = Show.objects.filter(cinema_hall__in=cinema_hall)#.order_by('time_show')
+    show_filtered_id = [show.id for show in seanses_filteret_by_cinema_hall]
+    data = {
+        'show_filtered_id': show_filtered_id
+    }
+    print(f'data from view: {data}')
+    return JsonResponse(data)
+
+# ************************************************************************
+# CMS data
+# ************************************************************************
 # news
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
@@ -70,6 +190,8 @@ def news_detail(request, pk):
             # final save
             one_news_form.save()
             return redirect('pages:all_news')
+        else:
+            print(f'{one_news_form.errors}, {main_image_form.errors}, {one_news_image_formset.errors}, {one_news_seo_block.errors}')
     else:
         one_news_form = NewsForm(instance=one_news, prefix="pages_news_base_form", error_class=SimpleTextErrorList)
         main_image_form = MainImage(instance = one_news.main_image, prefix="pages_news_main_image", error_class=SimpleTextErrorList)
@@ -608,8 +730,12 @@ def statistics(request):
             book_per_day.append(0)
         else:
             for show in shows_this_day:
-                booking+=show.total_booked
-                buyng+=show.total_bought
+                if show.total_booked != None:
+                    booking+=show.total_booked
+                    buyng+=show.total_bought
+                else:
+                    buy_per_day.append(0)
+                    book_per_day.append(0)
             buy_per_day.append(buyng)
             book_per_day.append(booking)
 

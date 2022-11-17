@@ -57,7 +57,7 @@
                             <tbody>
                                 {% for novelty in news %}
                                     <tr>
-                                        <td>{{ novelty.title_news_or_promo|default_if_none:"-----" }}</td>
+                                        <td>{{ novelty.title_news_or_promo_uk|default_if_none:"-----" }}</td>
                                         <td>{{ novelty.date_news_or_promoptions|default_if_none:"-----" }}</td>
                                         <td>{{ novelty.is_active|yesno:"ВКЛ,ВИМК"}}</td>
                                         {% comment %} <td><a href="{% url 'cinema:cinema_hall_detail' pk=hall.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
