@@ -109,8 +109,9 @@ class CustomPageForm(forms.ModelForm):
 
     class Meta:
         model = CustomPages
-        fields = ('title', 'description', 'is_active')
+        fields = ('title_uk', 'title_ru', 'description_uk', 'description_ru', 'is_active')
 
+        
 class MainImage(forms.ModelForm):
     image = forms.ImageField(label='Головна картинка', required=False, 
                             validators=[validators.FileExtensionValidator(

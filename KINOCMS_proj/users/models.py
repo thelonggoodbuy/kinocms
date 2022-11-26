@@ -86,6 +86,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     ticket_type = models.CharField(max_length=20, choices=STATUS)
     plase = models.JSONField(null=True, blank=True)
+    cost = models.PositiveSmallIntegerField()
 
 
 class DevicesStatisticCounter(models.Model):

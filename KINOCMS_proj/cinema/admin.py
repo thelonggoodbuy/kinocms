@@ -5,7 +5,7 @@ from .models import *
 admin.site.register(Cinema)
 admin.site.register(CinemaHall)
 admin.site.register(Show)
-admin.site.register(ShowCost)
+# admin.site.register(ShowCost)
 admin.site.register(Movie)
 admin.site.register(Galery)
 admin.site.register(HighestBannerWithTimeScrolling)

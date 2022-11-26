@@ -11,11 +11,14 @@
   <script type="text/javascript" src="{% static 'pages/js/bootstrap.bundle.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'pages/js/bootstrap.min.js' %}"></script>
 
+
+  <link rel="stylesheet" href="{% static 'pages/css/style.css'%}">
+
 </head>
 
 
 <div class="row my-3">
-  <div class="col-3 mx-3">
+  <div class="col-2 mx-3">
     <div class="form-group">
       <select class="custom-select" id="cinema_index">
         <option id="cinema_hasnt_changed">всі кінотеатри</option>
@@ -26,7 +29,7 @@
     </div>
   </div>
 
-  <div class="col-3 mx-3">
+  <div class="col-2 mx-3">
     <div class="form-group">
       <select class="custom-select" id="hall_index">
         <option id="cinema_hall_hasnt_changed">всі зали</option>
@@ -37,51 +40,71 @@
     </div>
   </div>
 
+  <div class="col-2 mx-3">
+    <div class="form-group" id="date_group">
+      <select class="custom-select" id="date_index">
+        <option id="cinema_hall_hasnt_changed">Весь тиждень</option>
+        {% for date in date_of_seanses %}
+          <option id="date_{{ date|date:"j_E" }}">{{ date|date:"j E" }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="col-2 mx-3">
+    <div class="form-group" id="movie_group">
+      <select class="custom-select" id="movie_index">
+        <option id="movie_hasnt_changed">всі фільми</option>
+        {% for movie in movie_set %}
+          <option id="movie_{{ movie }}">{{ movie }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
 </div>
-<div class="row">
-    <div class="col-11 pl-3">
-        <table class="table table-dark ml-3 mr-5">
-            <thead>
-              <tr>
-                <th scope="col">час</th>
-                <th scope="col">фільм</th>
-                <th scope="col">кінотеатр</th>
-                <th scope="col">зал</th>
-                <th scope="col">ціна</th>
-                <th scope="col">броньувати</th>
+
+  {% for date, seanses in date_of_seanses.items %}
+    <div class="row justify-content-center" id="date_table">
+      <h3>{{ date|date:"j E, l" }}</h3>
+      <table class="table table-dark ml-3 mr-5">
+        <thead>
+          <tr>
+            <th scope="col">час</th>
+            <th scope="col">фільм</th>
+            <th scope="col">кінотеатр</th>
+            <th scope="col">зал</th>
+            <th scope="col">ціна</th>
+            <th scope="col">броньувати</th>
+          </tr>
+        </thead>
+        <tbody id='senses_table_body'>
+          {% for show in seanses %}
+              <tr id="schedule_content_{{ show.id }}">
+                  <th>{{ show.date_show }}:{{ show.time_show }}</th>
+                  <td>{{ show.movie.title_movie }}</td>
+                  <td>{{ show.cinema_hall.cinema.title_cinema }}</td>
+                  <td>{{ show.cinema_hall.cinema_hall_name }}</td>
+                  <td>$$$</td>
+                  <td><a href="{% url "pages:front_book_ticket" show_pk=show.id %}"><img src="{% static 'pages/images/ticket_icon.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
               </tr>
-            </thead>
-            <tbody id='senses_table_body'>
-            {% for show in seanses %}
-                <tr id="schedule_content_{{ show.id }}">
-                    <th>{{ show.date_show}}:{{ show.time_show }}</th>
-                    <td>{{ show.movie.title_movie }}</td>
-                    <td>{{ show.cinema_hall.cinema.title_cinema }}</td>
-                    <td>{{ show.cinema_hall.cinema_hall_name }}</td>
-                    <td>$$$</td>
-                    <td>$$$</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-    </div>
-</div>
+          {% endfor %}
+          </tbody>
+    </table>
+  </div>
+  {% endfor %}
 
-<div class="row">
-    <div class="col-9">
-
-    </div>
-</div>
 
 <script>
 
 
-
+  //sorting by cinema
   $("#cinema_index").change(function () {
     var title_cinema = $(this).val()
     if(title_cinema == 'всі кінотеатри'){
       $("tr[id^=schedule_content]").show()
       cinema_hall_name = $(hall_index).val('всі зали')
+      $('option[id^="hall_from"').show()
     } else {
       $('option[id^="hall_from"').hide()
       $('option[id$='+ title_cinema +']').show()
@@ -103,13 +126,13 @@
     };
   });
 
-  $("#hall_index").change(function(){
 
+  //sorting by halls
+  $("#hall_index").change(function(){
     var cinema_hall_name = $(this).val()
     if(cinema_hall_name == 'всі зали'){
       $("tr[id^=schedule_content]").show()  
     } else {
-      console.log(cinema_hall_name)
       $.ajax({
         url: "{% url 'pages:schedule_sort_cinema_hall' %}",
         data: {
@@ -117,7 +140,6 @@
         },
         dataType: 'json',
         success: function(data) {
-          console.log('Ajax is!')
           if (data){
             console.log(data)
             $("tr[id^=schedule_content]").hide()
@@ -128,8 +150,40 @@
         }
       })
     }; 
-
   });
+
+
+  //sorting by dates
+  $("#date_index").change(function(){
+
+    var choosen_date = $('#date_group option:selected').val()
+    var date_index = $(this).val()
+    
+    if(date_index == 'Весь тиждень'){
+      $("tr[id^=schedule_content]").show()
+      $('[id=date_table]').show()
+    } else {
+      $('[id=date_table]').hide()
+      choosen_table = $("h3:contains('"+ choosen_date +"')").parent().show()
+    }
+  });
+
+  //sorting by films
+  $("#movie_index").change(function(){
+
+    var movie_index = $(this).val()
+    
+    if(movie_index == 'всі фільми'){
+      //console.log($("tr[id^=schedule_content]"))
+      //$("tr[id^=schedule_content]").css("display", "true");
+      $("tr[id^=schedule_content]").show();
+    } else {
+      console.log(movie_index)
+      $("tr[id^=schedule_content]").hide()
+
+    }
+  });
+    
   
 
 </script>

@@ -13,6 +13,9 @@ from datetime import date
 from django.db.models import Q
 from django.http import JsonResponse
 from dateutil.rrule import rrule, DAILY
+from collections import OrderedDict
+
+
 
 from .models import NewsAndPromotions, CustomPages, MainPage, Phones, Contact, ContactCell
 from cinema.models import SeoBlock, Show
@@ -92,57 +95,105 @@ def front_promo_detail(request, pk):
 def front_schedule(request):
     start_date = datetime.now().date()
     finish_date = datetime.now().date() + timedelta(days=7)
-
-    # datetime.now().date()- timedelta(days=27)
-
-    # print(start_date, finish_date)
     seanses = Show.objects.filter(date_show__range=[start_date, finish_date]).order_by('time_show')
-
-    date_of_seanses = set()
+    unsorted_seanses = {}
     for seanse in seanses:
-        date_of_seanses.add(seanse.date_show)
-    print(date_of_seanses)
 
-    # data_list = []
-    # for date_seance in range(start_date, finish_date):
-    #     print(date_seance)
-
-    # print(data_list)
-
+        if seanse.date_show in unsorted_seanses:
+            unsorted_seanses[seanse.date_show].append(seanse)
+        else:
+            unsorted_seanses[seanse.date_show] = []
+            unsorted_seanses[seanse.date_show].append(seanse)
+            
+    date_of_seanses = {}
+    date_of_seanses = OrderedDict(sorted(unsorted_seanses.items()))
+    
     cinemas = Cinema.objects.all()
     cinema_halles = CinemaHall.objects.all()
+    movie_set = set()
+    [movie_set.add(x.movie.title_movie) for x in seanses]
     context = {'seanses': seanses, 
                 'cinemas': cinemas,
-                'cinema_halles': cinema_halles}
+                'cinema_halles': cinema_halles,
+                'date_of_seanses': date_of_seanses,
+                'movie_set': movie_set}
     return render(request, 'pages/front_schedule.html', context)
 
 
 def schedule_sort_cinema(request):
     cinema_name = request.GET.get('title_cinema', None)
     cinema_hall_test = CinemaHall.objects.filter(cinema=Cinema.objects.get(title_cinema = cinema_name))
-    seanses_filter = Q(date_show=date.today()) & Q(cinema_hall__in=cinema_hall_test)
-    cinema_shows = Show.objects.filter(seanses_filter).order_by('time_show')
+    cinema_shows = Show.objects.filter(cinema_hall__in=cinema_hall_test).order_by('time_show')
     shows = [show.id for show in cinema_shows]
-
     data = {
         'this_film_seanses': shows
     }
     return JsonResponse(data)
 
+
 def schedule_sort_cinema_hall(request):
     hall_name = request.GET.get('cinema_hall_name')
     cinema_hall = CinemaHall.objects.filter(cinema_hall_name=hall_name)
-    seanses_filteret_by_cinema_hall = Show.objects.filter(cinema_hall__in=cinema_hall)#.order_by('time_show')
+    seanses_filteret_by_cinema_hall = Show.objects.filter(cinema_hall__in=cinema_hall)
     show_filtered_id = [show.id for show in seanses_filteret_by_cinema_hall]
     data = {
         'show_filtered_id': show_filtered_id
     }
-    print(f'data from view: {data}')
     return JsonResponse(data)
 
-# ************************************************************************
-# CMS data
-# ************************************************************************
+# *********************************************************
+# ********************booking logic************************
+# *********************************************************
+# тут я буду добавлять купленные и зарезервированные билеты и передавать в json. 
+# в JS скрипте я буду 
+
+def front_book_ticket(request, show_pk):
+    show = Show.objects.get(id=show_pk)
+    booked_tickets = Ticket.objects.filter(show=show.id)
+    # booked_tickets_id = json.dumps([ticket.plase for ticket in booked_tickets])
+    booked_tickets_id = [ticket.plase for ticket in booked_tickets]
+    print((booked_tickets_id))
+    context = {'show': show,
+                'booked_tickets_id': booked_tickets_id}
+    return render(request, 'pages/front_book_ticket.html', context)
+
+
+def book_ticket_per_place(request):
+    print('we are in django view')
+    is_ajax = request.headers.get('X-Request-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'POST':
+            data = json.load(request)
+            print(data)
+            try:
+                data['booked_places']
+                current_show = Show.objects.get(id = data['show_id'])
+                for place in data['booked_places'].keys():
+                    booked_ticket = Ticket()
+                    booked_ticket.show = current_show
+                    booked_ticket.user = request.user
+                    booked_ticket.ticket_type = 'booking'
+                    booked_ticket.plase = json.dumps(place, skipkeys=True)
+                    booked_ticket.cost = current_show.cost
+                    booked_ticket.save()
+                return JsonResponse({'status': 'all work! This message from django'})
+            
+            except:
+                current_show = Show.objects.get(id = data['show_id'])
+                for place in data['bought_places'].keys():
+                    booked_ticket = Ticket()
+                    booked_ticket.show = current_show
+                    booked_ticket.user = request.user
+                    booked_ticket.ticket_type = 'buying'
+                    booked_ticket.plase = json.dumps(place, skipkeys=True)
+                    booked_ticket.cost = current_show.cost
+                    booked_ticket.save()
+                return JsonResponse({'status': 'all work! This message from django'})
+
+
+# *********************************************************
+# ***********************CMS data**************************
+# *********************************************************
 # news
 @login_required
 @user_passes_test(lambda admin: admin.is_superuser)
@@ -474,6 +525,12 @@ def create_page(request):
             page.save()
             
             return redirect('pages:all_pages')
+        # else:
+        #     print(f'{page_form.errors.as_data}, {main_image_form.errors.as_data}, {page_image_formset.errors.as_data}, {page_seo_block.errors.as_data}')
+        #     for error in page_form.errors: print(error)
+        #     for error in main_image_form.errors: print(error)
+        #     for error in page_image_formset.errors: print(error)
+        #     for error in page_seo_block.errors: print(error)
 
     else:
         page_form = CustomPageForm(prefix="page_base_form", error_class=SimpleTextErrorList)

@@ -40,13 +40,14 @@ class Show(models.Model):
     time_show = models.TimeField()
     total_booked = models.SmallIntegerField(null=True, blank=True)
     total_bought = models.SmallIntegerField(null=True, blank=True)
+    cost = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return f"Сеанс {self.movie}. {self.cinema_hall}. Дата {self.date_show}. Час {self.time_show}."
 
-class ShowCost(models.Model):
-    Show = models.ForeignKey(Show, on_delete=models.CASCADE)
-    cost = models.PositiveSmallIntegerField()
+# class ShowCost(models.Model):
+#     Show = models.ForeignKey(Show, on_delete=models.CASCADE)
+#     cost = models.PositiveSmallIntegerField()
 
 
 class Movie(models.Model):

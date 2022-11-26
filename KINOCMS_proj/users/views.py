@@ -50,7 +50,7 @@ def sign_in(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect('pages:index')
+                    return redirect('pages:main_page')
                 else:
                     message = 'Пользователь не активен'
             else:
@@ -63,7 +63,7 @@ def sign_in(request):
 
 def log_out(request):
     logout(request)
-    return redirect('pages:index')
+    return redirect('pages:main_page')
 
 
 @login_required
