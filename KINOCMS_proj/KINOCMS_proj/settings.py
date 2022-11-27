@@ -14,6 +14,7 @@ from pathlib import Path
 import environ
 import os
 from django.utils.translation import gettext_lazy as _
+from django.conf import global_settings
 
 
 
@@ -91,10 +92,17 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'pages.processor.list_of_active_pages',
+                'pages.processor.list_of_phones',
             ],
         },
     },
 ]
+
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     "pages.processor.list_of_active_pages",
+# )
+
 
 WSGI_APPLICATION = 'KINOCMS_proj.wsgi.application'
 

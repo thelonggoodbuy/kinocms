@@ -144,8 +144,6 @@ def schedule_sort_cinema_hall(request):
 # *********************************************************
 # ********************booking logic************************
 # *********************************************************
-# тут я буду добавлять купленные и зарезервированные билеты и передавать в json. 
-# в JS скрипте я буду 
 
 def front_book_ticket(request, show_pk):
     show = Show.objects.get(id=show_pk)
@@ -189,6 +187,13 @@ def book_ticket_per_place(request):
                     booked_ticket.cost = current_show.cost
                     booked_ticket.save()
                 return JsonResponse({'status': 'all work! This message from django'})
+
+#********************************************************** 
+#***********playbill loggic: playbil and film card*********
+#**********************************************************
+def front_playbill(request):
+    return render(request, 'pages/front_playbill.html')
+
 
 
 # *********************************************************

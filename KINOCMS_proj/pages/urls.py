@@ -7,7 +7,8 @@ from .views import all_news, news_detail, create_news, del_news,\
                     statistics,\
                     main_page, all_cinemas, about_cinema, front_all_promo, front_promo_detail,\
                     front_schedule, schedule_sort_cinema, schedule_sort_cinema_hall, \
-                    front_book_ticket, book_ticket_per_place
+                    front_book_ticket, book_ticket_per_place, \
+                    front_playbill
                     
                     
 
@@ -48,5 +49,7 @@ urlpatterns = [
 
     path('front_book_ticket/<int:show_pk>/', front_book_ticket, name='front_book_ticket'),
     path('front_book_ticket/ajax/book_ticket_per_place', book_ticket_per_place, name='book_ticket_per_place'),
+
+    path('front_playbill/', front_playbill, name='front_playbill'),
 
 ]
