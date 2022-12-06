@@ -28,49 +28,58 @@
     }
 </style>
 
-<div class="row">
-    <div class="col-4">
-        <p>{{ show.date_show|date:"j E" }}, {{ show.time_show }}, {{show.cinema_hall.cinema_hall_name}}</p>
-    </div>
-</div>
-<div class="row mb-5">
-    <div class="col-2">
-        <p>Ціна в гривнях: <span id="ticket_cost">{{show.cost}}</span></p>
-    </div>
-    <div class="col-3 d-flex">
-        <span>Заброньовано: </span><div class="square mx-3" style="background-color: Gray;"></div>
-    </div>
-    <div class="col-7 d-flex">
-        <p>Ваше замовлення:</p>
-        <div class="border border-warning mx-3 px-3 py-2">
-            <span>квитків: </span><span class="text-danger" id="tickets_numbers">0</span>
-            <span>сумма: </span><span class="text-danger" id="summ">0</span><span> грн.</span>
-        </div>
-    </div>
-</div>
-<div id="place_container">
-    {% comment %} {{ schema|json_script:'schema' }} {% endcomment %}
-    <p class="d-none" id="show_number">{{ show.id }}</p>
 
-    {% for index, quantity in show.cinema_hall.schema_hall.items %}
-    <div class="row my-1 align-items-center" id="hall_schema_container">
-        <div class="col-2">
-            <p>Ряд {{index}}</p>
+<div class="row">
+    <div class="col-3">
+        <img src="{{ show.movie.main_image.image.url }}" class="img-responsive">
+        {% comment %} <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini"> {% endcomment %}
+        <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini">
+    </div>
+    <div class="col-8">
+        <div class="row">
+            <div class="col-4">
+                <p>{{ show.date_show|date:"j E" }}, {{ show.time_show }}, {{show.cinema_hall.cinema_hall_name}}</p>
+            </div>
         </div>
-        <div class="col-10 d-flex justify-content-center mx-auto">
-            {% for place in quantity|get_range %}
-                <div class="square mx-1 small" style="cursor: pointer;" align="center" id="free_place:{{index}}:{{place}}">{{ place|add:"1" }}</div>
+        <div class="row mb-5">
+            <div class="col-2">
+                <p>Ціна в гривнях: <span id="ticket_cost">{{show.cost}}</span></p>
+            </div>
+            <div class="col-3 d-flex">
+                <span>Заброньовано: </span><div class="square mx-3" style="background-color: Gray;"></div>
+            </div>
+            <div class="col-7 d-flex">
+                <p>Ваше замовлення:</p>
+                <div class="border border-warning mx-3 px-3 py-2">
+                    <span>квитків: </span><span class="text-danger" id="tickets_numbers">0</span>
+                    <span>сумма: </span><span class="text-danger" id="summ">0</span><span> грн.</span>
+                </div>
+            </div>
+        </div>
+        <div id="place_container">
+            <p class="d-none" id="show_number">{{ show.id }}</p>
+
+            {% for index, quantity in show.cinema_hall.schema_hall.items %}
+            <div class="row my-1 align-items-center" id="hall_schema_container">
+                <div class="col-2">
+                    <p>Ряд {{index}}</p>
+                </div>
+                <div class="col-10 d-flex justify-content-center mx-auto">
+                    {% for place in quantity|get_range %}
+                        <div class="square mx-1 small" style="cursor: pointer;" align="center" id="free_place:{{index}}:{{place}}">{{ place|add:"1" }}</div>
+                    {% endfor %}
+                </div>
+            </div>
             {% endfor %}
         </div>
-    </div>
-    {% endfor %}
-</div>
-<div class="row text-center my-3">
-    <div class="col-6">
-        <button class="book_button" id="book_button">Заброньувати</button>
-    </div>
-    <div class="col-6">
-        <button class="buy_button" id="buy_button">Купити</button>
+        <div class="row text-center my-3">
+            <div class="col-6">
+                <button class="book_button" id="book_button">Заброньувати</button>
+            </div>
+            <div class="col-6">
+                <button class="buy_button" id="buy_button">Купити</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -102,8 +111,6 @@
     for(ticket_id of booked_tickets_id){
         book_code = ticket_id.replaceAll('"', '').replace(',', ':')
         bocked_object = $('div[id$="'+ book_code +'"]')
-        //console.log(bocked_object)
-        //bocked_object.hide()
         bocked_object.css({"border": "none", "background-color": "Grey"}).animate({
             borderWidth: 4
         }, 50);
@@ -113,8 +120,6 @@
         })
 
     }
-
-
 
     $('#place_container').on('click', 'div[id^=free_place]', function(){
         $(this).css({"border": "0 solid #008000", "background-color": "#7CFC00"}).animate({
@@ -215,39 +220,6 @@
 
 
     });
-
-    {% comment %} $('#book_button').click(function(){
-        for(booked_place in character_objects){
-            place = character_objects[booked_place]
-            $(place).css({"border": "none", "background-color": "Grey"}).animate({
-                borderWidth: 4
-            }, 50);
-
-            $(place).prop('id', function(_, currentID){
-                return currentID.replace('selected', 'booked');
-            })
-        }
-
-        $('#tickets_numbers').text("0")
-        $('#summ').text("0")
-        var show_id = $("#show_number").html()
-
-        $.ajax({
-            url: "{% url 'pages:book_ticket_per_place' %}",
-            type: "POST",
-            dataType: "json",
-            data: JSON.stringify({'booked_places': characters, 'show_id': show_id}),
-            headers: {
-                "X-Request-With": "XMLHttpRequest",
-                "X-CSRFToken": getCookie("csrftoken"),
-            },
-            success: (data) => {
-                console.log(data);
-            }
-        });
-    }); {% endcomment %}
-
-
 
     </script>
 {% endblock content %}

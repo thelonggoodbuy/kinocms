@@ -83,7 +83,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav mx-auto">
                         <li class="nav-item active">
-                          <a class="nav-link mx-3" href="#">афіша <span class="sr-only">(current)</span></a>
+                          <a class="nav-link mx-3" href="{% url 'pages:front_playbill' %}">афіша <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
                           <a class="nav-link mx-3" href="{% url 'pages:front_schedule' %}">розклад <span class="sr-only">(current)</span></a>
@@ -133,34 +133,34 @@
             
             <div class="col-6 col-md">
                 <ul class="list-unstyled">
-                    <li><h5><a class="text-dark" href="#">Мобильные приложения</a></h5></li>
+                    <li><h5><a class="text-dark" href="#">мобільні додатки</a></h5></li>
                     <li>
                         <div class="row">
                             <img src="{% static 'pages/images/google_play_store(1).png' %}" width=auto height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/>
                             <img src="{% static 'pages/images/app_store.png' %}" width=auto height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/>
                         </div>
                     </li>
-                    <li class="text-small">Разработка сайтов</li>
+                    <li class="text-small">розробка сайтів</li>
                     <li class="text-small">AVADA-MEDIA</li>
                     <li><small class="d-block mb-3 text-muted">&copy; 2017-2020</small></li>
                 </ul>
             </div>
             <div class="col-6 col-md">
-            <h5>Афиша</h5>
+            <h5>афіша</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Рассписание</a></li>
-                <li><a class="text-muted" href="#">Скоров прокате</a></li>
-                <li><a class="text-muted" href="#">Кинотеатры</a></li>
-                <li><a class="text-muted" href="#">Акции</a></li>
+                <li><a class="text-muted" href="#">розклад</a></li>
+                <li><a class="text-muted" href="#">незабаром в прокаті</a></li>
+                <li><a class="text-muted" href="#">кінотеатри</a></li>
+                <li><a class="text-muted" href="#">акції</a></li>
             </ul>
             </div>
             <div class="col-6 col-md">
             <h5>О кинотеатре</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Новости</a></li>
-                <li><a class="text-muted" href="#">Реклама</a></li>
-                <li><a class="text-muted" href="#">Кафе-Бар</a></li>
-                <li><a class="text-muted" href="#">Контакты</a></li>
+                <li><a class="text-muted" href="#">новини</a></li>
+                <li><a class="text-muted" href="#">реклама</a></li>
+                <li><a class="text-muted" href="#">кафе-бар</a></li>
+                <li><a class="text-muted" href="#">контакти</a></li>
             </ul>
             </div>
             <div class="col-4 col-md">

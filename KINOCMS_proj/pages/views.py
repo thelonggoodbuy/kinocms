@@ -14,12 +14,13 @@ from django.db.models import Q
 from django.http import JsonResponse
 from dateutil.rrule import rrule, DAILY
 from collections import OrderedDict
+from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 
 from .models import NewsAndPromotions, CustomPages, MainPage, Phones, Contact, ContactCell
 from cinema.models import SeoBlock, Show
-# from .views import GaleryImageForm
 from .forms import SimpleTextErrorList, NewsForm, MainImage, GaleryImageForm, SeoBlockForm, CustomPageForm, MainPageForm, PhoneForm, ContactCellForm
 
 from cinema.models import Galery, Show, Movie, HighestBannerWithTimeScrolling, BannerCell, BannerPromotionsAndNews, ThroughBackroundBanner, Cinema, CinemaHall
@@ -98,7 +99,6 @@ def front_schedule(request):
     seanses = Show.objects.filter(date_show__range=[start_date, finish_date]).order_by('time_show')
     unsorted_seanses = {}
     for seanse in seanses:
-
         if seanse.date_show in unsorted_seanses:
             unsorted_seanses[seanse.date_show].append(seanse)
         else:
@@ -192,9 +192,79 @@ def book_ticket_per_place(request):
 #***********playbill loggic: playbil and film card*********
 #**********************************************************
 def front_playbill(request):
-    return render(request, 'pages/front_playbill.html')
+
+    today_date = datetime.now().date()
+    # start_date = datetime.now().date()
+    # finish_date = datetime.now().date
+    current_film_filter = Q(movie_distribution_start__lte = today_date) & \
+                            Q(movie_distribution_finish__gte = today_date)
+
+    current_film_list = Movie.objects.filter(current_film_filter)
+    # print(current_film_list)
+    context= {
+        'current_film_list': current_film_list
+    }
+    return render(request, 'pages/front_playbill.html', context)
 
 
+def front_film_card(request, film_id):
+    current_film = Movie.objects.get(id=film_id)
+    cinemas = Cinema.objects.all()
+
+    start_date = datetime.now().date()
+    finish_date = datetime.now().date() + timedelta(days=7)
+    seanses = Show.objects.filter(movie=current_film).filter(date_show__range=[start_date, finish_date]).order_by('date_show', 'time_show')
+
+    unsorted_dates = []
+    for seanse in seanses:
+        day = seanse.date_show
+        if day not in unsorted_dates:
+            unsorted_dates.append(day)
+
+    
+    context = {
+        'current_film': current_film,
+        'cinemas': cinemas,
+        'seanses': seanses,
+        'unsorted_dates': unsorted_dates,
+    }
+    return render(request, 'pages/front_film_card.html', context)
+
+
+def get_seanses_per_cinema(request):
+    cinema_name = request.GET.get('cinema_name', None)
+    cinema = Cinema.objects.filter(title_cinema_uk = cinema_name)
+    cinema_halls = CinemaHall.objects.filter(cinema__in = cinema)
+    start_date = datetime.now().date()
+    finish_date = datetime.now().date() + timedelta(days=7)
+    shows = Show.objects.filter(cinema_hall__in = cinema_halls).filter(date_show__range=[start_date, finish_date])
+
+    data_list = []
+    for show in shows:
+        types_of_show = []
+        if show.movie.type_2d == True: types_of_show.append('2d')
+        if show.movie.type_3d == True: types_of_show.append('3d')
+        if show.movie.type_IMAX == True: types_of_show.append('IMAX')
+        for type_of_show in types_of_show:
+            particular_show_dict = {}
+            particular_show_dict['id'] = show.id
+            # print(show.get_absolute_url())
+            absolute_link = show.get_absolute_url()
+            particular_show_dict['absolute_link'] = absolute_link
+            # print(particular_show_dict['absolute_link'])
+            particular_show_dict['time'] = show.time_show.strftime("%H:%M")
+            particular_show_dict['cinema_hall'] = show.cinema_hall.cinema_hall_name
+            particular_show_dict['type_of_show'] = type_of_show
+            particular_show_dict['cost'] = show.cost
+            particular_show_dict['date_show'] = show.date_show.strftime("%-d_%m")
+            
+            data_list.append(particular_show_dict)
+    # print(data_list)
+
+    data = json.dumps(data_list, cls=DjangoJSONEncoder)
+
+    # data = serializers.serialize('json', data_list)
+    return JsonResponse(data, safe=False)
 
 # *********************************************************
 # ***********************CMS data**************************

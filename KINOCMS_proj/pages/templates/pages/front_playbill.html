@@ -4,6 +4,41 @@
 
 {% block content %}
 
-
+<style type="text/css">
+    body { 
+     background: url('{{ though_background.background.image.url }}');
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
+     background-size: cover;
+     backdrop-filter: sepia(90%);
+     box-shadow: inset 0 0 100px 50px #cccccc;
+    };
+  </style>
+  
+<dic class="row">
+    <div class="d-none d-xl-block col-12 col-xl-2 text-center">
+        <div class="btn-group-vertical d-flex my-1">
+            <a href="#" type="button" class="btn btn-secondary btn-lg btn-block">Афіша</a>
+            <a type="button" class="btn btn-secondary btn-lg btn-block">Скоро</a>
+        </div>
+        <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini">
+    </div>
+    <div class="col-9 col-xl-9 mx-3 mb-5" id="background_list_of_films">
+        <div class="row px-3 py-3 justify-content-around">
+        {% for film in current_film_list %}
+            <div class="card col-12 col-sm-3 col-xl-2 mx-3 mb-4 pt-3 bg-transparent border-0" style="width: 18rem;">
+                <h6 class="card-subtitle mb-2 text-light mx-auto">зараз в кіно:</h6>
+                <img src="{{ film.main_image.image.url}}" class="card-img-top mx-auto" alt="123">
+                <div class="card-body px-0 pb-0">
+                    <p style="font-size: 0.9rem" class="text-light mb-2" >{{ film.title_movie }}</p>
+                </div>
+                <a href="{% url 'pages:front_film_card' film_id=film.pk %}" type="button" class="btn btn-primary btn-sm mt-0">купити</a>
+                
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

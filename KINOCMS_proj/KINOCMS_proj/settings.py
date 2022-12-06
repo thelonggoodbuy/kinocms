@@ -94,6 +94,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'pages.processor.list_of_active_pages',
                 'pages.processor.list_of_phones',
+                'pages.processor.get_front_background_banner',
             ],
         },
     },
@@ -120,6 +121,13 @@ DATABASES = {
         'PORT': env('DB_PORT'),
     }
 }
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SAMESITE = 'None'
+
+# SESSION_COOKIE_SAMESITE = 'None'
 
 
 # Password validation

@@ -42,6 +42,9 @@ class Show(models.Model):
     total_bought = models.SmallIntegerField(null=True, blank=True)
     cost = models.PositiveSmallIntegerField()
 
+    def get_absolute_url(self):
+        return reverse("pages:front_book_ticket", kwargs={"show_pk": self.pk})
+
     def __str__(self):
         return f"Сеанс {self.movie}. {self.cinema_hall}. Дата {self.date_show}. Час {self.time_show}."
 
