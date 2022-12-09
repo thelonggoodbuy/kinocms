@@ -26,9 +26,9 @@
     </div>
     <div class="col-12 col-xl-9 mx-3 mb-5" id="background_list_of_films">
         <div class="row px-3 py-3 justify-content-around">
-        {% for film in current_film_list %}
+        {% for film in soon_film_list %}
             <div class="card col-12 col-sm-3 col-xl-2 mx-3 mb-4 pt-3 bg-transparent border-0" style="width: 18rem;">
-                <h6 class="card-subtitle mb-2 text-light mx-auto">зараз в кіно:</h6>
+                <h6 class="card-subtitle mb-2 text-light mx-auto">з {{ film.movie_distribution_start }}</h6>
                 <img src="{{ film.main_image.image.url}}" class="card-img-top mx-auto" alt="123">
                 <div class="card-body px-0 pb-0">
                     <p style="font-size: 0.9rem" class="text-light mb-2" >{{ film.title_movie }}</p>

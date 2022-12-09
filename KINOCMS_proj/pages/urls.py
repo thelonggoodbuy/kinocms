@@ -8,7 +8,8 @@ from .views import all_news, news_detail, create_news, del_news,\
                     main_page, all_cinemas, about_cinema, front_all_promo, front_promo_detail,\
                     front_schedule, schedule_sort_cinema, schedule_sort_cinema_hall, \
                     front_book_ticket, book_ticket_per_place, \
-                    front_playbill, front_film_card, get_seanses_per_cinema
+                    front_playbill, front_film_card, get_seanses_per_cinema, \
+                    front_soon, about_cinemahall
                     
                     
 
@@ -40,6 +41,8 @@ urlpatterns = [
     path('all_cinemas/', all_cinemas, name='all_cinemas'),
     path('about_cinema/<int:pk>/', about_cinema, name='about_cinema'),
 
+    path('about_cinemahall/<int:pk>/', about_cinemahall, name="about_cinemahall"),
+
     path('promo_list/', front_all_promo, name='front_all_promo'),
     path('front_promo_detail/<int:pk>/', front_promo_detail, name='front_promo_detail'),
 
@@ -53,5 +56,7 @@ urlpatterns = [
     path('front_playbill/', front_playbill, name='front_playbill'),
     path('front_film_card/<int:film_id>/', front_film_card, name='front_film_card'),
     path('front_film_card/ajax/get_seanses_per_cinema/', get_seanses_per_cinema, name='get_seanses_per_cinema'),
+
+    path('front_soon/', front_soon, name='front_soon'),
 
 ]

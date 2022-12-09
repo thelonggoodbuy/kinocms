@@ -72,11 +72,18 @@ def about_cinema(request, pk):
     cinema_halles = CinemaHall.objects.filter(cinema=cinema)
     today_show_filter = Q(cinema_hall__in = cinema_halles) & Q(date_show = date.today())
     today_show = Show.objects.filter(today_show_filter)
-    # print(today_show)
     context = {'cinema': cinema,
                 'cinema_halles': cinema_halles,
                 'today_show': today_show}
     return render(request, 'pages/about_cinema.html', context)
+
+
+def about_cinemahall(request, pk):
+    cinemahall = CinemaHall.objects.get(id=pk)
+    today_shows = Show.objects.filter(date_show = date.today()).order_by('time_show')
+    context = {'cinemahall': cinemahall,
+                'today_shows': today_shows}
+    return render(request, 'pages/about_cinemahall.html', context)
 
 
 def front_all_promo(request):
@@ -157,7 +164,6 @@ def front_book_ticket(request, show_pk):
 
 
 def book_ticket_per_place(request):
-    print('we are in django view')
     is_ajax = request.headers.get('X-Request-With') == 'XMLHttpRequest'
     if is_ajax:
         if request.method == 'POST':
@@ -194,13 +200,10 @@ def book_ticket_per_place(request):
 def front_playbill(request):
 
     today_date = datetime.now().date()
-    # start_date = datetime.now().date()
-    # finish_date = datetime.now().date
     current_film_filter = Q(movie_distribution_start__lte = today_date) & \
                             Q(movie_distribution_finish__gte = today_date)
 
     current_film_list = Movie.objects.filter(current_film_filter)
-    # print(current_film_list)
     context= {
         'current_film_list': current_film_list
     }
@@ -248,10 +251,8 @@ def get_seanses_per_cinema(request):
         for type_of_show in types_of_show:
             particular_show_dict = {}
             particular_show_dict['id'] = show.id
-            # print(show.get_absolute_url())
             absolute_link = show.get_absolute_url()
             particular_show_dict['absolute_link'] = absolute_link
-            # print(particular_show_dict['absolute_link'])
             particular_show_dict['time'] = show.time_show.strftime("%H:%M")
             particular_show_dict['cinema_hall'] = show.cinema_hall.cinema_hall_name
             particular_show_dict['type_of_show'] = type_of_show
@@ -259,12 +260,22 @@ def get_seanses_per_cinema(request):
             particular_show_dict['date_show'] = show.date_show.strftime("%-d_%m")
             
             data_list.append(particular_show_dict)
-    # print(data_list)
-
     data = json.dumps(data_list, cls=DjangoJSONEncoder)
-
-    # data = serializers.serialize('json', data_list)
     return JsonResponse(data, safe=False)
+
+
+
+def front_soon(request):
+    yestarday_date = datetime.now().date() + timedelta(days=1)
+    soon_film_list = Movie.objects.filter(movie_distribution_start__gte = yestarday_date)
+    context= {
+        'soon_film_list': soon_film_list
+    }
+    return render(request, 'pages/front_soon.html', context)
+
+
+
+
 
 # *********************************************************
 # ***********************CMS data**************************

@@ -10,6 +10,8 @@
 
     {% comment %} <link rel="stylesheet" href="/path/to/seatLayout.css"> {% endcomment %}
     <link rel="stylesheet" href="{% static 'pages/js/movie-seat-layout-master/src/bin/seatLayout/seatLayout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/css/style.css' %}">
+
 
     <script type="text/javascript" src="{% static 'pages/js/jQuery_3.6.0.js' %}"></script>  
     <script type="text/javascript" src="{% static 'pages/js/movie-seat-layout-master/src/bin/seatLayout/seatLayout.min.js' %}"></script>
@@ -26,29 +28,33 @@
       width: 30px;
       background-color: Orange;
     }
+
+    body { 
+        background: url('{{ though_background.background.image.url }}');
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        backdrop-filter: sepia(90%);
+        box-shadow: inset 0 0 100px 50px #cccccc;
+       };
+
 </style>
 
 
-<div class="row">
-    <div class="col-3">
+<div class="row py-3 text-white mx-0" id="background_list_of_films">
+    <div class="col-12 col-lg-3 mb-3 text-center">
         <img src="{{ show.movie.main_image.image.url }}" class="img-responsive">
-        {% comment %} <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini"> {% endcomment %}
-        <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini">
+        <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini" class="d-none d-lg-block">
     </div>
-    <div class="col-8">
+    
+    <div class=" col-12 col-lg-8">
         <div class="row">
-            <div class="col-4">
-                <p>{{ show.date_show|date:"j E" }}, {{ show.time_show }}, {{show.cinema_hall.cinema_hall_name}}</p>
+            <div class="col-12 col-lg-4">
+                <p class='external-event bg-warning text-center px-3 py-1'>{{ show.movie.title_movie }}</p>
+                <p class='external-event bg-warning text-center px-3 py-1'>{{ show.date_show|date:"j E" }}, {{ show.time_show }}, {{show.cinema_hall.cinema_hall_name}}</p>
             </div>
-        </div>
-        <div class="row mb-5">
-            <div class="col-2">
-                <p>Ціна в гривнях: <span id="ticket_cost">{{show.cost}}</span></p>
-            </div>
-            <div class="col-3 d-flex">
-                <span>Заброньовано: </span><div class="square mx-3" style="background-color: Gray;"></div>
-            </div>
-            <div class="col-7 d-flex">
+            <div class="col-12 col-lg-7 d-flex mx-auto align-items-center">
                 <p>Ваше замовлення:</p>
                 <div class="border border-warning mx-3 px-3 py-2">
                     <span>квитків: </span><span class="text-danger" id="tickets_numbers">0</span>
@@ -56,15 +62,25 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-5">
+            <div class="col-12 col-lg-2 my-3">
+                <p class='external-event bg-warning text-center px-3 py-1'>Ціна в гривнях: <span id="ticket_cost">{{show.cost}}</span></p>
+            </div>
+            <div class="col-12 col-lg-3 px-3 py-1" align=center>
+                <div>Заброньовано: </div>
+                <div class="square mx-3" style="background-color: Gray;"></div>
+            </div>
+            
+        </div>
         <div id="place_container">
             <p class="d-none" id="show_number">{{ show.id }}</p>
-
+            <hr/>
             {% for index, quantity in show.cinema_hall.schema_hall.items %}
             <div class="row my-1 align-items-center" id="hall_schema_container">
                 <div class="col-2">
                     <p>Ряд {{index}}</p>
                 </div>
-                <div class="col-10 d-flex justify-content-center mx-auto">
+                <div class="col-10 d-flex justify-content-center mx-auto" >
                     {% for place in quantity|get_range %}
                         <div class="square mx-1 small" style="cursor: pointer;" align="center" id="free_place:{{index}}:{{place}}">{{ place|add:"1" }}</div>
                     {% endfor %}
@@ -72,16 +88,24 @@
             </div>
             {% endfor %}
         </div>
-        <div class="row text-center my-3">
-            <div class="col-6">
-                <button class="book_button" id="book_button">Заброньувати</button>
+        <div class="row text-center mt-3">
+            <div class="col-12">
+                <p>Вартість послуги бронювання - 3 гривні за кожне місце.</p>
+                <p>ЗАБРОНЬОВАНІ КВИТКИ ПОТРІБНО ВИКУПИТИ В КАССІ КІНОТЕАТРА НЕ ПІЗДНІШЕ НІЖ ЗА ПІВГОДИНИ ДО ПОЧУТКУ СЕАНСУ.</p>
             </div>
-            <div class="col-6">
-                <button class="buy_button" id="buy_button">Купити</button>
+        </div>
+
+        <div class="row justify-content-around mt-3 mb-5">
+            <div class="col-2">
+                <button class="book_button btn btn-secondary" id="book_button">Заброньувати</button>
+            </div>
+            <div class="col-2">
+                <button class="buy_button btn btn-secondary" id="buy_button">Купити</button>
             </div>
         </div>
     </div>
 </div>
+
 
 {{ booked_tickets_id|json_script:'booked_tickets_id' }}
 
