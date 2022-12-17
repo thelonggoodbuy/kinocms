@@ -2,6 +2,7 @@
 {% load get_range_filter %}
 
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 
@@ -33,7 +34,7 @@
         <div class="col-2 text-center d-none d-lg-block">
             <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising" class="mt-3">
             <div class="my-3 pt-3">
-                <p>Дивиться сьогодні:</p>
+                <p>{% trans 'Дивиться сьогодні:' %}</p>
                 <div class="btn-group-vertical btn-group-sm btn-block">
                     {% for show in today_shows %}
                         <a href="#" class="btn btn-dark"><p>{{ show.movie.title_movie }}: {{ show.time_show }}</p></a>
@@ -61,7 +62,7 @@
                 {% for index, quantity in cinemahall.schema_hall.items %}
                 <div class="row no-gutters my-1 no-pad" id="hall_schema_container">
                     <div class="col-12 col-lg-2 text-center">
-                        <p>Ряд {{index}}</p>
+                        <p>{% trans 'Ряд' %} {{index}}</p>
                     </div>
                     <div class="px-3 col-12 d-flex overflow-scroll justify-content-start justify-content-sm-center">
                     {% comment %} <div class="ml-5 px-3 col-12 d-flex overflow-scroll justify-content-center"> {% endcomment %}

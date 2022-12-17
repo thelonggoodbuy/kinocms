@@ -1,7 +1,6 @@
 {% extends "layout/_base_pages.html" %}
 
 {% load static %}
-{% load i18n %}
 
 {% block content %}
 
@@ -31,22 +30,22 @@
 
     <div class="row mt-3">
         <div class="col-12" align="center">
-            <h3>{% trans 'Акції та знижки' %}</h3>
+            <h3>Новини</h3>
         </div>
     </div>
 
     <div class="row ml-0 ml-lg-2 px-3">
         <div class="col-10">
             <div class="row bg-none bg-lg-secondary rounded mb-5 mx-auto">
-                {% for promo in all_promo %}    
+                {% for news in all_news %}    
                     <div class="col-12 col-lg-2">
-                        <a href="{% url 'pages:front_promo_detail' pk=promo.id %}">
-                            <div class="card my-3 mx-3" style="width: 18rem;">
-                                <img class="card-img-top" src="{{ promo.main_image.image.url }}" alt="Card image cap">
+                        {% comment %} <a href="{% url 'pages:front_promo_detail' pk=promo.id %}"> {% endcomment %}
+                            <div class="card my-3 mx-3 text-white bg-secondary" style="width: 18rem;">
+                                <img class="card-img-top" src="{{ news.main_image.image.url }}" alt="Card image cap">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ promo.title_news_or_promo_uk }}</h5>
-                                    <h5 class="card-title">{{ promo.date_news_or_promoptions }}</h5>
-                                    <p class="card-text">{{ promo.description_news_or_promo_uk|truncatewords:25 }}</p>
+                                    <h5 class="card-title">{{ news.title_news_or_promo_uk }}</h5>
+                                    <h5 class="card-title">{{ news.date_news_or_promoptions }}</h5>
+                                    <p class="card-text">{{ news.description_news_or_promo_uk|truncatewords:25 }}</p>
                                 </div>
                             </div>
                         </a>

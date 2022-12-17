@@ -1,0 +1,48 @@
+{% extends "layout/_base_pages.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+    body { 
+     background: url('{{ though_background.background.image.url }}');
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
+     background-size: cover;
+     backdrop-filter: sepia(90%);
+     box-shadow: inset 0 0 100px 50px #cccccc;
+    };
+</style>
+<div id="background_list_of_films" class="text-white">
+    <div class="row">
+        <div class="col-12">
+            <img src="{{ page.main_image.image.url }}" id="horizontal_top_banner" class="text-center">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-8 mx-3 my-3">
+            <h2 class="text-white text-center">{{ page.title }}</h2>
+            <p>{{ page.description }}</p>
+            
+            {% for image in page.image_galery.all%}
+                <img src="{{ image.image.url }}" id="horizontal_top_banner" class="text-center">
+            {% endfor %}
+
+            <h2 class="text-center">Меню</h2>
+            <iframe src={% static 'pages/files/food_and_drink_menu.pdf'%} style="width:600px; height:500px;" frameborder="0" class="my-3 mx-5"></iframe>
+        </div>
+
+
+        <div class="col-2 text-center ml-0 my-5 d-none d-lg-block">
+            <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini">
+            <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini">
+            <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini">
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}

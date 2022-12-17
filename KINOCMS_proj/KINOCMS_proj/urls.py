@@ -8,7 +8,6 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('pages.urls')),
     path('users/', include('users.urls')),
     path('', include('pages.urls')),
     path('cinema_cms/', include('cinema.urls')),

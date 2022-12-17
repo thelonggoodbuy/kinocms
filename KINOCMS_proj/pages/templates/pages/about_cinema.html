@@ -1,6 +1,7 @@
 {% extends "layout/_base_pages.html" %}
 
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 
@@ -17,6 +18,8 @@
 </style>
 
 
+
+
 <div class="row">
     <div class="col-12">
         <img src="{{ cinema.image_top_banner.image.url }}" class="img-responsive">
@@ -27,15 +30,14 @@
         <div class="col-2 text-center d-none d-lg-block">
             <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising" class="mt-3">
             <div class="mt-5 pt-3">
-                <p>кількість залів: <strong>{{cinema_halles.count}}</strong></p>
+                <p>{% trans 'кількість залів:' %} <strong>{{cinema_halles.count}}</strong></p>
                 <div class="btn-group-vertical btn-group-sm btn-block">
                     {% for hall in cinema_halles %}
-                    {% comment %} !!!!!!!!!!!!!!!!!!! {% endcomment %}
                         <a href="{% url 'pages:about_cinemahall' pk=hall.id %}" class="btn btn-dark"><p>{{ hall.cinema_hall_name }}</p></a>
                     {% endfor %}
                 </div>
             </div>
-            <p class="mt-3">дивиться сьогодні:</p>
+            <p class="mt-3">{% trans 'дивиться сьогодні:' %}</p>
             <div class="btn-group-vertical btn-group-sm btn-block">
                 {% for show in today_show %}
                     <a class="btn btn-dark pt-3">
@@ -44,7 +46,7 @@
                     </a>
                 {% endfor %}
             </div>
-            <a class="btn btn-secondary btn-lg my-3">Розклад сеансів</a>
+            <a class="btn btn-secondary btn-lg my-3">{% trans 'Розклад сеансів'%}</a>
         </div>
 
         <div class="col-12 col-lg-8">
@@ -53,11 +55,11 @@
                     <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>
                 </div>
                 <div class="col-6 col-lg-3 my-auto" align="left">
-                    <h3>Кінотеатр</h3>
+                    <h3>{% trans 'Кінотеатр' %}</h3>
                     <h3>"{{ cinema.title_cinema }}"</h3>
                 </div>
                 <div class="col-12 offset-lg-1 col-lg-4 my-auto" align="center">
-                    <a class="btn btn-secondary btn-lg">Розклад сеансів</a>
+                    <a class="btn btn-secondary btn-lg">{% trans 'Розклад сеансів' %}</a>
                 </div>
             </div>
             <div class="row">
@@ -90,7 +92,7 @@
                         {% else %}
                             <div class="carousel-item">
                         {% endif %}
-                                <img src="{{carousel_image.image.url}}" class="d-block w-500" alt="..."  style="height: 350px;">
+                                <img src="{{carousel_image.image.url}}" class="carousel_image">
                             </div>
                         {% endfor %}
                     </div>

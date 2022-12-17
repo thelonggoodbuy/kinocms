@@ -13,6 +13,7 @@ class CustomPages(models.Model):
         ('vip-hall', 'VIP-зала'),
         ('advertising', 'реклама'),
         ('childrens_room', 'дитяча кімната'),
+        ('mobile_app', 'мобільний додаток'),
     )
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -24,8 +25,12 @@ class CustomPages(models.Model):
     seo_block = models.OneToOneField('cinema.SeoBlock', on_delete=models.PROTECT, null=True)
     special_issue = models.CharField(max_length=100, choices=issue_variable, null=True, blank=True)
 
+    def get_absolute_url(self):
+        return reverse("pages:custom_page", kwargs={"pages_pk": self.pk})
+    
     def __str__(self):
         return self.title
+
 
 class Contact(models.Model):
     title = models.CharField(max_length=100, default="Контакти")
@@ -34,11 +39,15 @@ class Contact(models.Model):
     seo_block = models.OneToOneField('cinema.SeoBlock', on_delete=models.PROTECT)
     is_active = models.BooleanField(default=True)    
 
+    def get_absolute_url(self):
+        return reverse("pages:contacts")
+    
+
 class ContactCell(models.Model):
     cinema_name = models.CharField(max_length=250)
     is_active = models.BooleanField(default=True)
     address = models.TextField()
-    location = models.CharField(max_length=250)
+    location = models.CharField(max_length=1500)
     logo = models.ImageField(null=True, blank=True)
 
 
@@ -49,6 +58,10 @@ class MainPage(models.Model):
     seo_block = models.OneToOneField('cinema.SeoBlock', on_delete=models.PROTECT, null=True)
     is_active = models.BooleanField(default=True)
     is_undeleteble = models.BooleanField(default=True)
+
+    def get_absolute_url(self):
+        return reverse("pages:front_main_page")
+    
 
     def __str__(self):
         return self.title

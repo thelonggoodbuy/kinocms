@@ -19,8 +19,8 @@
 <dic class="row">
     <div class="d-none d-xl-block col-12 col-xl-2 text-center">
         <div class="btn-group-vertical d-flex my-1">
-            <a href="#" type="button" class="btn btn-secondary btn-lg btn-block">Афіша</a>
-            <a type="button" class="btn btn-secondary btn-lg btn-block">Скоро</a>
+            <a href="{% url 'pages:front_playbill' %}" type="button" class="btn btn-secondary btn-lg btn-block">{% trans 'Афіша' %}</a>
+            <a href="{% url 'pages:front_soon' %}" type="button" class="btn btn-secondary btn-lg btn-block">{% trans 'Скоро' %}</a>
         </div>
         <img src="{% static 'pages/images/context_advertising_vertical.jpg' %}" id="vertical_advertising_mini">
     </div>
@@ -33,7 +33,7 @@
                 <div class="card-body px-0 pb-0">
                     <p style="font-size: 0.9rem" class="text-light mb-2" >{{ film.title_movie }}</p>
                 </div>
-                <a href="{% url 'pages:front_film_card' film_id=film.pk %}" type="button" class="btn btn-primary btn-sm mt-0">купити</a>
+                <a href="{% url 'pages:front_film_card' film_id=film.pk %}" type="button" class="btn btn-primary btn-sm mt-0">{% trans 'купити' %}</a>
                 
             </div>
         {% endfor %}

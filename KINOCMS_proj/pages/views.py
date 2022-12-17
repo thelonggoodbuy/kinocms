@@ -95,8 +95,10 @@ def front_all_promo(request):
     return render(request, 'pages/front_all_promo.html', context)
 
 def front_promo_detail(request, pk):
+    cinemas = Cinema.objects.all()
     promo = NewsAndPromotions.objects.get(id=pk)
-    context = {'promo': promo}
+    context = {'promo': promo,
+                'cinemas': cinemas}
     return render(request, 'pages/front_promo_detail.html', context)
 
 
@@ -274,6 +276,50 @@ def front_soon(request):
     return render(request, 'pages/front_soon.html', context)
 
 
+# ********************************************************
+# ***********************pages logic**********************
+# ********************************************************
+def custom_page(request, pages_pk):
+    page = CustomPages.objects.get(id=pages_pk)
+    print(page.special_issue)
+    if page.special_issue == 'about_cinema':
+        template_url = 'pages/page_about_cinema.html'
+    elif page.special_issue == 'cafe_bar':
+        template_url = 'pages/page_cafe_bar.html'
+    elif page.special_issue == 'vip-hall':
+        template_url = 'pages/page_vip_hall.html'
+    elif page.special_issue == 'advertising':
+        template_url = 'pages/page_advertising.html'
+    elif page.special_issue == 'childrens_room':
+        template_url = 'pages/page_childrens_room.html'
+    elif page.special_issue == 'mobile_app':
+        template_url = 'pages/page_mobile_app.html'
+    else:
+        template_url = 'pages/page_custom_page.html'
+
+    context = {'page': page}
+    return render(request, template_url, context)
+
+
+def contacts(request):
+    pages = Contact.objects.all()
+    contacts = ContactCell.objects.all()
+    [print(contact.address) for contact in contacts]
+    context = {'pages': pages,
+                'contacts': contacts}
+    return render(request, 'pages/page_contacts.html', context)
+
+
+def front_main_page(request):
+    pages = MainPage.objects.all()
+    context = {'pages': pages}
+    return render(request, 'pages/front_main_page.html', context)
+
+
+def front_news(request):
+    all_news = NewsAndPromotions.objects.filter(publ_type='news')
+    context = {'all_news': all_news}
+    return render(request, 'pages/front_news.html', context)
 
 
 

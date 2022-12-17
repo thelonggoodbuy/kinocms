@@ -9,7 +9,8 @@ from .views import all_news, news_detail, create_news, del_news,\
                     front_schedule, schedule_sort_cinema, schedule_sort_cinema_hall, \
                     front_book_ticket, book_ticket_per_place, \
                     front_playbill, front_film_card, get_seanses_per_cinema, \
-                    front_soon, about_cinemahall
+                    front_soon, about_cinemahall, \
+                    custom_page, contacts, front_main_page, front_news
                     
                     
 
@@ -58,5 +59,10 @@ urlpatterns = [
     path('front_film_card/ajax/get_seanses_per_cinema/', get_seanses_per_cinema, name='get_seanses_per_cinema'),
 
     path('front_soon/', front_soon, name='front_soon'),
+
+    path('custom_page/<int:pages_pk>/', custom_page, name='custom_page'),
+    path('contacts/', contacts, name='contacts'),
+    path('main_page/', front_main_page, name='front_main_page'),
+    path('front_news/', front_news, name="front_news"),
 
 ]

@@ -130,6 +130,10 @@ SESSION_COOKIE_SECURE = True
 # SESSION_COOKIE_SAMESITE = 'None'
 
 
+# X_FRAME_OPTIONS = 'SAMEORIGIN'
+# XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -184,7 +188,6 @@ LANGUAGES = (
 )
 
 MODELTRANSLATION_LANGUAGES = ('uk', 'ru')
-
 
 TIME_ZONE = 'UTC'
 

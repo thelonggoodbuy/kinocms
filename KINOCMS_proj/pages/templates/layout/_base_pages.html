@@ -1,11 +1,12 @@
 {% load bootstrap4 %}
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=l, shrink-to-fit=no">
-        <title>{% block title %} главная {% endblock title %}</title>
+        <title>{% block title %} {% trans 'главная' %} {% endblock title %}</title>
 
         <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
         <script type="text/javascript" src="{% static 'cinema/frameworks/bootstrap-4.6.2/js/bootstrap.min.js' %}"></script>
@@ -40,19 +41,19 @@
                                 <div class="row justify-content-center align-self-center">
                                     <div class="btn-group btn-group-lg">
                                     {% if user.is_authenticated %}
-                                        <a class="btn btn-secondary" href="{% url 'users:log_out' %}" class="nav-link">вихід</a>
+                                        <a class="btn btn-secondary" href="{% url 'users:log_out' %}" class="nav-link">{% trans 'вихід'%}</a>
                                     {% else %}    
-                                        <a class="btn btn-secondary" href="{% url 'users:sign_in' %}" class="nav-link">логін</a>
+                                        <a class="btn btn-secondary" href="{% url 'users:sign_in' %}" class="nav-link">{% trans 'логін' %}</a>
                                     {% endif %}
 
                                     {% if user.is_anonymous %}
-                                        <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" class="nav-link">реєстрація</a>
+                                        <a class="btn btn-secondary" href="{% url 'users:sign_up' %}" class="nav-link">{% trans 'реєстрація' %}</a>
                                     {% endif %}
 
                                     {% if user.is_authenticated and user.is_superuser %}
                                         <a class="btn btn-secondary" href="{% url 'cinema:all_users' %}" class="nav-link">cms</a>
                                     {% elif user.is_authenticated %}
-                                        <a class="btn btn-secondary" href="{% url 'users:change_user_data' %}" class="nav-link">мій кабінет</a></li>
+                                        <a class="btn btn-secondary" href="{% url 'users:change_user_data' %}" class="nav-link">{% trans 'мій кабінет' %}</a></li>
                                     {% endif %}
                                 </div>
                             </div>
@@ -83,28 +84,30 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav mx-auto">
                         <li class="nav-item active">
-                          <a class="nav-link mx-3" href="{% url 'pages:front_playbill' %}">афіша <span class="sr-only">(current)</span></a>
+                          <a class="nav-link mx-3" href="{% url 'pages:front_playbill' %}">{% trans 'афіша' %} <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                          <a class="nav-link mx-3" href="{% url 'pages:front_schedule' %}">розклад <span class="sr-only">(current)</span></a>
+                          <a class="nav-link mx-3" href="{% url 'pages:front_schedule' %}">{% trans 'розклад' %} <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                          <a class="nav-link mx-3" href="{% url 'pages:front_soon' %}">скоро в прокаті <span class="sr-only">(current)</span></a>
+                          <a class="nav-link mx-3" href="{% url 'pages:front_soon' %}">{% trans 'скоро в прокаті' %}<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                          <a class="nav-link mx-3" href="{% url 'pages:all_cinemas' %}">кінотеатри <span class="sr-only">(current)</span></a>
+                          <a class="nav-link mx-3" href="{% url 'pages:all_cinemas' %}">{% trans 'кінотеатри' %}<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                          <a class="nav-link mx-3" href="{% url 'pages:front_all_promo' %}">акції <span class="sr-only">(current)</span></a>
+                          <a class="nav-link mx-3" href="{% url 'pages:front_all_promo' %}">{% trans 'акції' %}<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item dropdown">
                           <a class="nav-link mx-3 dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            про кінотеатр
+                            {% trans 'про кінотеатр' %}
                           </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url "pages:front_news" %}">{% trans 'новини' %}</a>
+                                <div class="dropdown-divider"></div>
                             
                             {% for page in active_pages_base_context %}
-                                <a class="dropdown-item" href="#">{{ page.title_uk }}</a>
+                                <a class="dropdown-item" href="{{ page.get_absolute_url }}">{{ page.title_uk }}</a>
                                 <div class="dropdown-divider"></div>
                             {% endfor %}
 
@@ -113,8 +116,20 @@
                         </nav>
                     </div>
                     <div class="col-12 col-lg-2">
-                        <button class="btn btn-secondary">UA</button>
-                        <button class="btn btn-secondary">RU</button>
+                        <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <select name="language">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                        {{ language.name_local }} ({{ language.code }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="Go">
+                        </form>
                     </div>
 
                     </div>
@@ -133,34 +148,34 @@
             
             <div class="col-6 col-md">
                 <ul class="list-unstyled">
-                    <li><h5><a class="text-dark" href="#">мобільні додатки</a></h5></li>
+                    <li><h5><a class="text-dark" href="#">{% trans 'мобільні додатки' %}</a></h5></li>
                     <li>
                         <div class="row">
                             <img src="{% static 'pages/images/google_play_store(1).png' %}" width=auto height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/>
                             <img src="{% static 'pages/images/app_store.png' %}" width=auto height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/>
                         </div>
                     </li>
-                    <li class="text-small">розробка сайтів</li>
+                    <li class="text-small">{% trans 'розробка сайтів' %}</li>
                     <li class="text-small">AVADA-MEDIA</li>
-                    <li><small class="d-block mb-3 text-muted">&copy; 2017-2020</small></li>
+                    <li><small class="d-block mb-3 text-muted">&copy; 2017-2022</small></li>
                 </ul>
             </div>
             <div class="col-6 col-md">
             <h5>афіша</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">розклад</a></li>
-                <li><a class="text-muted" href="#">незабаром в прокаті</a></li>
-                <li><a class="text-muted" href="#">кінотеатри</a></li>
-                <li><a class="text-muted" href="#">акції</a></li>
+                <li><a class="text-muted" href="#">{% trans 'розклад' %}</a></li>
+                <li><a class="text-muted" href="#">{% trans 'незабаром в прокаті' %}</a></li>
+                <li><a class="text-muted" href="#">{% trans 'кінотеатри' %}</a></li>
+                <li><a class="text-muted" href="#">{% trans 'акції' %}</a></li>
             </ul>
             </div>
             <div class="col-6 col-md">
             <h5>О кинотеатре</h5>
             <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">новини</a></li>
-                <li><a class="text-muted" href="#">реклама</a></li>
-                <li><a class="text-muted" href="#">кафе-бар</a></li>
-                <li><a class="text-muted" href="#">контакти</a></li>
+                <li><a class="text-muted" href="#">{% trans 'новини' %}</a></li>
+                <li><a class="text-muted" href="#">{% trans 'реклама' %}</a></li>
+                <li><a class="text-muted" href="#">{% trans 'кафе-бар' %}</a></li>
+                <li><a class="text-muted" href="#">{% trans 'контакти' %}</a></li>
             </ul>
             </div>
             <div class="col-4 col-md">
@@ -180,4 +195,7 @@
         </div>
     </main>
     </body>
+    <script>
+        console.log('hi there!')
+    </script>
 </html>
