@@ -9,6 +9,7 @@
 <head>
     <script type="text/javascript" src="{% static 'cinema/js/jQuery_3.6.0.js' %}"></script>
     <script type="text/javascript" src="{% static 'cinema/js/banner_forms.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 
     <link rel="stylesheet" href="{% static 'cinema/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'cinema/css/OverlayScrollbars.min.css' %}">
@@ -29,7 +30,7 @@
 
             <div class="row" align="right">
                 <div class="col-12">
-                    <a href="#" ><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}"></a>
+                    <a class="delete_link" href="{% url 'cinema:del_cinema' pk=cinema.id %}" ><img class="del_icon_2" src="{% static 'cinema/images/del_image_2.png' %}"></a>
                     <a href="{% url 'cinema:cinema_detail' pk=cinema.id %}">
                         {% if cinema.logo.image %}
                             <img src="{{ cinema.logo.image.url }}" class="cinema_preview"/>
@@ -39,7 +40,7 @@
                     </a>
                 </div>
             </div>
-            <p>{{ cinema.title_cinema_uk }}</p>
+            <p id="title_cinema">{{ cinema.title_cinema_uk }}</p>
         </div>
     {% endfor %}
     <div class="col-8 col-sm-6 col-md-4 col-xl-2 mx-auto mx-md-3  text-center" align="center">
@@ -58,4 +59,26 @@
     <div>
 </div>
 
+<script type="text/javascript">
+    $('.delete_link').click(function(event) {
+        var link =  $(this);
+        var cinema_name = $(this).parent().parent().parent().find('#title_cinema').text()
+        console.log(cinema_name)
+        event.preventDefault();
+        swal({
+            title: `Ви дійсно бажаєте видалити сторінку кінотеатра "${cinema_name}"?`,
+            text: "Всі данні, в тому числі файли забражень будуть видалені",
+            icon: "warning",
+            buttons: ["Відміна", "Видалити"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location = this;
+            }
+        });
+    });
+    
+</script>
+    
 {% endblock content %}

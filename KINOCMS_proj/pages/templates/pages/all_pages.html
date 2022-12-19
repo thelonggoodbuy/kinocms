@@ -117,7 +117,7 @@
 $('#delete_link').click(function(event) {
     console.log(this)
     var link =  $(this);
-    var page_name = $(this).parent().prevAll().last().html()
+    var page_name = $(this).parent().prevAll().last().text()
     event.preventDefault();
     swal({
         title: `Ви дійсно бажаєте видалити сторінку "${page_name}"?`,

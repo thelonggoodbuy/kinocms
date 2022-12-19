@@ -22,6 +22,19 @@ class SimpleTextErrorList(ErrorList):
             text = ''.join(x)
         return text
 
+class TextErrorListWihtFieldName(ErrorList):
+    def __str__(self):
+        return self.as_simple_text()
+
+    def as_simple_text(self):
+        text = ' :'
+        if not self:
+            return ''    
+        for x in self:
+            text = ''.join(x)
+        print(text)
+        return text
+
 class SearchUserForm(forms.Form):
     keyword = forms.CharField(required=False, max_length=20,
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'label': '',
@@ -67,6 +80,10 @@ class AddBannerCellForm(forms.ModelForm):
                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     purpose = forms.CharField(initial = 'highest_banner')
 
+    def __init__(self, *args, **kwargs):
+        super(AddBannerCellForm, self).__init__(*args, **kwargs)
+        self.error_class = TextErrorListWihtFieldName
+
 
     def clean_image(self):
         image = self.cleaned_data.get("image")
@@ -78,9 +95,6 @@ class AddBannerCellForm(forms.ModelForm):
             if height != 190:
                 raise forms.ValidationError("Висота має складати 1090 пікселів.")
         return image
-
-
-
 
     class Meta:
         model = BannerCell

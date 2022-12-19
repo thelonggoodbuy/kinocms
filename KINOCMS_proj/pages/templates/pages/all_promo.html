@@ -16,6 +16,8 @@
     <script type="text/javascript" src="{% static 'pages/js/pages_general.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/DataTables/datatables.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'pages/js/table_scripts.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
 
     <link rel="stylesheet" href="{% static 'pages/css/bootstrap.min.css' %}">
     <link rel="application/json" href="{% static 'pages/css/bootstrap.min.css.map' %}">
@@ -57,11 +59,12 @@
                             <tbody>
                                 {% for promotion in promo %}
                                     <tr>
-                                        <td>{{ promotion.title_news_or_promo|default_if_none:"-----" }}</td>
+                                        <td id="page_title">{{ promotion.title_news_or_promo|default_if_none:"-----" }}</td>
                                         <td>{{ promotion.date_news_or_promoptions|default_if_none:"-----" }}</td>
                                         <td>{{ promotion.is_active|yesno:"ВКЛ,ВИМК"}}</td>
                                         <td><a href="{% url 'pages:promo_detail' pk=promotion.id %}"><img src="{% static 'pages/images/pencil.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
-                                        <td><a href="{% url 'pages:promo_del' pk=promotion.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
+                                        {% comment %} <td><a id="delete_link" href="{% url 'pages:promo_del' pk=promotion.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td> {% endcomment %}
+                                        <td><a id="delete_link" href="{% url 'pages:promo_del' pk=promotion.id %}"><img src="{% static 'pages/images/bin.png' %}" class="logo_tables_command brand-image img-circle elevation-3" style="opacity: .8"></a></td>
                                     </tr>
                                 {% endfor %}                                
                             </tbody>    
@@ -70,7 +73,50 @@
                 </div>
             </div>
         </div>
-
 </div>
+
+<script>
+
+
+    $("a[id=delete_link]").click(function(event) {
+        var link = $(this);
+        var current_page = $(this).parent().parent().find("#page_title").text()
+        event.preventDefault();
+        swal({
+            title: `Ви дійсно бажаєте видалити акцію "${current_page}"?`,
+            text: "Всі данні, в тому числі файли забражень будуть видалені",
+            icon: "warning",
+            buttons: ["Відміна", "Видалити"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location = this;
+            }
+        });
+    });    
+</script>
+
+
+
+{% comment %} <script type="text/javascript">
+    $('#delete_link').click(function(event) {
+        var link = $(this);
+        var current_page = $(this).parent().parent().find("#page_title").text()
+        event.preventDefault();
+        swal({
+            title: `Ви дійсно бажаєте видалити акцію "${current_page}"?`,
+            text: "Всі данні, в тому числі файли забражень будуть видалені",
+            icon: "warning",
+            buttons: ["Відміна", "Видалити"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location = this;
+            }
+        });
+    });    
+</script> {% endcomment %}
 
 {% endblock content %}

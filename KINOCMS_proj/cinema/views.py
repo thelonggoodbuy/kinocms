@@ -98,19 +98,38 @@ def add_banners(request):
     
 
     if request.method == 'POST':
-        # print(request.POST)
-
         # highest banner logic
         if "btnform1" in request.POST:
-            # print(print('валидация первого баннера'))
             if highest_banner_form.is_valid() and add_banner_cell_formset.is_valid():
                 print('оба баннера валидированы')
                 highest_banner_form.save()
                 add_banner_cell_formset.save()
+                messages.success(request, "Верхній баннер(и) змінено")
                 return redirect(request.path)
             else:
-                print(f' баннер: {highest_banner_form.is_valid()}')
-                print(f' ячейки: {add_banner_cell_formset.is_valid()}')
+                list_of_error = []
+                # print(f' баннер: {highest_banner_form.is_valid()}')
+                # print(f' ячейки: {add_banner_cell_formset.is_valid()}')
+                print(highest_banner_form.errors)
+                if highest_banner_form.is_valid() == False:
+                    list_of_error = highest_banner_form.errors.as_data()
+                    print(f'This is banner: {list_of_error}.')
+                    for err in list_of_error: 
+                        # print(err)
+                        if bool(err):
+                            # print(err)
+                            messages.error(request, f"Верхній баннер(и) помилка: {err}")
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                if add_banner_cell_formset.is_valid() == False:
+                    list_of_error = add_banner_cell_formset.errors
+                    # print(list_of_error)
+                    for err in list_of_error:
+                        print(err)
+                        if bool(err):
+                            messages.error(request, err)
+                            
         else:
             highest_banner_form = HighestBannerForm(instance = my_banner, prefix='highest_banner')      
             add_banner_cell_formset = AddBannerCellFormSet(queryset=BannerCell.objects.filter(purpose='highest_banner').all()) 
@@ -431,7 +450,7 @@ def new_cinema(request):
 
             # final save
             cinema.save()
-            return redirect('cinema:all_cinemass')
+            return redirect('cinema:all_cinemas')
 
 
     else:

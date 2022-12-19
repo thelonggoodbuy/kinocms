@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-13 22:07+0000\n"
+"POT-Creation-Date: 2022-12-17 15:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: KINOCMS_proj/settings.py:182
+#: KINOCMS_proj/settings.py:186
 msgid "Українська"
 msgstr "Укаинский"
 
-#: KINOCMS_proj/settings.py:183
+#: KINOCMS_proj/settings.py:187
 msgid "Русский"
 msgstr "Русский"
 
@@ -213,6 +213,12 @@ msgstr "возрастной рейтинг"
 msgid "час показу"
 msgstr "время показа"
 
+#: pages/templates/pages/front_news.html:33
+#, fuzzy
+#| msgid "новини"
+msgid "Новини"
+msgstr "Новости"
+
 #: pages/templates/pages/front_playbill.html:24
 #: pages/templates/pages/front_soon.html:22
 msgid "Афіша"
@@ -253,7 +259,7 @@ msgstr "фильм"
 
 #: pages/templates/pages/front_schedule.html:94
 msgid "кінотеатр"
-msgstr "выберите кинотеатр"
+msgstr "кинотеатр"
 
 #: pages/templates/pages/front_schedule.html:95
 msgid "зал"
@@ -270,6 +276,10 @@ msgstr "бронирывать"
 #: pages/templates/pages/front_soon.html:36
 msgid "купити"
 msgstr "купить"
+
+#: pages/templates/pages/page_cafe_bar.html:33
+msgid "Меню"
+msgstr "Меню"
 
 #: users/managers.py:9
 msgid "The Email must be str"

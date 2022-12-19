@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-13 22:08+0000\n"
+"POT-Creation-Date: 2022-12-17 15:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,11 +21,11 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: KINOCMS_proj/settings.py:182
+#: KINOCMS_proj/settings.py:186
 msgid "Українська"
 msgstr "Українська"
 
-#: KINOCMS_proj/settings.py:183
+#: KINOCMS_proj/settings.py:187
 msgid "Русский"
 msgstr "Російська"
 
@@ -132,11 +132,11 @@ msgstr "дивиться сьогодні:"
 #: pages/templates/pages/about_cinema.html:49
 #: pages/templates/pages/about_cinema.html:62
 msgid "Розклад сеансів"
-msgstr "Розклад сеансів кінотеатру:"
+msgstr "Розклад сеансів"
 
 #: pages/templates/pages/about_cinema.html:58
 msgid "Кінотеатр"
-msgstr "оберіть кінотеатр"
+msgstr "Кінотеатр"
 
 #: pages/templates/pages/about_cinemahall.html:37
 msgid "Дивиться сьогодні:"
@@ -214,6 +214,10 @@ msgstr "віковий рейтинг"
 msgid "час показу"
 msgstr "час показу"
 
+#: pages/templates/pages/front_news.html:33
+msgid "Новини"
+msgstr "Новини"
+
 #: pages/templates/pages/front_playbill.html:24
 #: pages/templates/pages/front_soon.html:22
 msgid "Афіша"
@@ -271,6 +275,10 @@ msgstr "броньувати"
 #: pages/templates/pages/front_soon.html:36
 msgid "купити"
 msgstr "купити"
+
+#: pages/templates/pages/page_cafe_bar.html:33
+msgid "Меню"
+msgstr "Меню"
 
 #: users/managers.py:9
 msgid "The Email must be str"
