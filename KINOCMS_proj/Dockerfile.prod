@@ -48,14 +48,20 @@ RUN addgroup -S app && adduser -S app -G app
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
 RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/staticfiles
+RUN mkdir $APP_HOME/media
 WORKDIR $APP_HOME
 
 # install dependencies
 RUN apk update
 RUN apk add libpq
+
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
+RUN apk add jpeg-dev zlib-dev libjpeg
+RUN pip install Pillow
+
 
 # copy entrypoint.sh
 COPY ./entrypoint.prod.sh .
@@ -71,5 +77,5 @@ RUN chown -R app:app $APP_HOME
 USER app
 
 # run 
-ENTRYPOINT ["/home/app/web/entrypoint.sh"]
+ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
 
