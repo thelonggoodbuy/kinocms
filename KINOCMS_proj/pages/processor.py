@@ -24,5 +24,8 @@ def list_of_phones(request):
 
 
 def get_front_background_banner(request):
-    though_background = ThroughBackroundBanner.objects.all()[0]
-    return {'though_background': though_background}
+    try:
+        though_background = ThroughBackroundBanner.objects.all()[0]
+        return {'though_background': though_background}
+    except:
+        pass

@@ -9,11 +9,12 @@ import random
 
 class Command(BaseCommand):
     help = 'Створення показів на найближчий тиждень'
-
+    
     shows_dates = [] 
     for day_of_show in range(1, 7):
         date = datetime.now().date() + timedelta(days=day_of_show)
         shows_dates.append(date)
+        
 
     shows_time = []
     for seanse_time in range(1, 18, 3):
@@ -32,4 +33,5 @@ class Command(BaseCommand):
                     cinema_hall = (random.choice(self.all_cinema_halls)),
                     date_show = show_date,
                     time_show = show_time,
+                    cost = 100
                 )
