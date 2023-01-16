@@ -2,7 +2,6 @@
 ######### BUILDER #########
 ###########################
 
-
 # pull official base image
 FROM python:3.8.10-alpine as builder
 
@@ -14,6 +13,7 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 # prevent python from buffering stdout and sterr
 ENV PYTHONBUFFERED 1
+ENV DOCKER_BUILDKIT 0
 
 RUN apk update
 RUN apk add postgresql-dev gcc python3-dev musl-dev
