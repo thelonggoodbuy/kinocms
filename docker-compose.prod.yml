@@ -9,8 +9,8 @@ services:
     image: "${WEB_IMAGE}"
     command: gunicorn KINOCMS_proj.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/media
+      - static_volume:/home/app/kinocms/staticfiles
+      - media_volume:/home/app/kinocms/media
     # ports:
     #   - 8000:8000
     expose:
@@ -48,8 +48,8 @@ services:
     build: ./nginx
     image: "${NGINX_IMAGE}"
     volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/media
+      - static_volume:/home/app/kinocms/staticfiles
+      - media_volume:/home/app/kinocms/media
     ports:
       - 1337:80
     depends_on:
