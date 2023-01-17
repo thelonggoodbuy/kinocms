@@ -15,12 +15,12 @@ fi
 
 # python -m pip install Pillow
 # python manage.py flush --no-input
-# python manage.py migrate
-# python manage.py main_initial_script
-# python manage.py shows_initial_script
-# python manage.py generate_initial_superuser
-# python manage.py generate_initial_simple_users
-# python manage.py generate_initial_buying_tickets
+python manage.py migrate
+python manage.py main_initial_script
+python manage.py shows_initial_script
+python manage.py generate_initial_superuser
+python manage.py generate_initial_simple_users
+python manage.py generate_initial_buying_tickets
 
 
 exec "$@"
