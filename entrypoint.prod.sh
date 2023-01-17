@@ -16,6 +16,7 @@ fi
 # python -m pip install Pillow
 # python manage.py flush --no-input
 python manage.py migrate
+python manage.py collectstatic
 python manage.py main_initial_script
 python manage.py shows_initial_script
 python manage.py generate_initial_superuser
