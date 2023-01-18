@@ -7,7 +7,7 @@ db.sqlite3
 media
 
 # Ignore from django project
-static/
+# static/
 
 # ignore from environments
 .env

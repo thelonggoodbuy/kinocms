@@ -1,0 +1,498 @@
+h1 {
+  color:blueviolet;
+}
+
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+  .themed-grid-col {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    background-color: rgba(86, 61, 124, .15);
+    border: 1px solid rgba(86, 61, 124, .2);
+  }
+  
+  .themed-container {
+    padding: .75rem;
+    margin-bottom: 1.5rem;
+    background-color: rgba(0, 123, 255, .15);
+    border: 1px solid rgba(0, 123, 255, .2);
+  }
+  
+  .logo_responsive {
+    /* width: 100%; */
+    max-width: 100px;
+    height: auto;
+    max-height: 100px;
+  }
+
+  .image_carousel_responsive {
+    max-width: 300px;
+    height: 300px;
+    width: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .top_banner_carousel_responsive {
+    /* max-width: 300px;
+    height: 300px;
+    width: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; */
+
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* margin-bottom: 15px; */
+    height: 50px;
+    width: auto;
+    max-width: 100%;
+    /* border: 1px solid #000000;
+    border-radius: 25% 10%; */
+  }
+
+  
+
+
+    /* .carousel-item {
+    background-image: url("static '/static/pages/images/example.jpg'");
+    } */
+
+    /* display: block;
+    max-width: 100%;
+    height: auto; */
+  /* } */ */
+
+  .mini_logo_responsive {
+    /* width: 100%;
+    max-width: 15px;
+    height: auto; */
+    display: block;
+    height: 100%;
+    max-height: 15px;
+    width: auto;
+    background-size:cover;
+  }
+  
+  .nav_custom_logo {
+    margin-left: 12%;
+    margin-right: -3%;
+  }
+  
+  .nav_sm_logo {
+    width: 100%;
+    max-width: 30px;
+    height: auto;
+  }
+  
+  .container_with_sm {
+    margin-left: 100px;
+  }
+  
+  
+.logo_navbar {
+  height: 100%;
+  max-height: 25px;
+  width: auto;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.card_table_title {
+  margin-left: 80px;
+}
+
+.logo_tables_command {
+  height: 100%;
+  max-height: 35px;
+  width: auto;
+}
+
+.dataTables_paginate {
+  margin-right: 45%;
+}
+
+.image_test_card {
+  object-fit: cover;
+  margin-bottom: 15px;
+  /* height: 100%; */
+  height: 150px;
+  /* width: auto; */
+  width: 220px;
+  border: 1px solid #000000;
+  border-radius: 25% 10%;
+}
+
+/* 
+.single_form_container {
+  position: relative;
+} */
+
+.del_icon {
+  position: absolute;
+  cursor: pointer;
+  height: 100%;
+  max-height: 40px;
+  right: -5px;
+  top: -5px;
+  border: 2px solid #000000;
+  border-radius: 25px;
+  background-color: #434246;
+}
+
+.del_icon_2 {
+position: absolute;
+cursor: pointer;
+height: 100%;
+max-height: 40px;
+right: -5px;
+top: -5px;
+/* border: 2px solid #000000;
+border-radius: 25px; */
+/* background-color: #434246; */
+}
+
+.image_control_button_group{
+  /* position: absolute; */
+  bottom: 55px;
+  /* color: red; */
+  /* left: 7px; */
+}
+
+/* .image_control_button {
+  background-color: red;
+} */
+
+#image-container{
+  margin : 20px;
+  object-fit: cover;
+  height: 150px;
+  width: 175px;
+  background-color:#eee;
+  border: 1px dashed #000;
+}
+
+
+
+.switch {
+position: relative;
+display: inline-block;
+width: 60px;
+height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!! */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  margin-right: 15%;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #0bdb15;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #0bdb15;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#banner_top_container{
+  border-radius: 30px;
+  border: solid 1px;
+}
+
+
+#through_banner{
+  border-radius: 30px;
+  border: solid 1px;
+  margin-bottom: 5%;
+}
+
+
+#banner_promo_news{
+  border-radius: 30px;
+  border: solid 1px;
+  margin-bottom: 15%;
+}
+
+
+
+
+.cinema_preview{
+  margin-top : 20px;
+  margin-bottom : 20px;
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  background-color:#eee;
+
+}
+
+.cinema_contact_preview{
+  margin-top : 20px;
+  margin-bottom : 20px;
+  object-fit: cover;
+  height: 100px;
+  width: 150px;
+  background-color:#eee;
+
+}
+
+#main_form_container{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.space { 
+  margin: 0; 
+  padding:0; 
+  height:150px; 
+}
+
+
+
+#today_films_item{
+  /* background: url("/static/img/sample.jpeg") 50% 0 no-repeat fixed; */
+  background: url('../images/cinema_texture.jpg') 50% 0 no-repeat;
+}
+
+#background_list_of_films{
+  background: url('../images/cinema_texture.jpg') 50% 0 no-repeat;
+  background-size: cover;
+  min-height: 450px;
+  opacity: 1;
+}
+
+/* #clip_bg{
+  background: url('../images/cinema_texture.jpg') 50% 0 no-repeat;
+  background-size: cover;
+  min-height: 450px;
+  opacity: 1;
+} */
+
+
+.top_banner_container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.top_banner_centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+#background_container{
+
+  background: center;
+  background-repeat: no-repeat;
+  background-size:100%;
+  border-box: red;
+}
+
+#horizontal_advertising{
+  margin-top : 20px;
+  margin-bottom : 20px;
+  
+  object-fit: repeat;
+  max-height: 150;
+  height: auto;
+  width: 900px;
+  background-color:#eee;
+}
+
+#vertical_advertising{
+  object-fit: cover;
+  height: 100%;
+  min-height: 350px;
+  max-width: 100%;
+  width: auto;
+  background-color:#eee;
+}
+
+#vertical_advertising_mini{
+  object-fit: cover;
+  height: auto;
+  min-height: 150px;
+  width: auto;
+  max-width: 10rem;
+  background-color:#eee;
+  border: 0.3rem solid;
+}
+
+#horizontal_top_banner{
+  object-fit: cover;
+  height: auto;
+  max-height: 250px;
+  width: 100%;
+  border: 0.3rem solid;
+  border-color: slategray;
+}
+
+#promo_preview{
+  margin-top : 20px;
+  margin-bottom : 20px;
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  background-color:#eee;
+
+}
+
+#cinema_main_image{
+  margin-top : 20px;
+  margin-bottom : 20px;
+  object-fit: cover;
+  height: 300px;
+  width: 250px;
+  background-color:#eee;
+}
+
+.carousel-indicators li {
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+};
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 1);
+  }
+
+.square {
+    height: 20px;
+    width: 20px;
+    background-color: Orange;
+    min-width: 20px;
+};
+
+.cinemahall_place_container{
+  overflow-x: scroll;
+}
+
+.place_container{
+  min-width: 850px;
+}
+
+.promo_container_bg{
+  background-color: rgb(7, 3, 24)!important;;
+}
+
+.square_card_image{
+  object-fit: cover;
+  height: auto;
+  min-height: 150px;
+  max-height: 350px;
+  width: auto;
+  min-width: 150px;
+  max-width: 350px;
+  margin: 1rem 1rem 1rem 1rem;
+  background-color:#eee;
+  border: 0.1rem solid;
+}
+
+.vip_preview{
+  margin-top : 20px;
+  margin-bottom : 20px;
+  object-fit: cover;
+  min-height: 150px;
+  min-width: 150px;
+  max-height: 200px;
+  max-width: 200px;
+  background-color:#eee;
+}
+
+.cinema_preview_contact{
+  object-fit: cover;
+  min-height: 100px;
+  min-width: 50px;
+  height: auto;
+  width: 100%;
+  background-color:#eee;
+}
+
+.mobile_preview{
+  object-fit: cover;
+  min-height: 200px;
+  min-width: 70px;
+  height: auto;
+  width: 100%;
+  background-color:#eee;
+}

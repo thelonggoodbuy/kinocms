@@ -1,0 +1,35 @@
+/* html { font-size: 1em; }
+
+@media (min-width: 576px) {
+    html { font-size: 1.25em; }
+}
+@media (min-width: 768px) {
+    html { font-size: 1.5em; }
+}
+@media (min-width: 992px) {
+    html { font-size: 1.75em; }
+}
+@media (min-width: 1200px) {
+    html { font-size: 2em; }} */
+
+/* html {
+    font-size: 1rem;
+    }
+    
+@include media-breakpoint-up(sm) {
+html {
+    font-size: 1.2rem;
+}
+}
+
+@include media-breakpoint-up(md) {
+html {
+    font-size: 1.4rem;
+}
+}
+
+@include media-breakpoint-up(lg) {
+html {
+    font-size: 1.6rem;
+}
+} */
