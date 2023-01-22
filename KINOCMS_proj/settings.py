@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'tempus_dominus',
     'django_cleanup.apps.CleanupConfig',
     'django_user_agents',
-    # 'corsheaders',
+    'corsheaders',
 
     'pages.apps.PagesConfig',
     'users.apps.UsersConfig',
@@ -75,7 +75,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -135,6 +135,8 @@ CSRF_COOKIE_SECURE = False
 # CSRF_COOKIE_SAMESITE = 'Strict'
 # CORS_ALLOWED_ORIGINS = ['https://24.199.118.134:1337',]
 CSRF_TRUSTED_ORIGINS = ['https://24.199.118.134:1337/', 'http://24.199.118.134:1337/', 'http://24.199.71.250:1337/', 'http://24.199.71.250:1337/']
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # CORS_ORIGIN_ALLOW_ALL = False
 # CORS_ALLOW_ALL_ORIGINS = True
