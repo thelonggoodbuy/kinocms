@@ -36,8 +36,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = int(env("DEBUG", default=0))
+DEBUG = True
+# DEBUG = int(env("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 # ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
@@ -134,7 +134,7 @@ DATABASES = {
 
 # CSRF_COOKIE_SAMESITE = 'Strict'
 # CORS_ALLOWED_ORIGINS = ['https://24.199.118.134:1337',]
-CSRF_TRUSTED_ORIGINS = ['https://24.199.118.134:1337', 'http://24.199.118.134:1337', 'http://24.199.71.250:1337', 'http://24.199.71.250:1337', 'http://24.199.71.250:1337/', 'http://24.199.71.250:1337/']
+CSRF_TRUSTED_ORIGINS = ['https://24.199.118.134:1337', 'http://24.199.118.134:1337', 'https://24.199.71.250:1337', 'http://24.199.71.250:1337', 'https://24.199.71.250:1337/', 'http://24.199.71.250:1337/']
 
 # CORS_ORIGIN_ALLOW_ALL = False
 # CORS_ALLOW_ALL_ORIGINS = True
