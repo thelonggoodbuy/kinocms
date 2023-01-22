@@ -34,7 +34,8 @@ services:
     restart: always
     build:
       context: .
-      command: celery -A KINOCMS_proj worker -l info
+      
+    command: celery -A KINOCMS_proj worker -l info
 
     volumes:
       - ./:/usr/src/app/
