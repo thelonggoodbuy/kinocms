@@ -34,7 +34,9 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A KINOCMS_proj worker -l info
+    command: bash -c "celery -A KINOCMS_proj worker -l info && pip install django-cors-headers"
+                      
+
     volumes:
       - ./:/usr/src/app/
     env_file:
