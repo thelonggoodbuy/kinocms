@@ -92,5 +92,5 @@ jobs:
             export DOCKER_BUILDKIT=0
             export COMPOSE_DOCKER_CLI_BUILD=0
 
-            docker-compose -f kinocms/docker-compose.prod.yml up -d
+            docker-compose -f kinocms/docker-compose.prod.yml up --build -d
           ENDSSH
