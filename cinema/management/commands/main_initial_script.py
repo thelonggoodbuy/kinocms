@@ -33,81 +33,81 @@ class Command(BaseCommand):
 
     # ---------------highest banners----------------------
 
-        highest_banner_with_time_scrolling = HighestBannerWithTimeScrolling(pk=1, on_of_status=True, timescrolling=10)
-        highest_banner_with_time_scrolling.save()
+        # highest_banner_with_time_scrolling = HighestBannerWithTimeScrolling(pk=1, on_of_status=True, timescrolling=10)
+        # highest_banner_with_time_scrolling.save()
 
-        test_banners_query = BannerCell.objects.filter(purpose='highest_banner')
-        if test_banners_query.exists():
-            print('\nCMS have or more highest_banners. current initialization is broked. \n')
-        else:
-            higest_banner_image_1 = BannerCell(
-                url="http://test_url_1.net",
-                text="верхній баннер 1",
-                purpose='highest_banner',
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/hight_banner/hight_banner1.png'), 'rb')
-                )
-            )
-            higest_banner_image_1.save()
+        # test_banners_query = BannerCell.objects.filter(purpose='highest_banner')
+        # if test_banners_query.exists():
+        #     print('\nCMS have or more highest_banners. current initialization is broked. \n')
+        # else:
+        #     higest_banner_image_1 = BannerCell(
+        #         url="http://test_url_1.net",
+        #         text="верхній баннер 1",
+        #         purpose='highest_banner',
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/hight_banner/hight_banner1.png'), 'rb')
+        #         )
+        #     )
+        #     higest_banner_image_1.save()
 
-            higest_banner_image_2 = BannerCell(
-                url="http://test_url_2.net",
-                text="верхній баннер 2",
-                purpose='highest_banner',
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/hight_banner/hight_banner2.png'), 'rb')
-                )
-            )
-            higest_banner_image_2.save()
-            print('Highest banner with two banner cells have been created.\n')
+        #     higest_banner_image_2 = BannerCell(
+        #         url="http://test_url_2.net",
+        #         text="верхній баннер 2",
+        #         purpose='highest_banner',
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/hight_banner/hight_banner2.png'), 'rb')
+        #         )
+        #     )
+        #     higest_banner_image_2.save()
+        #     print('Highest banner with two banner cells have been created.\n')
 
-        # ---------------through_background_banner----------------------
+        # # ---------------through_background_banner----------------------
 
-        test_through_background_banner_query = ThroughBackroundBanner.objects.filter(background_type='background_photo')
-        if test_through_background_banner_query.exists():
-            print('\nCMS has one or more through_background_banner with an image. current initialization is broked. \n')
-        else:
+        # test_through_background_banner_query = ThroughBackroundBanner.objects.filter(background_type='background_photo')
+        # if test_through_background_banner_query.exists():
+        #     print('\nCMS has one or more through_background_banner with an image. current initialization is broked. \n')
+        # else:
 
-            through_image = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/through_background_banner/through_background_banner.jpg'), 'rb')))
-            through_image.save()
+        #     through_image = Galery(
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/through_background_banner/through_background_banner.jpg'), 'rb')))
+        #     through_image.save()
 
-            through_background_banner = ThroughBackroundBanner(
-                background_type='background_photo',
-                background = through_image
-            )
-            through_background_banner.save()
-            print('Through_background_banner has been created.\n')
+        #     through_background_banner = ThroughBackroundBanner(
+        #         background_type='background_photo',
+        #         background = through_image
+        #     )
+        #     through_background_banner.save()
+        #     print('Through_background_banner has been created.\n')
 
-        # ---------------banner_promotion_and_news----------------------
-        banner_promotion_and_news = BannerPromotionsAndNews(pk=1, on_of_status=True, timescrolling=10)
-        banner_promotion_and_news.save()
+        # # ---------------banner_promotion_and_news----------------------
+        # banner_promotion_and_news = BannerPromotionsAndNews(pk=1, on_of_status=True, timescrolling=10)
+        # banner_promotion_and_news.save()
 
-        test_banners_query = BannerCell.objects.filter(purpose='banner_news_and_promotions')
-        if test_banners_query.exists():
-            print('\nCMS have or more banner_news_and_promotions. current initialization is broked. \n')
-        else:
-            news_and_promo_banners_1 = BannerCell(
-                url="http://test_url_3.net",
-                text="новини та акції",
-                purpose='banner_news_and_promotions',
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/news_and_promo_banners/news_and_promo_banners_1.png'), 'rb')
-                )
-            )
-            news_and_promo_banners_1.save()
+        # test_banners_query = BannerCell.objects.filter(purpose='banner_news_and_promotions')
+        # if test_banners_query.exists():
+        #     print('\nCMS have or more banner_news_and_promotions. current initialization is broked. \n')
+        # else:
+        #     news_and_promo_banners_1 = BannerCell(
+        #         url="http://test_url_3.net",
+        #         text="новини та акції",
+        #         purpose='banner_news_and_promotions',
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/news_and_promo_banners/news_and_promo_banners_1.png'), 'rb')
+        #         )
+        #     )
+        #     news_and_promo_banners_1.save()
 
-            news_and_promo_banners_2 = BannerCell(
-                url="http://test_url_4.net",
-                text="новини та акції",
-                purpose='banner_news_and_promotions',
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/news_and_promo_banners/news_and_promo_banners_2.png'), 'rb')
-                )
-            )
-            news_and_promo_banners_2.save()
-            print('Banner promotion and news with two banner cells have been created.\n')
+        #     news_and_promo_banners_2 = BannerCell(
+        #         url="http://test_url_4.net",
+        #         text="новини та акції",
+        #         purpose='banner_news_and_promotions',
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/news_and_promo_banners/news_and_promo_banners_2.png'), 'rb')
+        #         )
+        #     )
+        #     news_and_promo_banners_2.save()
+        #     print('Banner promotion and news with two banner cells have been created.\n')
 
 
         # ---------------add_initial_cinema----------------------
