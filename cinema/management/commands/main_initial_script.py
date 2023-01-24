@@ -113,7 +113,6 @@ class Command(BaseCommand):
         
         try:
             test_cinema = Cinema.objects.get(title_cinema='Жовтень_Тестовий')
-            # test_cinema = Cinema.objects.filter(title_cinema='Жовтень_Тестовий')
             print('\nCMS have initial cinema in DB. cinema initialization is aborted. \n')
         except:
 
@@ -473,61 +472,65 @@ class Command(BaseCommand):
             initial_movie_3.image_galery.add(galery_cinema_image_2.id)
             initial_movie_3.save()
 
-        print('\Initial cinema, halls and movies were created!\n')
+        print('Initial cinema, halls and movies were created!\n')
         #---------------------------------------------------- 
         # ---------------news_and_promo----------------------
         #----------------------------------------------------
 
-        with open((path_to_sample_texts + '/pages/news.txt'), 'r') as f:
-            news_description = f.readlines()
+        test_news = Cinema.objects.get(publ_type='news')
+        if test_news.exists():
+            print('\nCMS have news. news initialization is aborted. \n')
+        else:
+            with open((path_to_sample_texts + '/pages/news.txt'), 'r') as f:
+                news_description = f.readlines()
 
-        main_image_news = Galery(
-            image=UploadedFile(
-                file=open((path_to_sample_media + '/news_and_promo/news.png'), 'rb')
+            main_image_news = Galery(
+                image=UploadedFile(
+                    file=open((path_to_sample_media + '/news_and_promo/news.png'), 'rb')
+                )
             )
-        )
-        main_image_news.save()
+            main_image_news.save()
 
-        galery_news_image_1 = Galery(
-            image=UploadedFile(
-                file=open((path_to_sample_media + '/news_and_promo/news_1_galery.jpeg'), 'rb')
+            galery_news_image_1 = Galery(
+                image=UploadedFile(
+                    file=open((path_to_sample_media + '/news_and_promo/news_1_galery.jpeg'), 'rb')
+                )
             )
-        )
-        galery_news_image_1.save()
+            galery_news_image_1.save()
 
-        galery_news_image_2 = Galery(
-            image=UploadedFile(
-                file=open((path_to_sample_media + '/news_and_promo/news_2_galery.jpeg'), 'rb')
+            galery_news_image_2 = Galery(
+                image=UploadedFile(
+                    file=open((path_to_sample_media + '/news_and_promo/news_2_galery.jpeg'), 'rb')
+                )
             )
-        )
-        galery_news_image_2.save()
+            galery_news_image_2.save()
 
 
-        seo_news = SeoBlock(
-            url_seo='https://www.google.com',
-            title_seo='initial news seo title',
-            keyword_seo='keywords for news',
-            description_seo='initital description seo'
-        )
-        seo_news.save()
+            seo_news = SeoBlock(
+                url_seo='https://www.google.com',
+                title_seo='initial news seo title',
+                keyword_seo='keywords for news',
+                description_seo='initital description seo'
+            )
+            seo_news.save()
 
 
-        initial_news = NewsAndPromotions(
-            title_news_or_promo='Оголошено номінантів на 5-ту Національну премію кінокритиків «Кіноколо»',
-            description_news_or_promo=news_description[0],
-            date_news_or_promoptions=(datetime.date.today() + datetime.timedelta(days=2)),
-            is_active=True,
-            main_image=main_image_news,
-            publ_type='news',
-            url_to_video='https://youtu.be/TTHF2Dfw1Dg',
-            seo_block=seo_news
+            initial_news = NewsAndPromotions(
+                title_news_or_promo='Оголошено номінантів на 5-ту Національну премію кінокритиків «Кіноколо»',
+                description_news_or_promo=news_description[0],
+                date_news_or_promoptions=(datetime.date.today() + datetime.timedelta(days=2)),
+                is_active=True,
+                main_image=main_image_news,
+                publ_type='news',
+                url_to_video='https://youtu.be/TTHF2Dfw1Dg',
+                seo_block=seo_news
 
-        )
+            )
 
-        initial_news.save()
-        initial_news.image_galery.add(galery_news_image_1.id)
-        initial_news.image_galery.add(galery_news_image_2.id)
-        initial_news.save()
+            initial_news.save()
+            initial_news.image_galery.add(galery_news_image_1.id)
+            initial_news.image_galery.add(galery_news_image_2.id)
+            initial_news.save()
 
 
         with open((path_to_sample_texts + '/pages/promo.txt'), 'r') as f:
