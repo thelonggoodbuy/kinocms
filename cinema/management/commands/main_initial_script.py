@@ -603,7 +603,7 @@ class Command(BaseCommand):
 
 
         try:
-            test_custom_page = ThroughBackroundBanner.objects.get(title='Про кінотеатр',)
+            test_custom_page = CustomPages.objects.get(special_issue='about_cinema')
             print('\n CMS about cinema page. current initialization is broked. \n')
         except:
             about_cinema_page = CustomPages(
@@ -619,7 +619,7 @@ class Command(BaseCommand):
 
 
         try:
-            test_cafe_bar = ThroughBackroundBanner.objects.get(title='Кафе бар')
+            test_cafe_bar = CustomPages.objects.get(special_issue='cafe_bar')
             print('\n CMS about cafe_bar page. Current initialization is broked. \n')
         except:
             cafe_bar_page = CustomPages(
@@ -635,7 +635,7 @@ class Command(BaseCommand):
 
 
         try:
-            test_vip_hall = ThroughBackroundBanner.objects.get(special_issue='vip-hall')
+            test_vip_hall = CustomPages.objects.get(special_issue='vip-hall')
             print('\n CMS about vip_hall page. Current initialization is broked. \n')
         except:
             VIP_hall_page = CustomPages(
@@ -651,7 +651,7 @@ class Command(BaseCommand):
 
 
         try:
-            test_advertising = ThroughBackroundBanner.objects.get(special_issue='advertising')
+            test_advertising = CustomPages.objects.get(special_issue='advertising')
             print('\n CMS about advertising page. Current initialization is broked. \n')
         except:
             advertising_page = CustomPages(
@@ -667,7 +667,7 @@ class Command(BaseCommand):
         
 
         try:
-            test_advertising = ThroughBackroundBanner.objects.get(special_issue='childrens_room')
+            test_advertising = CustomPages.objects.get(special_issue='childrens_room')
             print('\n CMS about childrens_room page. Current initialization is broked. \n')
         except:
             childrens_room_page = CustomPages(
