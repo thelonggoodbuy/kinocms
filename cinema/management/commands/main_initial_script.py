@@ -62,11 +62,12 @@ class Command(BaseCommand):
             print('Highest banner with two banner cells have been created.\n')
 
         # ---------------through_background_banner----------------------
-
-        test_through_background_banner_query = ThroughBackroundBanner.objects.first()
-        if test_through_background_banner_query.exists():
+        try:
+            test_through_background_banner_query = ThroughBackroundBanner.objects.first()
+        # print(test_through_background_banner_query)
+        # if test_through_background_banner_query:
             print('\nCMS has one or more through_background_banner with an image. current initialization is broked. \n')
-        else:
+        except:
 
             through_image = Galery(
                 image=UploadedFile(
