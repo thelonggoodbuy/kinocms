@@ -618,51 +618,79 @@ class Command(BaseCommand):
             print('\nAbout cinema page was cerated\n')
 
 
-        cafe_bar_page = CustomPages(
-            title='Кафе бар',
-            description = cafe_cinema_page_descriptions[0],
-            date_created = datetime.date.today(),
-            is_active=True,
-            is_undeleteble=True,
-            special_issue='about_cinema'
-        )
-        cafe_bar_page.save()
+        try:
+            test_cafe_bar = ThroughBackroundBanner.objects.get(special_issue='cafe_bar')
+            print('\n CMS about cafe_bar page. Current initialization is broked. \n')
+        except:
+            cafe_bar_page = CustomPages(
+                title='Кафе бар',
+                description = cafe_cinema_page_descriptions[0],
+                date_created = datetime.date.today(),
+                is_active=True,
+                is_undeleteble=True,
+                special_issue='cafe_bar'
+            )
+            cafe_bar_page.save()
+            print('\nAbout cafe_bar page was cerated\n')
 
 
-        VIP_hall_page = CustomPages(
-            title='VIP зала',
-            description = vip_hall_page_descriptions[0],
-            date_created = datetime.date.today(),
-            is_active=True,
-            is_undeleteble=True,
-            special_issue='about_cinema'
-        )
-        VIP_hall_page.save()
+        try:
+            test_vip_hall = ThroughBackroundBanner.objects.get(special_issue='vip-hall')
+            print('\n CMS about vip_hall page. Current initialization is broked. \n')
+        except:
+            VIP_hall_page = CustomPages(
+                title='VIP зала',
+                description = vip_hall_page_descriptions[0],
+                date_created = datetime.date.today(),
+                is_active=True,
+                is_undeleteble=True,
+                special_issue='vip-hall'
+            )
+            VIP_hall_page.save()
+            print('\nAbout vip_hall page was cerated\n')
 
-        advertising_page = CustomPages(
-            title='Реклама',
-            description = advertising_page_descriptions[0],
-            date_created = datetime.date.today(),
-            is_active=True,
-            is_undeleteble=True,
-            special_issue='advertising'
-        )
-        advertising_page.save()
+
+        try:
+            test_advertising = ThroughBackroundBanner.objects.get(special_issue='advertising')
+            print('\n CMS about advertising page. Current initialization is broked. \n')
+        except:
+            advertising_page = CustomPages(
+                title='Реклама',
+                description = advertising_page_descriptions[0],
+                date_created = datetime.date.today(),
+                is_active=True,
+                is_undeleteble=True,
+                special_issue='advertising'
+            )
+            advertising_page.save()
+            print('\nAdvertising page was cerated\n')
         
-        childrens_room_page = CustomPages(
-            title='Дитяча кімната',
-            description = children_room_page_descriptions[0],
-            date_created = datetime.date.today(),
-            is_active=True,
-            is_undeleteble=True,
-            special_issue='childrens_room'
-        )
-        childrens_room_page.save()
 
-        main_page = MainPage(
-            title='Головна сторінка',
-            main_page_seo_text='Головна сторінка сайту.',
-            is_active=True,
-        )
-        main_page.save()
+        try:
+            test_advertising = ThroughBackroundBanner.objects.get(special_issue='childrens_room')
+            print('\n CMS about childrens_room page. Current initialization is broked. \n')
+        except:
+            childrens_room_page = CustomPages(
+                title='Дитяча кімната',
+                description = children_room_page_descriptions[0],
+                date_created = datetime.date.today(),
+                is_active=True,
+                is_undeleteble=True,
+                special_issue='childrens_room'
+            )
+            childrens_room_page.save()
+            print('\nChildrens_room page was cerated\n')
+
+
+        try:
+            test_main_page = MainPage.objects.get(main_page_seo_text='Головна сторінка сайту.')
+            print('\n CMS about main_page page. Current initialization is broked. \n')
+        except:
+            main_page = MainPage(
+                title='Головна сторінка',
+                main_page_seo_text='Головна сторінка сайту.',
+                is_active=True,
+            )
+            main_page.save()
+            print('\nMain_page page was cerated\n')
 
