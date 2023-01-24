@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         test_users_query = CustomUser.objects.all()
         if test_users_query.exists():
-            print('\nInitial superuser is already exist. New initial superuser hasn`t been created.\n')
+            print('\nSome users are already created. New users hasn`t been created.\n')
         else:
             for index in range(1, 15):   
                 password = '12345asdfg'
