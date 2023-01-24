@@ -14,25 +14,29 @@ class Command(BaseCommand):
             'Львів', 'Івано-Франківськ', 'Черкаси']
 
     def handle(self, *args, **kwargs):
-        for index in range(1, 15):   
-            password = '12345asdfg'
-            if CustomUser.objects.filter(email=f'initial_simple_user_{index}@gmail.com'):
-                continue
-            else:
-                email=f'initial_simple_user_{index}@gmail.com'
-                fake_name=fake.name()
-                fake_list=fake_name.split(' ')
-                surname = fake_list[-1]
-                name = fake_list[-2]
-                user=CustomUser(email=email,
-                                is_active=True,
-                                is_staff=False,
-                                is_superuser=False,
-                                name=name,
-                                surname=surname,
-                                nickname=fake_name,
-                                town=(random.choices(self.cities))[0],
-                                sex=random.choices(['male', 'female'])[0]
-                )
-                user.set_password(password)
-                user.save()
+        test_users_query = CustomUser.objects.all()
+        if test_users_query.exists():
+            print('\nInitial superuser is already exist. New initial superuser hasn`t been created.\n')
+        else:
+            for index in range(1, 15):   
+                password = '12345asdfg'
+                if CustomUser.objects.filter(email=f'initial_simple_user_{index}@gmail.com'):
+                    continue
+                else:
+                    email=f'initial_simple_user_{index}@gmail.com'
+                    fake_name=fake.name()
+                    fake_list=fake_name.split(' ')
+                    surname = fake_list[-1]
+                    name = fake_list[-2]
+                    user=CustomUser(email=email,
+                                    is_active=True,
+                                    is_staff=False,
+                                    is_superuser=False,
+                                    name=name,
+                                    surname=surname,
+                                    nickname=fake_name,
+                                    town=(random.choices(self.cities))[0],
+                                    sex=random.choices(['male', 'female'])[0]
+                    )
+                    user.set_password(password)
+                    user.save()
