@@ -477,7 +477,7 @@ class Command(BaseCommand):
         # ---------------news_and_promo----------------------
         #----------------------------------------------------
 
-        test_news = NewsAndPromotions.objects.get(publ_type='news')
+        test_news = NewsAndPromotions.objects.filter(publ_type='news')
         if test_news.exists():
             print('\nCMS have news. news initialization is aborted. \n')
         else:
@@ -534,7 +534,7 @@ class Command(BaseCommand):
             print('\ninitial news was created. \n')
 
 
-        test_promo = NewsAndPromotions.objects.get(publ_type='promotion')
+        test_promo = NewsAndPromotions.objects.filter(publ_type='promotion')
         if test_promo.exists():
             print('\nCMS have promo. promo initialization is aborted. \n')
         else:
@@ -585,6 +585,7 @@ class Command(BaseCommand):
 
 
         # ---------------PAGES----------------------
+
         with open((path_to_sample_texts + '/pages/about_cinema_description.txt'), 'r') as f:
             about_cinema_page_descriptions = f.readlines()
 
@@ -600,15 +601,21 @@ class Command(BaseCommand):
         with open((path_to_sample_texts + '/pages/childrens_room.txt'), 'r') as f:
             children_room_page_descriptions = f.readlines()
 
-        about_cinema_page = CustomPages(
-            title='Про кінотеатр',
-            description = about_cinema_page_descriptions[0],
-            date_created = datetime.date.today(),
-            is_active=True,
-            is_undeleteble=True,
-            special_issue='about_cinema'
-        )
-        about_cinema_page.save()
+
+        try:
+            test_custom_page = ThroughBackroundBanner.objects.get(special_issue='about_cinema')
+            print('\n CMS about cinema page. current initialization is broked. \n')
+        except:
+            about_cinema_page = CustomPages(
+                title='Про кінотеатр',
+                description = about_cinema_page_descriptions[0],
+                date_created = datetime.date.today(),
+                is_active=True,
+                is_undeleteble=True,
+                special_issue='about_cinema'
+            )
+            about_cinema_page.save()
+            print('\nAbout cinema page was cerated\n')
 
 
         cafe_bar_page = CustomPages(
