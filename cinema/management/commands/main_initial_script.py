@@ -64,8 +64,6 @@ class Command(BaseCommand):
         # ---------------through_background_banner----------------------
         try:
             test_through_background_banner_query = ThroughBackroundBanner.objects.first()
-        # print(test_through_background_banner_query)
-        # if test_through_background_banner_query:
             print('\n CMS has one or more through_background_banner with an image. current initialization is broked. \n')
         except:
 
@@ -214,6 +212,7 @@ class Command(BaseCommand):
                 cinema_hall_name='Зал 1',
                 description_cinema_hall=cinema_hall_description_1[0],
                 cinema = initial_cinema,
+                schema_hall = {"A": 12, "B": 12, "C": 12, "D": 8, "E": 8, "F": 4, "H": 4, "I": 4, "J": 4},
                 image_top_banner = image_top_banner_cinema_hall_1,
                 seo_block = seo_cinema_hall
             )
@@ -254,6 +253,7 @@ class Command(BaseCommand):
                 cinema_hall_name='Зал 2',
                 description_cinema_hall=cinema_hall_description_2[0],
                 cinema = initial_cinema,
+                schema_hall = {"A": 12, "B": 12, "C": 12, "D": 8, "E": 8, "F": 4, "H": 4, "I": 4, "J": 4},
                 image_top_banner = image_top_banner_cinema_hall_2,
                 seo_block = seo_cinema_hall
             )

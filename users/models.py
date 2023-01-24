@@ -82,7 +82,7 @@ class Ticket(models.Model):
         ('booking', 'бронь'),
         ('buying', 'покупка'),
     )
-    show = models.ForeignKey('cinema.Show', on_delete=models.SET(cancel_show))
+    show = models.ForeignKey('cinema.Show', on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     ticket_type = models.CharField(max_length=20, choices=STATUS)
     plase = models.JSONField(null=True, blank=True)
