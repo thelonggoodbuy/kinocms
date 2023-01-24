@@ -12,7 +12,8 @@ class Command(BaseCommand):
     
     test_shows = Show.objects.all()
     if test_shows.exists():
-        print('\nCMS have shows. Shows initialization is aborted. \n')
+        def handle(self, *args, **kwargs):
+            print('\nCMS have shows. Shows initialization is aborted. \n')
     else: 
 
         shows_dates = [] 
@@ -39,4 +40,4 @@ class Command(BaseCommand):
                         time_show = show_time,
                         cost = 100
                     )
-        print('\nInit shows have created.\n')
+            print('\nInit shows have created.\n')
