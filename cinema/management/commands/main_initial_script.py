@@ -63,7 +63,7 @@ class Command(BaseCommand):
 
         # ---------------through_background_banner----------------------
 
-        test_through_background_banner_query = ThroughBackroundBanner.objects.all()
+        test_through_background_banner_query = ThroughBackroundBanner.objects.first()
         if test_through_background_banner_query.exists():
             print('\nCMS has one or more through_background_banner with an image. current initialization is broked. \n')
         else:
