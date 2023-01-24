@@ -113,68 +113,68 @@ class Command(BaseCommand):
 
         # ---------------add_initial_cinema----------------------
         
-        try:
-            test_cinema = Cinema.objects.get(title_cinema='Жовтень_Тестовий')
-            # test_cinema = Cinema.objects.filter(title_cinema='Жовтень_Тестовий')
-            print('\nCMS have initial cinema in DB. cinema initialization is aborted. \n')
-        except:
-            with open((path_to_sample_texts + '/cinema/cinema_desciption.txt'), 'r') as f:
-                description_text = f.readlines()
+        # try:
+        #     test_cinema = Cinema.objects.get(title_cinema='Жовтень_Тестовий')
+        #     # test_cinema = Cinema.objects.filter(title_cinema='Жовтень_Тестовий')
+        #     print('\nCMS have initial cinema in DB. cinema initialization is aborted. \n')
+        # except:
+        #     with open((path_to_sample_texts + '/cinema/cinema_desciption.txt'), 'r') as f:
+        #         description_text = f.readlines()
 
-            with open((path_to_sample_texts + '/cinema/cinema_conditions.txt'), 'r') as f:
-                conditions_text = f.readlines()
+        #     with open((path_to_sample_texts + '/cinema/cinema_conditions.txt'), 'r') as f:
+        #         conditions_text = f.readlines()
 
-            logo = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema/logo.svg'), 'rb')
-                )
-            )
-            logo.save()
+        #     logo = Galery(
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/cinema/logo.svg'), 'rb')
+        #         )
+        #     )
+        #     logo.save()
 
-            image_top_banner = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema/Hight_banner.png'), 'rb')
-                )
-            )
-            image_top_banner.save()
+        #     image_top_banner = Galery(
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/cinema/Hight_banner.png'), 'rb')
+        #         )
+        #     )
+        #     image_top_banner.save()
 
-            galery_image_1 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema/galery_image_1.png'), 'rb')
-                )
-            )
-            galery_image_1.save()
+        #     galery_image_1 = Galery(
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/cinema/galery_image_1.png'), 'rb')
+        #         )
+        #     )
+        #     galery_image_1.save()
 
-            galery_image_2 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema/galery_image_2.png'), 'rb')
-                )
-            )
-            galery_image_2.save()
+        #     galery_image_2 = Galery(
+        #         image=UploadedFile(
+        #             file=open((path_to_sample_media + '/cinema/galery_image_2.png'), 'rb')
+        #         )
+        #     )
+        #     galery_image_2.save()
 
-            seo_cinema = SeoBlock(
-                url_seo='http://test_url_1_cinema.net',
-                title_seo='initial cinema seo title',
-                keyword_seo='keywords for cinema',
-                description_seo='initital description seo'
-            )
-            seo_cinema.save()
+        #     seo_cinema = SeoBlock(
+        #         url_seo='http://test_url_1_cinema.net',
+        #         title_seo='initial cinema seo title',
+        #         keyword_seo='keywords for cinema',
+        #         description_seo='initital description seo'
+        #     )
+        #     seo_cinema.save()
 
 
-            initial_cinema = Cinema(
-                title_cinema='Жовтень_Тестовий',
-                description_cinema=description_text[0],
-                conditions_cinema=conditions_text[0],
-                logo=logo,
-                image_top_banner=image_top_banner,
-                seo_block=seo_cinema,
-                on_of_status=True
-                )
+        #     initial_cinema = Cinema(
+        #         title_cinema='Жовтень_Тестовий',
+        #         description_cinema=description_text[0],
+        #         conditions_cinema=conditions_text[0],
+        #         logo=logo,
+        #         image_top_banner=image_top_banner,
+        #         seo_block=seo_cinema,
+        #         on_of_status=True
+        #         )
 
-            initial_cinema.save()
-            initial_cinema.image_galery.add(galery_image_1.id)
-            initial_cinema.image_galery.add(galery_image_2.id)
-            initial_cinema.save()
+        #     initial_cinema.save()
+        #     initial_cinema.image_galery.add(galery_image_1.id)
+        #     initial_cinema.image_galery.add(galery_image_2.id)
+        #     initial_cinema.save()
 
             # ---------------add_initial_cinema-halls----------------------
 
