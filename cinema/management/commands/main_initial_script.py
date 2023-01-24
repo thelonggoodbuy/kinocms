@@ -473,6 +473,7 @@ class Command(BaseCommand):
             initial_movie_3.image_galery.add(galery_cinema_image_2.id)
             initial_movie_3.save()
 
+        print('\Initial cinema, halls and movies were created!\n')
         #---------------------------------------------------- 
         # ---------------news_and_promo----------------------
         #----------------------------------------------------
