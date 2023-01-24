@@ -112,12 +112,11 @@ class Command(BaseCommand):
 
 
         # ---------------add_initial_cinema----------------------
-
-        try:
-            test_cinema = Cinema.objects.filter(title_cinema='Жовтень_Тестовий')
+        test_cinema = Cinema.objects.filter(title_cinema='Жовтень_Тестовий')
+        if test_cinema.exists():
+            # test_cinema = Cinema.objects.filter(title_cinema='Жовтень_Тестовий')
             print('\nCMS have initial cinema in DB. cinema initialization is aborted. \n')
-        except:
-
+        else:
             with open((path_to_sample_texts + '/cinema/cinema_desciption.txt'), 'r') as f:
                 description_text = f.readlines()
 
