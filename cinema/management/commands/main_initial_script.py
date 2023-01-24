@@ -477,7 +477,7 @@ class Command(BaseCommand):
         # ---------------news_and_promo----------------------
         #----------------------------------------------------
 
-        test_news = Cinema.objects.get(publ_type='news')
+        test_news = NewsAndPromotions.objects.get(publ_type='news')
         if test_news.exists():
             print('\nCMS have news. news initialization is aborted. \n')
         else:
@@ -531,51 +531,56 @@ class Command(BaseCommand):
             initial_news.image_galery.add(galery_news_image_1.id)
             initial_news.image_galery.add(galery_news_image_2.id)
             initial_news.save()
+            print('\ninitial news was created. \n')
 
 
-        with open((path_to_sample_texts + '/pages/promo.txt'), 'r') as f:
-            promo_description = f.readlines()
+        test_promo = NewsAndPromotions.objects.get(publ_type='promotion')
+        if test_promo.exists():
+            print('\nCMS have promo. promo initialization is aborted. \n')
+        else:
+            with open((path_to_sample_texts + '/pages/promo.txt'), 'r') as f:
+                promo_description = f.readlines()
 
-        main_image_promo = Galery(
-            image=UploadedFile(
-                file=open((path_to_sample_media + '/news_and_promo/promo.jpeg'), 'rb')
+            main_image_promo = Galery(
+                image=UploadedFile(
+                    file=open((path_to_sample_media + '/news_and_promo/promo.jpeg'), 'rb')
+                )
             )
-        )
-        main_image_promo.save()
+            main_image_promo.save()
 
-        galery_promo_image_1 = Galery(
-            image=UploadedFile(
-                file=open((path_to_sample_media + '/news_and_promo/promo_1_galery.jpg'), 'rb')
+            galery_promo_image_1 = Galery(
+                image=UploadedFile(
+                    file=open((path_to_sample_media + '/news_and_promo/promo_1_galery.jpg'), 'rb')
+                )
             )
-        )
-        galery_promo_image_1.save()
+            galery_promo_image_1.save()
 
 
-        seo_promo = SeoBlock(
-            url_seo='https://www.google.com',
-            title_seo='initial promo seo title',
-            keyword_seo='keywords for promo',
-            description_seo='initital description seo'
-        )
-        seo_promo.save()
+            seo_promo = SeoBlock(
+                url_seo='https://www.google.com',
+                title_seo='initial promo seo title',
+                keyword_seo='keywords for promo',
+                description_seo='initital description seo'
+            )
+            seo_promo.save()
 
 
-        initial_promo = NewsAndPromotions(
-            title_news_or_promo='Фірмова кав’ярня від Multiplex',
-            description_news_or_promo=promo_description[0],
-            date_news_or_promoptions=(datetime.date.today() + datetime.timedelta(days=2)),
-            is_active=True,
-            main_image=main_image_promo,
-            publ_type='promotion',
-            url_to_video='https://youtu.be/TTHF2Dfw1Dg',
-            seo_block=seo_promo
+            initial_promo = NewsAndPromotions(
+                title_news_or_promo='Фірмова кав’ярня від Multiplex',
+                description_news_or_promo=promo_description[0],
+                date_news_or_promoptions=(datetime.date.today() + datetime.timedelta(days=2)),
+                is_active=True,
+                main_image=main_image_promo,
+                publ_type='promotion',
+                url_to_video='https://youtu.be/TTHF2Dfw1Dg',
+                seo_block=seo_promo
 
-        )
+            )
 
-        initial_promo.save()
-        initial_promo.image_galery.add(galery_promo_image_1.id)
-        initial_promo.save()
-
+            initial_promo.save()
+            initial_promo.image_galery.add(galery_promo_image_1.id)
+            initial_promo.save()
+            print('\ninitial promo was created. \n')
 
 
 
