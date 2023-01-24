@@ -603,7 +603,7 @@ class Command(BaseCommand):
 
 
         try:
-            test_custom_page = ThroughBackroundBanner.objects.get(special_issue='about_cinema')
+            test_custom_page = ThroughBackroundBanner.objects.get(title='Про кінотеатр',)
             print('\n CMS about cinema page. current initialization is broked. \n')
         except:
             about_cinema_page = CustomPages(
@@ -619,7 +619,7 @@ class Command(BaseCommand):
 
 
         try:
-            test_cafe_bar = ThroughBackroundBanner.objects.get(special_issue='cafe_bar')
+            test_cafe_bar = ThroughBackroundBanner.objects.get(title='Кафе бар')
             print('\n CMS about cafe_bar page. Current initialization is broked. \n')
         except:
             cafe_bar_page = CustomPages(
