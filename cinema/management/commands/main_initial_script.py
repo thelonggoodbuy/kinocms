@@ -64,7 +64,7 @@ class Command(BaseCommand):
         # ---------------through_background_banner----------------------
 
         test_through_background_banner_query = ThroughBackroundBanner.objects.filter(background_type='background_photo')
-        if test_through_background_banner_query.background.image.exists():
+        if test_through_background_banner_query.exists():
             print('\nCMS has one or more through_background_banner with an image. current initialization is broked. \n')
         else:
 
@@ -108,9 +108,6 @@ class Command(BaseCommand):
             )
             news_and_promo_banners_2.save()
             print('Banner promotion and news with two banner cells have been created.\n')
-
-
-
 
 
         # ---------------add_initial_cinema----------------------
