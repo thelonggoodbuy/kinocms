@@ -180,296 +180,296 @@ class Command(BaseCommand):
 
 
 
-            with open((path_to_sample_texts + '/cinema_hall/description_1.txt'), 'r') as f:
-                cinema_hall_description_1 = f.readlines()
+            # with open((path_to_sample_texts + '/cinema_hall/description_1.txt'), 'r') as f:
+            #     cinema_hall_description_1 = f.readlines()
                 
 
-            image_top_banner_cinema_hall_1 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema_hall/logo_1.jpg'), 'rb')
-                )
-            )
-            image_top_banner_cinema_hall_1.save()
+            # image_top_banner_cinema_hall_1 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/cinema_hall/logo_1.jpg'), 'rb')
+            #     )
+            # )
+            # image_top_banner_cinema_hall_1.save()
 
 
-            galery_image_1 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema_hall/cinema_hall_galery_1.png'), 'rb')
-                )
-            )
-            galery_image_1.save()
+            # galery_image_1 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/cinema_hall/cinema_hall_galery_1.png'), 'rb')
+            #     )
+            # )
+            # galery_image_1.save()
 
-            seo_cinema_hall = SeoBlock(
-                url_seo='https://www.google.com',
-                title_seo='initial cinema_hall_1 seo title',
-                keyword_seo='keywords for cinema',
-                description_seo='initital description seo'
-            )
-            seo_cinema_hall.save()
-
-
-            initial_cinema_hall = CinemaHall(
-                cinema_hall_name='Зал 1',
-                description_cinema_hall=cinema_hall_description_1[0],
-                cinema = initial_cinema,
-                image_top_banner = image_top_banner_cinema_hall_1,
-                seo_block = seo_cinema_hall
-            )
-
-            initial_cinema_hall.save()
-            initial_cinema_hall.image_galery.add(galery_image_1.id)
-            initial_cinema_hall.save()
+            # seo_cinema_hall = SeoBlock(
+            #     url_seo='https://www.google.com',
+            #     title_seo='initial cinema_hall_1 seo title',
+            #     keyword_seo='keywords for cinema',
+            #     description_seo='initital description seo'
+            # )
+            # seo_cinema_hall.save()
 
 
-            with open((path_to_sample_texts + '/cinema_hall/description_2.txt'), 'r') as f:
-                cinema_hall_description_2 = f.readlines()
+            # initial_cinema_hall = CinemaHall(
+            #     cinema_hall_name='Зал 1',
+            #     description_cinema_hall=cinema_hall_description_1[0],
+            #     cinema = initial_cinema,
+            #     image_top_banner = image_top_banner_cinema_hall_1,
+            #     seo_block = seo_cinema_hall
+            # )
 
-            image_top_banner_cinema_hall_2 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema_hall/logo_2.jpg'), 'rb')
-                )
-            )
-            image_top_banner_cinema_hall_2.save()
-
-
-            galery_image_2 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/cinema_hall/cinema_hall_galery_2.png'), 'rb')
-                )
-            )
-            galery_image_2.save()
-
-            seo_cinema_hall = SeoBlock(
-                url_seo='https://www.google.com',
-                title_seo='initial cinema_hall_2 seo title',
-                keyword_seo='keywords for cinema',
-                description_seo='initital description seo'
-            )
-            seo_cinema_hall.save()
+            # initial_cinema_hall.save()
+            # initial_cinema_hall.image_galery.add(galery_image_1.id)
+            # initial_cinema_hall.save()
 
 
-            initial_cinema_hall_2 = CinemaHall(
-                cinema_hall_name='Зал 2',
-                description_cinema_hall=cinema_hall_description_2[0],
-                cinema = initial_cinema,
-                image_top_banner = image_top_banner_cinema_hall_2,
-                seo_block = seo_cinema_hall
-            )
+            # with open((path_to_sample_texts + '/cinema_hall/description_2.txt'), 'r') as f:
+            #     cinema_hall_description_2 = f.readlines()
 
-            initial_cinema_hall_2.save()
-            initial_cinema_hall_2.image_galery.add(galery_image_2.id)
-            initial_cinema_hall_2.save()
+            # image_top_banner_cinema_hall_2 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/cinema_hall/logo_2.jpg'), 'rb')
+            #     )
+            # )
+            # image_top_banner_cinema_hall_2.save()
 
 
-            # ---------------add_initial_movie_1----------------------
+            # galery_image_2 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/cinema_hall/cinema_hall_galery_2.png'), 'rb')
+            #     )
+            # )
+            # galery_image_2.save()
 
-            with open((path_to_sample_texts + '/movie/movie_1.txt'), 'r') as f:
-                movie_description_1 = f.readlines()
-
-
-            main_image_1 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_main_image_1.jpg'), 'rb')
-                )
-            )
-            main_image_1.save()
-
-            galery_cinema_image_1 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_galery_1_1.jpg'), 'rb')
-                )
-            )
-            galery_cinema_image_1.save()
-
-            galery_cinema_image_2 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_galery_1_2.jpg'), 'rb')
-                )
-            )
-            galery_cinema_image_2.save()
+            # seo_cinema_hall = SeoBlock(
+            #     url_seo='https://www.google.com',
+            #     title_seo='initial cinema_hall_2 seo title',
+            #     keyword_seo='keywords for cinema',
+            #     description_seo='initital description seo'
+            # )
+            # seo_cinema_hall.save()
 
 
-            seo_cinema_1 = SeoBlock(
-                url_seo='https://www.google.com',
-                title_seo='initial cinema 1 seo title',
-                keyword_seo='keywords for cinema',
-                description_seo='initital description seo'
-            )
-            seo_cinema_1.save()
+            # initial_cinema_hall_2 = CinemaHall(
+            #     cinema_hall_name='Зал 2',
+            #     description_cinema_hall=cinema_hall_description_2[0],
+            #     cinema = initial_cinema,
+            #     image_top_banner = image_top_banner_cinema_hall_2,
+            #     seo_block = seo_cinema_hall
+            # )
 
-            # movie_distribution_start = 
-
-
-            initial_movie_1 = Movie(
-                title_movie='Квиток до раю',
-                description_movie=movie_description_1[0],
-                main_image=main_image_1,
-                # image_galery
-                url_to_trailer='https://context.reverso.net',
-                type_2d=True,
-                type_3d=False,
-                type_IMAX=False,
-                seo_block = seo_cinema_1,
-
-                movie_distribution_start = (datetime.date.today() - datetime.timedelta(days=7)),
-                movie_distribution_finish = (datetime.date.today() + datetime.timedelta(days=21)),
-
-                release_year=2022,
-                country='USA',
-                music_by=fake.name(),
-                producer=fake.name(),
-                director=fake.name(),
-                operator=fake.name(),
-                screen_by=fake.name(),
-                genre='комедія',
-                budget='46.4 міліона',
-                age_rating='G',
-            )
-
-            initial_movie_1.save()
-            initial_movie_1.cinema.add(initial_cinema.id)
-            initial_movie_1.image_galery.add(galery_cinema_image_1.id)
-            initial_movie_1.image_galery.add(galery_cinema_image_2.id)
-            initial_movie_1.save()
+            # initial_cinema_hall_2.save()
+            # initial_cinema_hall_2.image_galery.add(galery_image_2.id)
+            # initial_cinema_hall_2.save()
 
 
+            # # ---------------add_initial_movie_1----------------------
 
-            # ---------------add_initial_movie_2----------------------
-
-            with open((path_to_sample_texts + '/movie/movie_2.txt'), 'r') as f:
-                movie_description_2 = f.readlines()
-
-
-            main_image_2 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_main_image_2.jpeg'), 'rb')
-                )
-            )
-            main_image_2.save()
-
-            galery_cinema_image_1 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_galery_2_1.jpg'), 'rb')
-                )
-            )
-            galery_cinema_image_1.save()
-
-            galery_cinema_image_2 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_galery_2_2.jpg'), 'rb')
-                )
-            )
-            galery_cinema_image_2.save()
+            # with open((path_to_sample_texts + '/movie/movie_1.txt'), 'r') as f:
+            #     movie_description_1 = f.readlines()
 
 
-            seo_cinema_1 = SeoBlock(
-                url_seo='https://www.google.com',
-                title_seo='initial cinema 2 seo title',
-                keyword_seo='keywords for cinema',
-                description_seo='initital description seo'
-            )
-            seo_cinema_1.save()
+            # main_image_1 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_main_image_1.jpg'), 'rb')
+            #     )
+            # )
+            # main_image_1.save()
+
+            # galery_cinema_image_1 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_galery_1_1.jpg'), 'rb')
+            #     )
+            # )
+            # galery_cinema_image_1.save()
+
+            # galery_cinema_image_2 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_galery_1_2.jpg'), 'rb')
+            #     )
+            # )
+            # galery_cinema_image_2.save()
 
 
-            initial_movie_2 = Movie(
-                title_movie='Електросестри',
-                description_movie=movie_description_2[0],
-                main_image=main_image_2,
-                url_to_trailer='https://context.reverso.net',
-                type_2d=True,
-                type_3d=False,
-                type_IMAX=True,
-                seo_block = seo_cinema_1,
+            # seo_cinema_1 = SeoBlock(
+            #     url_seo='https://www.google.com',
+            #     title_seo='initial cinema 1 seo title',
+            #     keyword_seo='keywords for cinema',
+            #     description_seo='initital description seo'
+            # )
+            # seo_cinema_1.save()
 
-                movie_distribution_start = (datetime.date.today() - datetime.timedelta(days=7)),
-                movie_distribution_finish = (datetime.date.today() + datetime.timedelta(days=21)),
-
-                release_year=2020,
-                country='USA',
-                music_by=fake.name(),
-                producer=fake.name(),
-                director=fake.name(),
-                operator=fake.name(),
-                screen_by=fake.name(),
-                genre='документальний',
-                budget='5.24 міліона',
-                age_rating='G',
-            )
-
-            initial_movie_2.save()
-            initial_movie_2.cinema.add(initial_cinema.id)
-            initial_movie_2.image_galery.add(galery_cinema_image_1.id)
-            initial_movie_2.image_galery.add(galery_cinema_image_2.id)
-            initial_movie_2.save()
+            # # movie_distribution_start = 
 
 
-            # ---------------add_initial_movie_3----------------------
+            # initial_movie_1 = Movie(
+            #     title_movie='Квиток до раю',
+            #     description_movie=movie_description_1[0],
+            #     main_image=main_image_1,
+            #     # image_galery
+            #     url_to_trailer='https://context.reverso.net',
+            #     type_2d=True,
+            #     type_3d=False,
+            #     type_IMAX=False,
+            #     seo_block = seo_cinema_1,
 
-            with open((path_to_sample_texts + '/movie/movie_3.txt'), 'r') as f:
-                movie_description_3 = f.readlines()
+            #     movie_distribution_start = (datetime.date.today() - datetime.timedelta(days=7)),
+            #     movie_distribution_finish = (datetime.date.today() + datetime.timedelta(days=21)),
 
+            #     release_year=2022,
+            #     country='USA',
+            #     music_by=fake.name(),
+            #     producer=fake.name(),
+            #     director=fake.name(),
+            #     operator=fake.name(),
+            #     screen_by=fake.name(),
+            #     genre='комедія',
+            #     budget='46.4 міліона',
+            #     age_rating='G',
+            # )
 
-            main_image_3 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_main_image_3.jpeg'), 'rb')
-                )
-            )
-            main_image_3.save()
-
-            galery_cinema_image_1 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_galery_3_1.jpg'), 'rb')
-                )
-            )
-            galery_cinema_image_1.save()
-
-            galery_cinema_image_2 = Galery(
-                image=UploadedFile(
-                    file=open((path_to_sample_media + '/movie/movie_galery_3_2.jpg'), 'rb')
-                )
-            )
-            galery_cinema_image_2.save()
-
-
-            seo_cinema_3 = SeoBlock(
-                url_seo='https://www.google.com',
-                title_seo='initial cinema 3 seo title',
-                keyword_seo='keywords for cinema',
-                description_seo='initital description seo'
-            )
-            seo_cinema_3.save()
+            # initial_movie_1.save()
+            # initial_movie_1.cinema.add(initial_cinema.id)
+            # initial_movie_1.image_galery.add(galery_cinema_image_1.id)
+            # initial_movie_1.image_galery.add(galery_cinema_image_2.id)
+            # initial_movie_1.save()
 
 
-            initial_movie_3 = Movie(
-                title_movie='Електросестри',
-                description_movie=movie_description_3[0],
-                main_image=main_image_3,
-                url_to_trailer='https://context.reverso.net',
-                type_2d=True,
-                type_3d=False,
-                type_IMAX=True,
-                seo_block = seo_cinema_3,
 
-                movie_distribution_start = (datetime.date.today() + datetime.timedelta(days=7)),
-                movie_distribution_finish = (datetime.date.today() + datetime.timedelta(days=21)),
+            # # ---------------add_initial_movie_2----------------------
 
-                release_year=2022,
-                country='USA',
-                music_by=fake.name(),
-                producer=fake.name(),
-                director=fake.name(),
-                operator=fake.name(),
-                screen_by=fake.name(),
-                genre='триллер',
-                budget='5.24 міліона',
-                age_rating='G',
-            )
+            # with open((path_to_sample_texts + '/movie/movie_2.txt'), 'r') as f:
+            #     movie_description_2 = f.readlines()
 
-            initial_movie_3.save()
-            initial_movie_3.cinema.add(initial_cinema.id)
-            initial_movie_3.image_galery.add(galery_cinema_image_1.id)
-            initial_movie_3.image_galery.add(galery_cinema_image_2.id)
-            initial_movie_3.save()
+
+            # main_image_2 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_main_image_2.jpeg'), 'rb')
+            #     )
+            # )
+            # main_image_2.save()
+
+            # galery_cinema_image_1 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_galery_2_1.jpg'), 'rb')
+            #     )
+            # )
+            # galery_cinema_image_1.save()
+
+            # galery_cinema_image_2 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_galery_2_2.jpg'), 'rb')
+            #     )
+            # )
+            # galery_cinema_image_2.save()
+
+
+            # seo_cinema_1 = SeoBlock(
+            #     url_seo='https://www.google.com',
+            #     title_seo='initial cinema 2 seo title',
+            #     keyword_seo='keywords for cinema',
+            #     description_seo='initital description seo'
+            # )
+            # seo_cinema_1.save()
+
+
+            # initial_movie_2 = Movie(
+            #     title_movie='Електросестри',
+            #     description_movie=movie_description_2[0],
+            #     main_image=main_image_2,
+            #     url_to_trailer='https://context.reverso.net',
+            #     type_2d=True,
+            #     type_3d=False,
+            #     type_IMAX=True,
+            #     seo_block = seo_cinema_1,
+
+            #     movie_distribution_start = (datetime.date.today() - datetime.timedelta(days=7)),
+            #     movie_distribution_finish = (datetime.date.today() + datetime.timedelta(days=21)),
+
+            #     release_year=2020,
+            #     country='USA',
+            #     music_by=fake.name(),
+            #     producer=fake.name(),
+            #     director=fake.name(),
+            #     operator=fake.name(),
+            #     screen_by=fake.name(),
+            #     genre='документальний',
+            #     budget='5.24 міліона',
+            #     age_rating='G',
+            # )
+
+            # initial_movie_2.save()
+            # initial_movie_2.cinema.add(initial_cinema.id)
+            # initial_movie_2.image_galery.add(galery_cinema_image_1.id)
+            # initial_movie_2.image_galery.add(galery_cinema_image_2.id)
+            # initial_movie_2.save()
+
+
+            # # ---------------add_initial_movie_3----------------------
+
+            # with open((path_to_sample_texts + '/movie/movie_3.txt'), 'r') as f:
+            #     movie_description_3 = f.readlines()
+
+
+            # main_image_3 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_main_image_3.jpeg'), 'rb')
+            #     )
+            # )
+            # main_image_3.save()
+
+            # galery_cinema_image_1 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_galery_3_1.jpg'), 'rb')
+            #     )
+            # )
+            # galery_cinema_image_1.save()
+
+            # galery_cinema_image_2 = Galery(
+            #     image=UploadedFile(
+            #         file=open((path_to_sample_media + '/movie/movie_galery_3_2.jpg'), 'rb')
+            #     )
+            # )
+            # galery_cinema_image_2.save()
+
+
+            # seo_cinema_3 = SeoBlock(
+            #     url_seo='https://www.google.com',
+            #     title_seo='initial cinema 3 seo title',
+            #     keyword_seo='keywords for cinema',
+            #     description_seo='initital description seo'
+            # )
+            # seo_cinema_3.save()
+
+
+            # initial_movie_3 = Movie(
+            #     title_movie='Електросестри',
+            #     description_movie=movie_description_3[0],
+            #     main_image=main_image_3,
+            #     url_to_trailer='https://context.reverso.net',
+            #     type_2d=True,
+            #     type_3d=False,
+            #     type_IMAX=True,
+            #     seo_block = seo_cinema_3,
+
+            #     movie_distribution_start = (datetime.date.today() + datetime.timedelta(days=7)),
+            #     movie_distribution_finish = (datetime.date.today() + datetime.timedelta(days=21)),
+
+            #     release_year=2022,
+            #     country='USA',
+            #     music_by=fake.name(),
+            #     producer=fake.name(),
+            #     director=fake.name(),
+            #     operator=fake.name(),
+            #     screen_by=fake.name(),
+            #     genre='триллер',
+            #     budget='5.24 міліона',
+            #     age_rating='G',
+            # )
+
+            # initial_movie_3.save()
+            # initial_movie_3.cinema.add(initial_cinema.id)
+            # initial_movie_3.image_galery.add(galery_cinema_image_1.id)
+            # initial_movie_3.image_galery.add(galery_cinema_image_2.id)
+            # initial_movie_3.save()
 
 
         # ---------------news_and_promo----------------------
