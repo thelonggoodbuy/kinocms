@@ -298,15 +298,13 @@ class Command(BaseCommand):
             )
             seo_cinema_1.save()
 
-            # movie_distribution_start = 
-
 
             initial_movie_1 = Movie(
-                title_movie='Квиток до раю',
+                title_movie='Запрошення',
                 description_movie=movie_description_1[0],
                 main_image=main_image_1,
                 # image_galery
-                url_to_trailer='https://context.reverso.net',
+                url_to_trailer='<iframe width="560" height="315" src="https://www.youtube.com/embed/cRniyysaR68" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
                 type_2d=True,
                 type_3d=False,
                 type_IMAX=False,
@@ -376,7 +374,7 @@ class Command(BaseCommand):
                 title_movie='Електросестри',
                 description_movie=movie_description_2[0],
                 main_image=main_image_2,
-                url_to_trailer='https://context.reverso.net',
+                url_to_trailer='<iframe width="560" height="315" src="https://www.youtube.com/embed/qhGxZyFvEUY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
                 type_2d=True,
                 type_3d=False,
                 type_IMAX=True,
@@ -442,10 +440,10 @@ class Command(BaseCommand):
 
 
             initial_movie_3 = Movie(
-                title_movie='Електросестри',
+                title_movie='Квиток до раю',
                 description_movie=movie_description_3[0],
                 main_image=main_image_3,
-                url_to_trailer='https://context.reverso.net',
+                url_to_trailer='<iframe width="560" height="315" src="https://www.youtube.com/embed/jRM2Jk3zo1g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
                 type_2d=True,
                 type_3d=False,
                 type_IMAX=True,
