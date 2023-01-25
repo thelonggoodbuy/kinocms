@@ -58,7 +58,7 @@ class Movie(models.Model):
     description_movie = models.TextField()
     main_image = models.OneToOneField('Galery', on_delete=models.SET_NULL, null=True, blank=True)
     image_galery = models.ManyToManyField('Galery', related_name='movie_image_galery')
-    url_to_trailer = models.URLField(max_length=2000)
+    url_to_trailer = models.URLField()
     cinema = models.ManyToManyField(Cinema)
     type_2d = models.BooleanField(default=True)
     type_3d = models.BooleanField(default=False)
