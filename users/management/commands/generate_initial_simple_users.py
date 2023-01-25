@@ -14,7 +14,7 @@ class Command(BaseCommand):
             'Львів', 'Івано-Франківськ', 'Черкаси']
 
     def handle(self, *args, **kwargs):
-        test_users_query = CustomUser.objects.all()
+        test_users_query = CustomUser.objects.filter(is_superuser=False)
         if test_users_query.exists():
             print('\nSome users are already created. New users hasn`t been created.\n')
         else:
