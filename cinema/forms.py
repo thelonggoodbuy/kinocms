@@ -3,6 +3,8 @@ from django.core import validators
 from django.forms.utils import ErrorList
 from django.core.files.images import get_image_dimensions
 # from file_resubmit.admin import AdminResubmitImageWidget
+from urllib.parse import urlparse
+
 
 from .widgets import CustomClearableFileInput, CustomClearableFileInputBanner, CustomTextAreaWithEditor
 from .models import Galery, BannerCell, HighestBannerWithTimeScrolling, ThroughBackroundBanner, BannerPromotionsAndNews, Movie, SeoBlock, Cinema, CinemaHall
@@ -242,6 +244,28 @@ class MovieForm(forms.ModelForm):
         model = Movie
         fields = ('title_movie_uk', 'title_movie_ru', 'description_movie_uk', 'description_movie_ru', 'type_2d', 'type_3d', 'type_IMAX', 'url_to_trailer')
 
+
+
+    def clean_url_to_trailer(self):
+        url = self.cleaned_data["url_to_trailer"]
+        if url.find('/embed') == -1:
+            parsed_text = urlparse(url)
+            if parsed_text.path.find('/watch') != -1 and parsed_text.netloc.find('youtu.be') == -1: 
+                clean_query = parsed_text.query[2:]
+                changed_url = f"{parsed_text.scheme}://{parsed_text.netloc}/{'embed'}/{clean_query}"
+                return changed_url
+                
+            elif parsed_text.netloc.find('youtu.be') != -1:
+                clear_netloc = 'www.youtube.com'
+                changed_url = f"{parsed_text.scheme}://{clear_netloc}/embed{parsed_text.path}/{parsed_text.query}"
+                return changed_url
+
+            else:
+                return url
+        else:
+            return url
+        
+
     def clean(self):
         type_2d = self.cleaned_data['type_2d']
         type_3d = self.cleaned_data['type_3d']
@@ -276,6 +300,7 @@ class MovieMainImage(forms.ModelForm):
         fields = ('image',)
 
 
+from urllib.parse import urlparse
 
 class MovieGaleryImageForm(forms.ModelForm):
     image = forms.ImageField(required=False, 
