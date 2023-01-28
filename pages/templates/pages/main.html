@@ -38,9 +38,9 @@
 
 {% block content %}
 
-<style type="text/css">
+{% comment %} <style type="text/css">
   body { 
-   background: url('{{ though_background.background.image.url }}');
+   background: url('{{ background_image.url }}');
    -webkit-background-size: cover;
    -moz-background-size: cover;
    -o-background-size: cover;
@@ -48,7 +48,7 @@
    backdrop-filter: sepia(90%);
    box-shadow: inset 0 0 100px 50px #cccccc;
   };
-</style>
+</style> {% endcomment %}
 
 
   <div class="main_container bg-light px-3 py-3">
