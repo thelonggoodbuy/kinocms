@@ -68,9 +68,9 @@ def add_banners(request):
         my_banner = HighestBannerWithTimeScrolling(pk=1, on_of_status=True, timescrolling=5)
 
     try:
-        through_background_banner = ThroughBackroundBanner.objects.get(pk=1)
+        through_background_banner = ThroughBackroundBanner.objects.latest()
     except:
-        through_background_banner = ThroughBackroundBanner(pk=1, background_type='simple_photo', background=None)
+        through_background_banner = ThroughBackroundBanner(background_type='simple_photo', background=None)
 
     try:
         banner_promotion_and_news = BannerPromotionsAndNews.objects.get(pk=1)
