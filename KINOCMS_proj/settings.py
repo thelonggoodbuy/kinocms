@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'modeltranslation',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'bootstrap4',
     'phonenumber_field',
     'tempus_dominus',
