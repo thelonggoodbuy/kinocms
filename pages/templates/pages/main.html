@@ -1,7 +1,7 @@
 {% extends "layout/_base_pages.html" %}
 
 {% load static %}
-
+{% load i18n %}
 
 
 {% block upperheader %}
@@ -72,7 +72,7 @@
 
       <div class="row mt-3">
         <div class="col-12" align="center">
-          <h3>Дивіться сьогодні, {{ today_date|date:"j E" }}</h3>
+          <h3>{% trans 'Дивіться сьогодні,' %} {{ today_date|date:"j E" }}</h3>
         </div>
       </div>
 
@@ -84,7 +84,7 @@
               <div class="card-body">
                 <p class="card-text">{{ show.movie.title_movie_uk }}</p>
               </div>
-              <a href="#" class="btn btn-outline-dark">купити квиток</a>
+              <a href="#" class="btn btn-outline-dark">{% trans 'купити квиток' %}</a>
             </div>
           </div>
         {% endfor %}
@@ -92,7 +92,7 @@
 
       <div class="row mt-3">
         <div class="col-12" align="center">
-          <h3>Дивіться найближчим часом</h3>
+          <h3>{% trans 'Дивіться найближчим часом'%}</h3>
         </div>
       </div>
       <div class="row my-3">
