@@ -42,8 +42,9 @@ def main_page(request):
     banner_promo_and_news = BannerPromotionsAndNews.objects.all()[0]
     promo_and_news_bannercells = BannerCell.objects.filter(purpose="banner_news_and_promotions")
     banner_promo_and_news_timescrolling = banner_promo_and_news.timescrolling*1000
-    though_background = ThroughBackroundBanner.objects.all()[0]
-    print(though_background.background.image.url)
+    print('tests code fragment!')
+    though_background = ThroughBackroundBanner.objects.latest('id')
+    # print(though_background.background.image.url)
 
     today_date = date.today()
     context = {'today_shows': today_shows,
