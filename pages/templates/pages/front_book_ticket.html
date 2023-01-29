@@ -125,7 +125,7 @@
     if( booked_tickets_id.length ){
 
         for(ticket_id of booked_tickets_id){
-            if( ticket_id.length ){
+            if( ticket_id != null ){
             book_code = ticket_id.replaceAll('"', '').replace(',', ':')
             bocked_object = $('div[id$="'+ book_code +'"]')
             bocked_object.css({"border": "none", "background-color": "Grey"}).animate({
