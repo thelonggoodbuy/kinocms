@@ -14,7 +14,7 @@
 
         <link rel="stylesheet" type="text/css" href="{% static 'pages/css/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'cinema/frameworks/bootstrap-4.6.2/css/bootstrap.min.css' %}">
-        {% if background_image %}
+        {% comment %} {% if background_image %}
             <style type="text/css">
                 body { 
                 background: url('{{ background_image.url }}');
@@ -37,7 +37,7 @@
                 backdrop-filter: sepia(90%);
                 box-shadow: inset 0 0 100px 50px #cccccc;
                 };
-            </style>
+            </style> {% endcomment %}
         {% endif %}
       </head>
     <body class="py-0 container">
