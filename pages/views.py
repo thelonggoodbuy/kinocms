@@ -148,12 +148,12 @@ def schedule_sort_cinema(request):
 
 def schedule_sort_cinema_hall(request):
     hall_name = request.GET.get('cinema_hall_name')
-    if CinemaHall.objects.filter(cinema_hall_name_uk=hall_name):
+    if CinemaHall.objects.get(cinema_hall_name_uk=hall_name):
         cinema_hall = CinemaHall.objects.filter(cinema_hall_name=hall_name)
-    elif CinemaHall.objects.filter(cinema_hall_name_ru=hall_name):
+    elif CinemaHall.objects.get(cinema_hall_name_ru=hall_name):
         cinema_hall = CinemaHall.objects.filter(cinema_hall_name_ru=hall_name)
     else:
-        cinema_hall = CinemaHall.objects.filter(cinema_hall_name=hall_name)
+        cinema_hall = CinemaHall.objects.get(cinema_hall_name=hall_name)
     seanses_filteret_by_cinema_hall = Show.objects.filter(cinema_hall__in=cinema_hall)
     show_filtered_id = [show.id for show in seanses_filteret_by_cinema_hall]
     data = {
