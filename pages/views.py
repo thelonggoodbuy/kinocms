@@ -154,6 +154,7 @@ def schedule_sort_cinema_hall(request):
         cinema_hall = CinemaHall.objects.filter(cinema_hall_name_ru=hall_name)
     else:
         cinema_hall = CinemaHall.objects.get(cinema_hall_name=hall_name)
+    print(cinema_hall)
     seanses_filteret_by_cinema_hall = Show.objects.filter(cinema_hall__in=cinema_hall)
     show_filtered_id = [show.id for show in seanses_filteret_by_cinema_hall]
     data = {
