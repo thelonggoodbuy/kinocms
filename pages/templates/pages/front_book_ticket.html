@@ -122,18 +122,22 @@
 
     booked_tickets_id = JSON.parse(document.getElementById('booked_tickets_id').textContent)
 
-    for(ticket_id of booked_tickets_id){
-        book_code = ticket_id.replaceAll('"', '').replace(',', ':')
-        bocked_object = $('div[id$="'+ book_code +'"]')
-        bocked_object.css({"border": "none", "background-color": "Grey"}).animate({
-            borderWidth: 4
-        }, 50);
+    if( booked_tickets_id.length ){
 
-        bocked_object.prop('id', function(_, currentID){
-            return currentID.replace('free', 'booked');
-        })
+        for(ticket_id of booked_tickets_id){
+            if( ticket_id.length ){
+            book_code = ticket_id.replaceAll('"', '').replace(',', ':')
+            bocked_object = $('div[id$="'+ book_code +'"]')
+            bocked_object.css({"border": "none", "background-color": "Grey"}).animate({
+                borderWidth: 4
+            }, 50);
 
-    }
+            bocked_object.prop('id', function(_, currentID){
+                return currentID.replace('free', 'booked');
+            })
+        }
+        }
+    };
 
     $('#place_container').on('click', 'div[id^=free_place]', function(){
         $(this).css({"border": "0 solid #008000", "background-color": "#7CFC00"}).animate({
