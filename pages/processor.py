@@ -23,13 +23,11 @@ def list_of_phones(request):
     return {'list_of_phones': phones}
 
 
-# def get_front_background_banner(request):
-#     try:
-#         though_background = ThroughBackroundBanner.objects.latest('id')
-#         if though_background.background_type == 'background_photo':
-#             background_image = though_background.background.image
-#             return {'background_image': background_image}
-#         else:
-#             pass
-#     except:
-#         pass
+def get_front_background_banner(request):
+    though_background = ThroughBackroundBanner.objects.latest('id')
+    if though_background.background_type == 'background_photo':
+        background_image = though_background.background.image
+    else:
+        background_image = None
+
+    return {'background_image': background_image}
