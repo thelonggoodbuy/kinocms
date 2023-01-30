@@ -132,9 +132,9 @@ def front_schedule(request):
 
 def schedule_sort_cinema(request):
     cinema_name = request.GET.get('title_cinema', None)
-    if Cinema.objects.get(title_cinema_uk = cinema_name):
+    if Cinema.objects.get(title_cinema_uk = cinema_name) != None:
         cinema_hall_test = CinemaHall.objects.filter(cinema=Cinema.objects.get(title_cinema_uk = cinema_name))
-    elif Cinema.objects.get(title_cinema_ru = cinema_name):
+    elif Cinema.objects.get(title_cinema_ru = cinema_name) != None:
         cinema_hall_test = CinemaHall.objects.filter(cinema=Cinema.objects.get(title_cinema_ru = cinema_name))
     else:
         cinema_hall_test = CinemaHall.objects.filter(cinema=Cinema.objects.get(title_cinema = cinema_name))
