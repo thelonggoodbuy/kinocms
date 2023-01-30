@@ -28,13 +28,13 @@
         <div class="col-10">
             <div class="row bg-none bg-lg-secondary rounded mb-5 mx-auto">
                 {% for news in all_news %}    
-                    <div class="col-12 col-lg-2">
+                    <div class="col-12 col-lg-4">
                             <div class="card my-3 mx-3 text-white bg-secondary" style="width: 18rem;">
                                 <img class="card-img-top" src="{{ news.main_image.image.url }}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ news.title_news_or_promo }}</h5>
                                     <h5 class="card-title">{{ news.date_news_or_promoptions }}</h5>
-                                    <p class="card-text">{{ news.description_news_or_promo|truncatewords:25 }}</p>
+                                    <p class="card-text">{{ news.description_news_or_promo }}</p>
                                 </div>
                             </div>
                         </a>
