@@ -190,7 +190,7 @@
   //sorting by films
   $("#movie_index").change(function(){
     var movie_index = $(this).val()
-    if(movie_index == 'всі фільми'){
+    if(movie_index == 'всі фільми' || movie_index == 'все фильмы'){
       $("tr[id^=schedule_content]").show();
     } else {      
       $("tr[id^=schedule_content]").hide()
