@@ -114,7 +114,7 @@
   //sorting by cinema
   $("#cinema_index").change(function () {
     var title_cinema = $(this).val()
-    if(title_cinema == 'всі кінотеатри' || title_cinema == 'выберите кинотеатр'){
+    if(title_cinema == 'всі кінотеатри' || title_cinema == 'все кинотеатры'){
       $("tr[id^=schedule_content]").show()
       if(title_cinema == 'всі кінотеатри'){
         cinema_hall_name = $(hall_index).val('всі зали')
