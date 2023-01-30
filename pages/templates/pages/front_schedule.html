@@ -159,7 +159,7 @@
         dataType: 'json',
         success: function(data) {
           if (data){
-            console.log(data)
+            //console.log(data)
             $("tr[id^=schedule_content]").hide()
             $.each(data.show_filtered_id, function(i, val){
               $("tr[id$="+ val +"]").show()
