@@ -148,9 +148,9 @@ def schedule_sort_cinema(request):
 
 def schedule_sort_cinema_hall(request):
     hall_name = request.GET.get('cinema_hall_name')
-    if CinemaHall.objects.get(cinema_hall_name_uk=hall_name):
-        cinema_hall = CinemaHall.objects.filter(cinema_hall_name=hall_name)
-    elif CinemaHall.objects.get(cinema_hall_name_ru=hall_name):
+    if CinemaHall.objects.get(cinema_hall_name_uk=hall_name) != None:
+        cinema_hall = CinemaHall.objects.filter(cinema_hall_name_uk=hall_name)
+    elif CinemaHall.objects.get(cinema_hall_name_ru=hall_name) != None:
         cinema_hall = CinemaHall.objects.filter(cinema_hall_name_ru=hall_name)
     else:
         cinema_hall = CinemaHall.objects.get(cinema_hall_name=hall_name)
