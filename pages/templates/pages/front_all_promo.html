@@ -28,14 +28,9 @@
         <div class="col-10">
             <div class="row bg-none bg-lg-secondary rounded mb-5 mx-auto">
                 {% for promo in all_promo %}    
-                    <div class="col-12 col-lg-2">
+                    <div class="col-12 col-lg-4">
                         <a href="{% url 'pages:front_promo_detail' pk=promo.id %}">
                             <div class="card my-3 mx-3" style="width: 18rem;">
-                                {% comment %} {% if promo.main_image. %}
-                                    <img class="card-img-top" src="{{ promo.main_image.image.url }}" alt="Card image cap">
-                                {% else %}
-                                    <h3>Smt with image</h3>
-                                {% endif %} {% endcomment %}
                                 <img class="card-img-top" src="{{ promo.main_image.image.url }}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ promo.title_news_or_promo_uk }}</h5>
