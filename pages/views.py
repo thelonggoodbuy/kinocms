@@ -33,7 +33,7 @@ from users.models import DevicesStatisticCounter, CustomUser, Ticket
 # main page
 def main_page(request):
     today_shows = Show.objects.filter(date_show = date.today()).distinct('movie')
-    announced_date_start = date.today()
+    announced_date_start = date.today() + timedelta(days=1)
     announced_date_finish = date.today() + timedelta(days=30)
     next_month_announced = Movie.objects.filter(movie_distribution_start__range=(announced_date_start, announced_date_finish))
     highest_banner = HighestBannerWithTimeScrolling.objects.all()[0]
