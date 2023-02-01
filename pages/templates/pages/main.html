@@ -63,7 +63,7 @@
 
       <div class="row my-3">
         {% for show in today_shows %}
-          <div class="col-3 mx-0 my-3">
+          <div class="col-12 col-lg-3 mx-0 my-3">
             <div class="card px-3 py-3" style="width: 12rem;">
               <img class="card-img-top" src="{{ show.movie.main_image.image.url }}" alt="Card image cap">
               <div class="card-body">
@@ -82,7 +82,7 @@
       </div>
       <div class="row my-3">
         {% for announced_movie in next_month_announced %}
-          <div class="col-3 mx-0 my-3">
+          <div class="col-12 col-lg-3 mx-0 my-3">
             <div class="card px-3 py-3" style="width: 12rem;">
               <img class="card-img-top" src="{{ announced_movie.main_image.image.url }}" alt="Card image cap">
               <div class="card-body">

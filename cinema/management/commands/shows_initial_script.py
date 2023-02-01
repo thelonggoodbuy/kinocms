@@ -17,7 +17,7 @@ class Command(BaseCommand):
     else: 
 
         shows_dates = [] 
-        for day_of_show in range(1, 7):
+        for day_of_show in range(0, 6):
             date = datetime.now().date() + timedelta(days=day_of_show)
             shows_dates.append(date)
             
