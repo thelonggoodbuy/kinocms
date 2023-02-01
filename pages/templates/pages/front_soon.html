@@ -24,7 +24,7 @@
                 <div class="card-body px-0 pb-0">
                     <p style="font-size: 0.9rem" class="text-light mb-2" >{{ film.title_movie }}</p>
                 </div>
-                <a href="{% url 'pages:front_film_card' film_id=film.pk %}" type="button" class="btn btn-primary btn-sm mt-0">{% trans 'купити' %}</a>
+                {% comment %} <a href="{% url 'pages:front_film_card' film_id=film.pk %}" type="button" class="btn btn-primary btn-sm mt-0">{% trans 'купити' %}</a> {% endcomment %}
                 
             </div>
         {% endfor %}
