@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 from django.contrib import messages
+import datetime
+from datetime import timedelta
 
 
 # from .models import Galery, BannerWithTimeScrolling
@@ -249,6 +251,8 @@ def movie_detail(request, pk=None):
 
             seo = movie_seo_block.save()
             movie.seo_block = seo
+            movie.movie_distribution_start = datetime.now().date() + timedelta(days=7)
+            movie.movie_distribution_finish = datetime.now().date() - timedelta(days=35)
             movie.save()
             messages.success(request, f'Сторінка фільму {movie.title_movie} успішно відредагована.')
             return redirect('cinema:all_movies')
