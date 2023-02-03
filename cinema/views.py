@@ -251,8 +251,6 @@ def movie_detail(request, pk=None):
 
             seo = movie_seo_block.save()
             movie.seo_block = seo
-            movie.movie_distribution_start = datetime.now().date() + timedelta(days=7)
-            movie.movie_distribution_finish = datetime.now().date() - timedelta(days=35)
             movie.save()
             messages.success(request, f'Сторінка фільму {movie.title_movie} успішно відредагована.')
             return redirect('cinema:all_movies')
@@ -307,6 +305,8 @@ def new_movie(request):
 
             seo = movie_seo_block.save()
             movie.seo_block = seo
+            movie.movie_distribution_start = datetime.now().date() + timedelta(days=7)
+            movie.movie_distribution_finish = datetime.now().date() - timedelta(days=35)
             movie.save()
             messages.success(request, f'Сторінка фільму {movie.title_movie} створена.')
             return redirect('cinema:all_movies')
