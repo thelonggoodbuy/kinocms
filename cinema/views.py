@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 import datetime
 from datetime import timedelta
-from django.utils.datetime_safe import datetime
+# from django.utils.datetime_safe import datetime
 from datetime import date
 
 
