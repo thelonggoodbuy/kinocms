@@ -5,11 +5,12 @@ from django.shortcuts import redirect
 import datetime
 from datetime import timedelta
 from django.utils.datetime_safe import datetime
+from datetime import date
 import json
 from django.core import serializers
 from django.contrib import messages
 from itertools import chain
-from datetime import date
+
 from django.db.models import Q
 from django.http import JsonResponse
 from dateutil.rrule import rrule, DAILY

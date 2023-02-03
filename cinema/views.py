@@ -6,6 +6,8 @@ from django.shortcuts import redirect
 from django.contrib import messages
 import datetime
 from datetime import timedelta
+from django.utils.datetime_safe import datetime
+from datetime import date
 
 
 # from .models import Galery, BannerWithTimeScrolling
@@ -305,8 +307,8 @@ def new_movie(request):
 
             seo = movie_seo_block.save()
             movie.seo_block = seo
-            movie.movie_distribution_start = datetime.now().date() + timedelta(days=7)
-            movie.movie_distribution_finish = datetime.now().date() - timedelta(days=35)
+            movie.movie_distribution_start = datetime.datetime.now().date() + timedelta(days=7)
+            movie.movie_distribution_finish = datetime.datetime.now().date() - timedelta(days=35)
             movie.save()
             messages.success(request, f'Сторінка фільму {movie.title_movie} створена.')
             return redirect('cinema:all_movies')
