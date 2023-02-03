@@ -69,7 +69,7 @@
               <div class="card-body">
                 <p class="card-text">{{ show.movie.title_movie_uk }}</p>
               </div>
-              <a href="#" class="btn btn-outline-dark">{% trans 'купити квиток' %}</a>
+              <a href="{% url 'pages:front_film_card' film_id=show.movie.id %}" class="btn btn-outline-dark">{% trans 'купити квиток' %}</a>
             </div>
           </div>
         {% endfor %}
