@@ -167,7 +167,7 @@ def schedule_sort_cinema_hall(request):
 # ********************booking logic************************
 # *********************************************************
 
-# @login_required
+@login_required
 def front_book_ticket(request, show_pk):
     show = Show.objects.get(id=show_pk)
     booked_tickets = Ticket.objects.filter(show=show.id)
