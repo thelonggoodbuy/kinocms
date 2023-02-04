@@ -104,8 +104,7 @@ def front_promo_detail(request, pk):
     return render(request, 'pages/front_promo_detail.html', context)
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# def front_schedule(request, cinema_id=None):
-def front_schedule(request):
+def front_schedule(request, cinema_id=None):
     start_date = datetime.now().date()
     finish_date = datetime.now().date() + timedelta(days=7)
     seanses = Show.objects.filter(date_show__range=[start_date, finish_date]).order_by('time_show')
@@ -120,11 +119,10 @@ def front_schedule(request):
     date_of_seanses = {}
     date_of_seanses = OrderedDict(sorted(unsorted_seanses.items()))
     
-    # if cinema_id:
-    #     cinemas = Cinema.objects.get(id=cinema_id)
-    # else:
-    #     cinemas = Cinema.objects.all()
-    cinemas = Cinema.objects.all()
+    if cinema_id:
+        cinemas = Cinema.objects.get(id=cinema_id)
+    else:
+        cinemas = Cinema.objects.all()
     cinema_halles = CinemaHall.objects.all()
     movie_set = set()
     [movie_set.add(x.movie.title_movie) for x in seanses]

@@ -32,8 +32,8 @@
                     </a>
                 {% endfor %}
             </div>
-            {% comment %} <a class="btn btn-secondary btn-lg my-3" href="{% url 'pages:front_schedule' %}">{% trans 'Розклад сеансів'%}</a> {% endcomment %}
-            <a href="{% url 'pages:front_schedule' %}">{% trans 'Розклад сеансів'%}</a>
+            <a class="btn btn-secondary btn-lg my-3" href="{% url 'pages:front_schedule' %}">{% trans 'Розклад сеансів'%}</a>
+            
         </div>
 
         <div class="col-12 col-lg-8">
@@ -46,7 +46,8 @@
                     <h3>"{{ cinema.title_cinema }}"</h3>
                 </div>
                 <div class="col-12 offset-lg-1 col-lg-4 my-auto" align="center">
-                    <a class="btn btn-secondary btn-lg">{% trans 'Розклад сеансів' %}</a>
+                    {% comment %} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! {% endcomment %}
+                    <ahref="{% url 'pages:front_schedule' %}" class="btn btn-secondary btn-lg">{% trans 'Розклад сеансів' %}</a>
                 </div>
             </div>
             <div class="row">
