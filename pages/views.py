@@ -119,7 +119,7 @@ def front_schedule(request, cinema_id=None):
     date_of_seanses = {}
     date_of_seanses = OrderedDict(sorted(unsorted_seanses.items()))
     
-    if cinema_id:
+    if cinema_id != None:
         cinemas = Cinema.objects.get(id=cinema_id)
     else:
         cinemas = Cinema.objects.all()
