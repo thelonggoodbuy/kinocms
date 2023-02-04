@@ -47,7 +47,7 @@ urlpatterns = [
     path('promo_list/', front_all_promo, name='front_all_promo'),
     path('front_promo_detail/<int:pk>/', front_promo_detail, name='front_promo_detail'),
 
-    path('front_schedule/', front_schedule, name='front_schedule'),
+    path('front_schedule/<int:cinema_id>/', front_schedule, name='front_schedule'),
     path('front_schedule/ajax/schedule_sort_cinema/', schedule_sort_cinema, name='schedule_sort_cinema'),
     path('front_schedule/ajax/schedule_sort_cinema_hall/', schedule_sort_cinema_hall, name='schedule_sort_cinema_hall'),
 
