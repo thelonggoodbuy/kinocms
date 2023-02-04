@@ -119,10 +119,11 @@ def front_schedule(request, cinema_id=None):
     date_of_seanses = {}
     date_of_seanses = OrderedDict(sorted(unsorted_seanses.items()))
     
-    if cinema_id != None:
+    if cinema_id is not None:
         cinemas = Cinema.objects.get(id=cinema_id)
     else:
         cinemas = Cinema.objects.all()
+
     cinema_halles = CinemaHall.objects.all()
     movie_set = set()
     [movie_set.add(x.movie.title_movie) for x in seanses]
