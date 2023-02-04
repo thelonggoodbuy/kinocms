@@ -167,17 +167,18 @@ def schedule_sort_cinema_hall(request):
 # ********************booking logic************************
 # *********************************************************
 
+@login_required
 def front_book_ticket(request, show_pk):
     show = Show.objects.get(id=show_pk)
     booked_tickets = Ticket.objects.filter(show=show.id)
     # booked_tickets_id = json.dumps([ticket.plase for ticket in booked_tickets])
     booked_tickets_id = [ticket.plase for ticket in booked_tickets]
-    print((booked_tickets_id))
+    # print((booked_tickets_id))
     context = {'show': show,
                 'booked_tickets_id': booked_tickets_id}
     return render(request, 'pages/front_book_ticket.html', context)
 
-
+@login_required
 def book_ticket_per_place(request):
     is_ajax = request.headers.get('X-Request-With') == 'XMLHttpRequest'
     if is_ajax:
