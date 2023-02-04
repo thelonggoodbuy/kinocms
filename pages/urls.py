@@ -49,9 +49,9 @@ urlpatterns = [
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    # path('front_schedule/', front_schedule, name='front_schedule'),
-    # path('front_schedule/<int:cinema_id>/', front_schedule, name='front_schedule'),
-    path('front_schedule/', front_schedule, kwargs={'cinema_id': None}, name='front_schedule'),
+    path('front_schedule/', front_schedule, name='front_schedule'),
+    path('front_schedule/<int:cinema_id>/', front_schedule, name='front_schedule'),
+    # path('front_schedule/', front_schedule, kwargs={'cinema_id': None}, name='front_schedule'),
     path('front_schedule/ajax/schedule_sort_cinema/', schedule_sort_cinema, name='schedule_sort_cinema'),
     path('front_schedule/ajax/schedule_sort_cinema_hall/', schedule_sort_cinema_hall, name='schedule_sort_cinema_hall'),
 
